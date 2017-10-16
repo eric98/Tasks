@@ -7,7 +7,7 @@
                 <div v-else>
                     @{{task.name}}
                     <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
-                    <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task) = null"></i>
+                    <!--<i class="fa fa-times" aria-hidden="true" @click="deleteTask(task) = null"></i>-->
                 </div>
             </li>
         </ul>
@@ -81,42 +81,29 @@
                 this.filter = filter
             },
             addTask() {
-                this.tasks.push({'name' : this.newTask, 'completed' : false})
-                this.newTask=''
+                this.tasks.push({'name': this.newTask, 'completed': false})
+                this.newTask = ''
             },
             isCompleted(task) {
                 return task.completed
             },
             deleteTask(task) {
-                this.tasks.splice(this.tasks.indexOf(task) , 1)
+                this.tasks.splice(this.tasks.indexOf(task), 1)
             },
             updateTask(task) {
                 this.newName = task.name
                 this.editedTask = task
             },
             editTask(task) {
-                this.editedTask.name=this.newName
+                this.editedTask.name = this.newName
                 this.editedTask = null
             },
             cancelEdit(task) {
                 this.editedTask = null
             },
             mounted() {
-                console.log('Inici')
-                //TODO Obtenir les tasques de la LocalStorage
-                //
-//                this.tasks = localStorage.getItem()
-//                this.newTasks = localStorage.setItem('NEW_TASK','Nova tasca')
-
                 this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
-
-//                JSON.parse Json -> Objecte -> Quan llegim de Local Storage
-//                 JSON.stringify()-> Objecte a Json -> Guardar a la base de dades
-
-                // json_encode() | json_decode() PHP!!!!
-            },
-        mounted() {
-            console.log('Component mounted.')
+            }
         }
     }
 </script>

@@ -6,6 +6,11 @@
 
 
 @section('main-content')
-    <example-component></example-component>
     <tasks></tasks>
+
+    <message title="Error" message="Error ha petat tot!"></message>
+
+    {{--<message title="Error">Error ha petat tot!</message>--}}
+
+    {{--<message title="Error" message="Error ha petat tot!"></message>--}}
 @endsection
