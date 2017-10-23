@@ -7,7 +7,7 @@
                 <div v-else>
                     @{{task.name}}
                     <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
-                    <!--<i class="fa fa-times" aria-hidden="true" @click="deleteTask(task) = null"></i>-->
+                    <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
                 </div>
             </li>
         </ul>
