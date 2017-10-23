@@ -55,7 +55,7 @@
         }
     }
 
-    const LOCAL_STORAGE_KEY = 'TASKS'
+//    const LOCAL_STORAGE_KEY = 'TASKS'
 
     export default {
         data() {
@@ -110,10 +110,34 @@
             },
             cancelEdit(task) {
                 this.editedTask = null
-            },
-            mounted() {
-//                this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
             }
+
+        },
+        mounted() {
+//                this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
+            console.log(this.tasks)
+
+            //TODO Connectat a Internet i agafam la llista de tasques
+//                this.tasks = ???
+
+            // HTTP CLIENT
+            let url = '/api/tasks'
+            //Promises
+            axios.get(url).then(function (response) {
+                console.log(response)
+                console.log(response.data)
+                console.log(response.status)
+                this.tasks = response;
+            }).catch((error) => {
+                console.log(error)
+                flash(error)
+            })
+
+            // API HTTP amb JSON <- Web service
+            // URL GET http://NOM_SERVIDOR/api/tasks
+            // URL POST http://NOM_SERVIDOR/api/tasks
+            // URL DELETE http://NOM_SERVIDOR/api/tasks/{task}
+            // URL PUT/PATCH http://NOM_SERVIDOR/api/tasks/{task}
         }
     }
 </script>
