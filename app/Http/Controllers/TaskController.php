@@ -15,7 +15,6 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-//        return $tasks;
         return view('tasks',['tasks' => json_encode($tasks)]);
     }
 
