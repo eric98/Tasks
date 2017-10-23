@@ -6,9 +6,7 @@
 
 
 @section('main-content')
-    <tasks></tasks>
-
-{{--    {{ $message }}--}}
+    <tasks data-tasks="{{ $tasks }}"></tasks>
 
     <message title="Message" message="{{ $message or '' }}" color="info"></message>
     {{--<message title="Message" message="Missatge en espais"></message>--}}

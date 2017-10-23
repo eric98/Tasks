@@ -64,7 +64,7 @@
                 filter: 'all',
                 newName: '',
                 newTask: '',
-                tasks: []
+                tasks: JSON.parse(this.dataTasks)
             }
         },
         computed: {
@@ -74,6 +74,16 @@
             },
             pendingTasks() {
                 return filters['pending'](this.tasks).length
+            }
+        },
+        props: {
+            'dataTasks': {
+                required: false
+            }
+        },
+        watch: {
+            tasks: function () {
+//                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.tasks))
             }
         },
         methods: {
@@ -102,7 +112,7 @@
                 this.editedTask = null
             },
             mounted() {
-                this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
+//                this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
             }
         }
     }

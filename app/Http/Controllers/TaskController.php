@@ -14,7 +14,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('tasks',['message' => 'Hola que tal!']);
+        $tasks = Task::all();
+//        return $tasks;
+        return view('tasks',['tasks' => json_encode($tasks)]);
     }
 
     /**
