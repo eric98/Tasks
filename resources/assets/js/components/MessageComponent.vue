@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-danger alert-dismissible" v-if="visible">
+    <div :class="'alert alert-'+dataColor+' alert-dismissible flash-message'" v-if="visible && dataMessage != ''">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4><i class="icon fa fa-ban"></i>{{ dataTitle }}</h4>
         {{ dataMessage }}
@@ -7,7 +7,11 @@
 </template>
 
 <style>
-
+    .flash-message {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+    }
 </style>
 
 <script>
@@ -16,8 +20,21 @@
             return {
                 visible: true,
                 dataMessage: this.message,
-                dataTitle: this.title
+                dataTitle: this.title,
+                dataColor: this.color
             }
+        },
+        methods: {
+          show() {
+              this.visible = true
+              var component = this
+              setTimeout(() => {
+                  component.hide()
+              },1000)
+          },
+          hide(){
+             this.visible = false
+          }
         },
         props: {
             'title': {
@@ -25,11 +42,20 @@
             },
             'message': {
                 required: true
+            },
+            'color': {
+                required: false,
+                default: 'alert-danger'
             }
         },
         mounted() {
-            console.log('Mounted!')
-            console.log(this.message)
+            var component = this
+            window.flash = function (message) {
+                component.dataMessage = message
+                component.show()
+            }
+
+            this.show()
         }
     }
 </script>

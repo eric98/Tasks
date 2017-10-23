@@ -8,9 +8,26 @@
 @section('main-content')
     <tasks></tasks>
 
-    <message title="Error" message="Error ha petat tot!"></message>
+{{--    {{ $message }}--}}
+
+    <message title="Message" message="{{ $message or '' }}" color="info"></message>
+    {{--<message title="Message" message="Missatge en espais"></message>--}}
+
+    {{--<message title="Error"></message>--}}
+
+    {{--<message title="Error" message="Error ha petat tot!"></message>--}}
+
+    {{--<message message="Error ha petat tot!"></message>--}}
+
+    {{--<message></message>--}}
 
     {{--<message title="Error">Error ha petat tot!</message>--}}
 
     {{--<message title="Error" message="Error ha petat tot!"></message>--}}
+
+    {{--<message>--}}
+    {{--<slot name="title">Error</slot>--}}
+    {{--<slot name="message">Error ha petat tot</slot>--}}
+    {{--</message>--}}
+
 @endsection
