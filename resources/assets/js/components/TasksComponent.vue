@@ -5,13 +5,13 @@
                 <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
                        @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
                 <div v-else>
-                    @{{task.name}}
+                    {{task.name}}
                     <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
                     <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
                 </div>
             </li>
         </ul>
-        Tasques pendents: @{{ pendingTasks }}
+        Tasques pendents: {{ pendingTasks }}
         <br>
         Nova Tasca a afegir: <input type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
         <button id="add" @click="addTask">Afegir</button>
