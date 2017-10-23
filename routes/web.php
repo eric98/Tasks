@@ -24,4 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     #adminlte_routes
 
     Route::get('tasks','TaskController@index');
+
+    Route::get('api/tasks','ApiTaskController@index');
 });

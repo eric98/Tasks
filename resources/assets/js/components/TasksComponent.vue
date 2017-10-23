@@ -123,13 +123,16 @@
             // HTTP CLIENT
             let url = '/api/tasks'
             //Promises
+            var component = this
             axios.get(url).then(function (response) {
                 console.log(response)
                 console.log(response.data)
                 console.log(response.status)
-                this.tasks = response;
+                component.tasks = response.data;
+                console.log('tot correcte!')
             }).catch((error) => {
                 console.log(error)
+                console.log('fi prova')
                 flash(error)
             })
 
