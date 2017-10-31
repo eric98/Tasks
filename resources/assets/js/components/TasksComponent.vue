@@ -1,37 +1,40 @@
 <template>
-    <div id="root">
-        <ul>
-            <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }" @dblclick="updateTask(task)">
-                <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
-                       @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
-                <div v-else>
-                    {{task.name}}
-                    <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
-                    <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
-                </div>
-            </li>
-        </ul>
-        Tasques pendents: {{ pendingTasks }}
-        <br>
-        Nova Tasca a afegir: <input type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
-        <button id="add" @click="addTask">Afegir</button>
+    <div v-cloak>
+            <ul>
+                <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }"
+                    @dblclick="updateTask(task)">
+                    <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
+                           @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
+                    <div v-else>
+                        {{task.name}}
+                        <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
+                        <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
+                    </div>
+                </li>
+            </ul>
+            Tasques pendents: {{ pendingTasks }}
+            <br>
+            Nova Tasca a afegir: <input type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
+            <button id="add" @click="addTask">Afegir</button>
 
-        <h2>Filtres</h2>
+            <h2>Filtres</h2>
 
-        <ul>
-            <li @click="show('all')" :class="{ active: this.filter === 'all' }">All</li>
-            <li @click="show('completed')" :class="{ active: this.filter === 'completed' }">Completed</li>
-            <li @click="show('pending')" :class="{ active: this.filter === 'pending' }">Pending</li>
-        </ul>
+            <ul>
+                <li @click="show('all')" :class="{ active: this.filter === 'all' }">All</li>
+                <li @click="show('completed')" :class="{ active: this.filter === 'completed' }">Completed</li>
+                <li @click="show('pending')" :class="{ active: this.filter === 'pending' }">Pending</li>
+            </ul>
     </div>
 </template>
 
 <style>
     li.completed {
-        text-decoration : line-through;
+        text-decoration: line-through;
     }
 
-    [v-cloak] { display: none; }
+    [v-cloak] {
+        display: none;
+    }
 
     li.active {
         background-color: blue;
@@ -55,7 +58,9 @@
         }
     }
 
-//    const LOCAL_STORAGE_KEY = 'TASKS'
+    import { wait } from './utils.js'
+
+    //    const LOCAL_STORAGE_KEY = 'TASKS'
 
     export default {
         data() {
@@ -64,7 +69,7 @@
                 filter: 'all',
                 newName: '',
                 newTask: '',
-                tasks: JSON.parse(this.dataTasks)
+                tasks: []
             }
         },
         computed: {
@@ -74,11 +79,6 @@
             },
             pendingTasks() {
                 return filters['pending'](this.tasks).length
-            }
-        },
-        props: {
-            'dataTasks': {
-                required: false
             }
         },
         watch: {
@@ -123,18 +123,19 @@
             // HTTP CLIENT
             let url = '/api/tasks'
             //Promises
-            var component = this
-            axios.get(url).then(function (response) {
-                console.log(response)
-                console.log(response.data)
-                console.log(response.status)
-                component.tasks = response.data;
-                console.log('tot correcte!')
+            this.$emit('loading',true)
+            axios.get(url).then(wait(5000).then((response) => {
+                this.tasks = response.data;
             }).catch((error) => {
                 console.log(error)
-                console.log('fi prova')
-                flash(error)
+                flash(error.message)
+            }).then(() => {
+                this.$emit('loading',false)
             })
+
+//            setTimeout( () => {
+//                component.hide()
+//            },3000)
 
             // API HTTP amb JSON <- Web service
             // URL GET http://NOM_SERVIDOR/api/tasks

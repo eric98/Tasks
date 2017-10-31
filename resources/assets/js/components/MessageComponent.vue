@@ -30,7 +30,7 @@
               var component = this
               setTimeout(() => {
                   component.hide()
-              },1000)
+              },3000)
           },
           hide(){
              this.visible = false
