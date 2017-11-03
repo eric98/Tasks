@@ -12,9 +12,9 @@ class CreateTaskCommandTest extends TestCase
 
     public function testItCreatesNewTask()
     {
-        //1) Preparo
+        //1) Prepare
 
-        //2) Executo
+        //2) Execute
 
 //        $this->artisan('route:list');
         $this->artisan('task:create', ['name' => 'Comprar pa']);
@@ -30,5 +30,10 @@ class CreateTaskCommandTest extends TestCase
         //Receive "Task has been added to database succesfully."
 //        $this->assertTrue(str_contains($resultAsText, 'Task has been added to database succesfully'));
         $this->assertContains('Task has been added to database succesfully',$resultAsText);
+    }
+
+    public function testItAsksForATaskNameAndThenCreatesNewTask2()
+    {
+        
     }
 }
