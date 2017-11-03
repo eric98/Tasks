@@ -38,13 +38,9 @@ class CreateTaskCommand extends Command
      */
     public function handle()
     {
-        if (!$name = $this->argument('name')){
-            $name = $this->ask('Task name?');
-        }
-
-//        $name = $this->argument('name')? $this->argument('name'):$this->ask('Task name?');
-
-        Task::create(['name' => $name]);
+        Task::create([
+            'name' => $this->argument('name')? $this->argument('name'):$this->ask('Task name?')
+        ]);
         $this->info('Task has been added to database succesfully');
     }
 }
