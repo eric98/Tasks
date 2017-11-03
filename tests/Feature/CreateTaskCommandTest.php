@@ -53,4 +53,7 @@ class CreateTaskCommandTest extends TestCase
         $resultAsText = Artisan::output();
         $this->assertContains('Task has been added to database succesfully',$resultAsText);
     }
+
+    //TODO fer test per a delete (li passem el id)
+    //TODO fer test per a show (list)
 }
