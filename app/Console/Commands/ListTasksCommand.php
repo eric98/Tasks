@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Task;
 use Illuminate\Console\Command;
 
 class ListTasksCommand extends Command
@@ -37,6 +38,13 @@ class ListTasksCommand extends Command
      */
     public function handle()
     {
-        //
+        try {
+            $headers = ['id','Name_Task'];
+
+            $users = Task::all(['id','name'])->toArray();
+        } catch (Exception $e) {
+            $this->error('Error');
+        }
+        $this->table($headers, $users);
     }
 }
