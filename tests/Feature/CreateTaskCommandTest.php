@@ -55,5 +55,5 @@ class CreateTaskCommandTest extends TestCase
     }
 
     //TODO fer test per a delete (li passem el id)
-    //TODO fer test per a show (list)
+    //TODO fer test per a list (totes les comandes)
 }
