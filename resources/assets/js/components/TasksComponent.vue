@@ -124,14 +124,15 @@
             let url = '/api/tasks'
             //Promises
             this.$emit('loading',true)
-            axios.get(url).then(wait(5000).then((response) => {
+            axios.get(url).then(wait(5000)).then((response) => {
                 this.tasks = response.data;
             }).catch((error) => {
                 console.log(error)
                 flash(error.message)
-            }).then(() => {
+            }).then( () => {
                 this.$emit('loading',false)
-            })
+            }
+            )
 
 //            setTimeout( () => {
 //                component.hide()
