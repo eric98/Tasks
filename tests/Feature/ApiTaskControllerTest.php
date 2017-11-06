@@ -27,6 +27,40 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
+    public function cannot_add_task_if_not_logged()
+    {
+        $faker = Factory::create();
+
+        // EXECUTE
+        $response = $this->json('POST','/api/tasks', [
+            'name' => $name = $faker->word
+        ]);
+
+        // ASSERT
+        $response->assertStatus(401);
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_add_task_if_not_name_provided()
+    {
+        // PREPARE
+        $faker = Factory::create();
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        // EXECUTE
+        $response = $this->json('POST','/api/tasks');
+
+        // ASSERT
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
     public function can_add_a_task()
     {
         // PREPARE
