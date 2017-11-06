@@ -93,6 +93,18 @@
             addTask() {
                 this.tasks.push({'name': this.newTask, 'completed': false})
                 this.newTask = ''
+                // CRUD
+                // GET -> QUE NO MODIFIQUEN RES A SERVIDOR
+                // POST / PUT / DELETE
+                let url = '/api/tasks'
+                axios.put(url).then((response) => {
+                    this.tasks = response.data;
+                }).catch((error) => {
+                    console.log(error)
+                    flash(error.message)
+                }).then( () => {
+                    this.$emit('loading',false)
+                })
             },
             isCompleted(task) {
                 return task.completed
@@ -114,25 +126,20 @@
 
         },
         mounted() {
-//                this.tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
             console.log(this.tasks)
-
-            //TODO Connectat a Internet i agafam la llista de tasques
-//                this.tasks = ???
 
             // HTTP CLIENT
             let url = '/api/tasks'
             //Promises
             this.$emit('loading',true)
-            axios.get(url).then(wait(5000)).then((response) => {
+            axios.get(url).then((response) => {
                 this.tasks = response.data;
             }).catch((error) => {
                 console.log(error)
                 flash(error.message)
             }).then( () => {
                 this.$emit('loading',false)
-            }
-            )
+            })
 
 //            setTimeout( () => {
 //                component.hide()

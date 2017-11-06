@@ -11,4 +11,12 @@ class ApiTaskController extends Controller
     {
         return Task::all();
     }
+
+    // Injeccció de depèndències
+    public function store(Request $request)
+    {
+        Task::create([
+           'name' => $request->name
+        ]);
+    }
 }

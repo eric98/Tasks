@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// middleware => 'auth', vol dir que has d'estar loguejat
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
@@ -28,4 +29,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('tasks','TaskController@index');
 
     Route::get('api/tasks','ApiTaskController@index');
+    Route::post('api/tasks','ApiTaskController@store');
 });

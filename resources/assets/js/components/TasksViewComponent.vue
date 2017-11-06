@@ -6,7 +6,6 @@
             <p slot="Footer">Footer</p>
         </widget>
 
-
         <message title="Message" message="" color="info"></message>
     </div>
 </template>
