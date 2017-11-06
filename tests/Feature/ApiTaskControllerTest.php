@@ -9,6 +9,7 @@
 namespace Tests\Feature;
 
 
+use App\Task;
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,11 +18,35 @@ use Tests\TestCase;
 class ApiTaskControllerTest extends TestCase
 {
     use RefreshDatabase;
+    // TODO acabar de afegir els assertJson, estan al github de Sergi Tur
 
     public function setUp()
     {
         parent::setUp();
 //        $this->withoutExceptionHandling();
+    }
+
+    /**
+     * @test
+     */
+    public function can_list_tasks()
+    {
+        $tasks = factory(Task::class,3)->create();
+
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+
+        $response = $this->json('GET','/api/tasks');
+        $response->assertSuccessful();
+
+//        $response->dump();
+
+        $response->assertJsonStructure([[
+            'id',
+            'name',
+            'created_at',
+            'updated_at'
+        ]]);
     }
 
     /**
@@ -78,6 +103,74 @@ class ApiTaskControllerTest extends TestCase
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
             'name' => $name
+        ]);
+
+//        $response->dump();
+
+//        $response->assertJson([
+//            'name' => $name
+//        ]);
+    }
+    
+    /**
+     * @test
+     */
+    public function can_delete_task()
+    {
+        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->json('DELETE','/api/tasks/'.$task->id);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseMissing('tasks',[
+            'id' => $task->id
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_delete_unexisting_task()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->json('DELETE','/api/tasks/1');
+
+        $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     */
+    public function can_edit_task()
+    {
+        // PREPARE
+        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        // EXECUTE
+        $response = $this->json('PUT','/api/tasks/'.$task->id, [
+            'name' => $newName = 'NOU NOM'
+        ]);
+
+        // ASSERT
+        $response->assertSuccessful();
+        $this->assertDatabaseHas('tasks', [
+            'id' => $task->id,
+            'name' => $newName
+        ]);
+
+        $this->assertDatabaseMissing('tasks', [
+            'id' => $task->id,
+            'name' => $task->name
         ]);
     }
 }

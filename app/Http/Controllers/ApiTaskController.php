@@ -18,8 +18,24 @@ class ApiTaskController extends Controller
         $request->validate([
             'name' => 'required',
         ]);
+
         Task::create([
             'name' => $request->name
         ]);
+
+    }
+
+    public function destroy(Request $request, Task $task)
+    {
+        $task->delete();
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $task->name = $request->name;
+        $task->save();
     }
 }

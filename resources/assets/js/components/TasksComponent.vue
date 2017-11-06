@@ -8,6 +8,7 @@
                     <div v-else>
                         {{task.name}}
                         <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
+                        <i class="fa fa-refresh fa-spin" v-if="deleting"></i>
                         <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
                     </div>
                 </li>
@@ -15,7 +16,10 @@
             Tasques pendents: {{ pendingTasks }}
             <br>
             Nova Tasca a afegir: <input type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
-            <button id="add" @click="addTask">Afegir</button>
+            <button :diseabled="creating" id="add" @click="addTask">
+                <i class="fa fa-refresh fa-spin" v-if="creating"></i>
+                Afegir
+            </button>
 
             <h2>Filtres</h2>
 
@@ -69,7 +73,9 @@
                 filter: 'all',
                 newName: '',
                 newTask: '',
-                tasks: []
+                tasks: [],
+                creating: false,
+                deleting: false
             }
         },
         computed: {
@@ -91,26 +97,30 @@
                 this.filter = filter
             },
             addTask() {
-                this.tasks.push({'name': this.newTask, 'completed': false})
-                this.newTask = ''
-                // CRUD
-                // GET -> QUE NO MODIFIQUEN RES A SERVIDOR
-                // POST / PUT / DELETE
+                this.creating = true
                 let url = '/api/tasks'
-                axios.put(url).then((response) => {
-                    this.tasks = response.data;
+                axios.post(url, { name: this.newTask } ).then((response) =>  {
+                    this.tasks.push({ name : this.newTask, completed : false})
+                    this.newTask=''
                 }).catch((error) => {
-                    console.log(error)
                     flash(error.message)
-                }).then( () => {
-                    this.$emit('loading',false)
+                }).then(() => {
+                    this.creating = false;
                 })
             },
             isCompleted(task) {
                 return task.completed
             },
             deleteTask(task) {
-                this.tasks.splice(this.tasks.indexOf(task), 1)
+                let url = '/api/tasks/'+task.id
+                this.deleting = true;
+                axios.delete(url).then( (response) => {
+                    this.tasks.splice(this.tasks.indexOf(task), 1)
+                }).catch( (error) => {
+                    flash(error.message)
+                }).then(
+                    this.deleting = false
+                )
             },
             updateTask(task) {
                 this.newName = task.name
