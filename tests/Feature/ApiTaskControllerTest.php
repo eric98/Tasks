@@ -49,6 +49,31 @@ class ApiTaskControllerTest extends TestCase
         ]]);
     }
 
+    //TODO mirar si el assertJson es com el de sergi
+    /**
+     * @test
+     */
+    public function can_show_an_task()
+    {
+        $task = factory(Task::class)->create();
+
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+
+        $response = $this->json('GET', '/api/tasks/' . $task->id);
+
+        $response->assertSuccessful();
+
+//        $response->dump();
+
+        $response->assertJson([
+            'id' => $task->id,
+            'name' => $task->name,
+            'created_at' => $task->created_at,
+            'updated_at' => $task->updated_at
+        ]);
+    }
+
     /**
      * @test
      */
@@ -83,6 +108,7 @@ class ApiTaskControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    //TODO mirar si el assertJson és igual al de sergi
     /**
      * @test
      */
@@ -107,11 +133,12 @@ class ApiTaskControllerTest extends TestCase
 
 //        $response->dump();
 
-//        $response->assertJson([
-//            'name' => $name
-//        ]);
+        $response->assertJson([
+            'name' => $name
+        ]);
     }
-    
+
+    //TODO mirar si el assertJson és igual que el de Sergi
     /**
      * @test
      */
@@ -129,6 +156,11 @@ class ApiTaskControllerTest extends TestCase
         $this->assertDatabaseMissing('tasks',[
             'id' => $task->id
         ]);
+
+        $response->assertJson([
+            'id' => $task->id,
+            'name' => $task->name
+        ]);
     }
 
     /**
@@ -145,6 +177,7 @@ class ApiTaskControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
+    //TODO mirar si el assertJson es igual que el de sergi
     /**
      * @test
      */
@@ -171,6 +204,11 @@ class ApiTaskControllerTest extends TestCase
         $this->assertDatabaseMissing('tasks', [
             'id' => $task->id,
             'name' => $task->name
+        ]);
+
+        $response->assertJson([
+            'id' => $task->id,
+            'name' => $newName
         ]);
     }
 }
