@@ -8,7 +8,7 @@
                     <div v-else>
                         {{task.name}}
                         <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
-                        <i class="fa fa-refresh fa-spin" v-if="deleting"></i>
+                        <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
                         <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
                     </div>
                 </li>
@@ -75,7 +75,7 @@
                 newTask: '',
                 tasks: [],
                 creating: false,
-                deleting: false
+                taskBeingDeleted: null
             }
         },
         computed: {
@@ -113,13 +113,13 @@
             },
             deleteTask(task) {
                 let url = '/api/tasks/'+task.id
-                this.deleting = true;
+                this.taskBeingDeleted = task.id;
                 axios.delete(url).then( (response) => {
                     this.tasks.splice(this.tasks.indexOf(task), 1)
                 }).catch( (error) => {
                     flash(error.message)
                 }).then(
-                    this.deleting = false
+                    this.taskBeingDeleted = null
                 )
             },
             updateTask(task) {
