@@ -112,10 +112,10 @@
                 return task.completed
             },
             deleteTask(task) {
-                let url = '/api/tasks/'+task.id
-                this.taskBeingDeleted = task.id;
+                let url = '/api/tasks/' + task.id
+                this.taskBeingDeleted = task.id
                 axios.delete(url).then( (response) => {
-                    this.tasks.splice(this.tasks.indexOf(task), 1)
+                    this.tasks.splice( this.tasks.indexOf(task) , 1 )
                 }).catch( (error) => {
                     flash(error.message)
                 }).then(

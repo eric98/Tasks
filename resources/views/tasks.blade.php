@@ -9,6 +9,4 @@
 
     <tasks-view></tasks-view>
 
-
-
 @endsection
