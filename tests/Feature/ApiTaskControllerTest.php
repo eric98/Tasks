@@ -18,7 +18,6 @@ use Tests\TestCase;
 class ApiTaskControllerTest extends TestCase
 {
     use RefreshDatabase;
-    // TODO acabar de afegir els assertJson, estan al github de Sergi Tur
 
     public function setUp()
     {
@@ -49,7 +48,6 @@ class ApiTaskControllerTest extends TestCase
         ]]);
     }
 
-    //TODO mirar si el assertJson es com el de sergi
     /**
      * @test
      */
@@ -74,21 +72,7 @@ class ApiTaskControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function cannot_add_task_if_not_logged()
-    {
-        $faker = Factory::create();
 
-        // EXECUTE
-        $response = $this->json('POST','/api/tasks', [
-            'name' => $name = $faker->word
-        ]);
-
-        // ASSERT
-        $response->assertStatus(401);
-    }
 
     /**
      * @test
@@ -108,7 +92,6 @@ class ApiTaskControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
-    //TODO mirar si el assertJson és igual al de sergi
     /**
      * @test
      */
@@ -138,7 +121,6 @@ class ApiTaskControllerTest extends TestCase
         ]);
     }
 
-    //TODO mirar si el assertJson és igual que el de Sergi
     /**
      * @test
      */
@@ -177,7 +159,6 @@ class ApiTaskControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
-    //TODO mirar si el assertJson es igual que el de sergi
     /**
      * @test
      */

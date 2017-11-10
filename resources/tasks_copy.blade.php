@@ -78,7 +78,6 @@
                 // whenever question changes, this function will run
                 tasks: function (newQuestion) {
                     console.log('Ha canviat watchers')
-                    //TODO Save to LocalStorage
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify((this.tasks)))
                 }
             },
@@ -118,7 +117,6 @@
                 },
                 mounted() {
                     console.log('Inici')
-                    //TODO Obtenir les tasques de la LocalStorage
                     //
 //                this.tasks = localStorage.getItem()
 //                this.newTasks = localStorage.setItem('NEW_TASK','Nova tasca')

@@ -38,4 +38,9 @@ class ApiTaskController extends Controller
         $task->name = $request->name;
         $task->save();
     }
+
+    public function show(Task $task)
+    {
+        return $task;
+    }
 }
