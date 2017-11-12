@@ -38,8 +38,6 @@ class ApiTaskControllerTest extends TestCase
         $response = $this->json('GET','/api/tasks');
         $response->assertSuccessful();
 
-//        $response->dump();
-
         $response->assertJsonStructure([[
             'id',
             'name',
@@ -61,8 +59,6 @@ class ApiTaskControllerTest extends TestCase
         $response = $this->json('GET', '/api/tasks/' . $task->id);
 
         $response->assertSuccessful();
-
-//        $response->dump();
 
         $response->assertJson([
             'id' => $task->id,
@@ -107,6 +103,8 @@ class ApiTaskControllerTest extends TestCase
         $response = $this->json('POST','/api/tasks', [
             'name' => $name = $faker->word
         ]);
+
+        $response->dump();
 
         // ASSERT
         $response->assertSuccessful();
