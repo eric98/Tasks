@@ -19,15 +19,18 @@ class ApiTaskController extends Controller
             'name' => 'required',
         ]);
 
-        Task::create([
+        $task = Task::create([
             'name' => $request->name
         ]);
+
+        return $task;
 
     }
 
     public function destroy(Request $request, Task $task)
     {
         $task->delete();
+        return $task;
     }
 
     public function update(Request $request, Task $task)
@@ -37,6 +40,7 @@ class ApiTaskController extends Controller
         ]);
         $task->name = $request->name;
         $task->save();
+        return $task;
     }
 
     public function show(Task $task)

@@ -104,15 +104,11 @@ class ApiTaskControllerTest extends TestCase
             'name' => $name = $faker->word
         ]);
 
-        $response->dump();
-
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
             'name' => $name
         ]);
-
-//        $response->dump();
 
         $response->assertJson([
             'name' => $name
