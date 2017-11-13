@@ -17,6 +17,7 @@ use Tests\TestCase;
 class ApiUserControllerTest extends TestCase
 {
     use RefreshDatabase;
+    // TODO arreglar els testos per a user
     public function setUp()
     {
         parent::setUp();
@@ -33,7 +34,7 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
-        $response = $this->json('GET','/api/users');
+        $response = $this->json('GET','/api/v1/users');
         $response->assertSuccessful();
 
         $response->assertJsonStructure([[
@@ -54,7 +55,7 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
-        $response = $this->json('GET', '/api/users/' . $user->id);
+        $response = $this->json('GET', '/api/v1/users/' . $user->id);
 
         $response->assertSuccessful();
 
@@ -80,7 +81,7 @@ class ApiUserControllerTest extends TestCase
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('POST','/api/users');
+        $response = $this->json('POST','/api/v1/users');
 
         // ASSERT
         $response->assertStatus(422);
@@ -98,7 +99,7 @@ class ApiUserControllerTest extends TestCase
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('POST','/api/users', [
+        $response = $this->json('POST','/api/v1/users', [
             'name' => $name = $faker->word
         ]);
 
@@ -123,7 +124,7 @@ class ApiUserControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->json('DELETE','/api/users/'.$user->id);
+        $response = $this->json('DELETE','/api/v1/users/'.$user->id);
 
         $response->assertSuccessful();
 
@@ -146,7 +147,7 @@ class ApiUserControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->json('DELETE','/api/users/1');
+        $response = $this->json('DELETE','/api/v1/users/1');
 
         $response->assertStatus(404);
     }
@@ -163,7 +164,7 @@ class ApiUserControllerTest extends TestCase
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('PUT','/api/users/'.$user->id, [
+        $response = $this->json('PUT','/api/v1/users/'.$user->id, [
             'name' => $newName = 'NOU NOM'
         ]);
 
