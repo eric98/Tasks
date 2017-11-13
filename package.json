@@ -10,8 +10,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "lint": "./node_modules/.bin/eslint --ext .js,.vue resources/assets/js",
-    "test" : "mocha-webpack --webpack-config=node_modules/laravel-mix/setup/webpack.config.js --require tests/Javascript/setup.js tests/Javascript/**/*.spec.js"
-
+    "test": "mocha-webpack --webpack-config=node_modules/laravel-mix/setup/webpack.config.js --require tests/Javascript/setup.js tests/Javascript/**/*.spec.js"
   },
   "devDependencies": {
     "acacha-forms": "^1.0.0",
@@ -42,6 +41,7 @@
     "lodash": "^4.17.4",
     "mocha": "^4.0.1",
     "mocha-webpack": "^1.0.1",
+    "moxios": "^0.4.0",
     "toastr": "^2.1.2",
     "vue": "^2.1.10",
     "vue-test-utils": "^1.0.0-beta.5"

@@ -1,15 +1,20 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: alumne
+ * Date: 06/11/17
+ * Time: 19:50
+ */
 
 namespace Tests\Feature;
 
 
-use App\Task;
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ApiTaskControllerTest extends TestCase
+class ApiUserControllerTest extends TestCase
 {
     use RefreshDatabase;
     public function setUp()
@@ -21,14 +26,14 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_list_tasks()
+    public function can_list_users()
     {
-        $tasks = factory(Task::class,3)->create();
+        $users = factory(User::class,3)->create();
 
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
-        $response = $this->json('GET','/api/tasks');
+        $response = $this->json('GET','/api/users');
         $response->assertSuccessful();
 
         $response->assertJsonStructure([[
@@ -42,22 +47,22 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_show_an_task()
+    public function can_show_an_user()
     {
-        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
 
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
-        $response = $this->json('GET', '/api/tasks/' . $task->id);
+        $response = $this->json('GET', '/api/users/' . $user->id);
 
         $response->assertSuccessful();
 
         $response->assertJson([
-            'id' => $task->id,
-            'name' => $task->name,
-            'created_at' => $task->created_at,
-            'updated_at' => $task->updated_at
+            'id' => $user->id,
+            'name' => $user->name,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at
         ]);
     }
 
@@ -66,7 +71,7 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function cannot_add_task_if_not_name_provided()
+    public function cannot_add_user_if_not_name_provided()
     {
         // PREPARE
         $faker = Factory::create();
@@ -75,7 +80,7 @@ class ApiTaskControllerTest extends TestCase
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('POST','/api/tasks');
+        $response = $this->json('POST','/api/users');
 
         // ASSERT
         $response->assertStatus(422);
@@ -84,7 +89,7 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_add_a_task()
+    public function can_add_a_user()
     {
         // PREPARE
         $faker = Factory::create();
@@ -93,13 +98,13 @@ class ApiTaskControllerTest extends TestCase
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('POST','/api/tasks', [
+        $response = $this->json('POST','/api/users', [
             'name' => $name = $faker->word
         ]);
 
         // ASSERT
         $response->assertSuccessful();
-        $this->assertDatabaseHas('tasks', [
+        $this->assertDatabaseHas('users', [
             'name' => $name
         ]);
 
@@ -111,37 +116,37 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_delete_task()
+    public function can_delete_user()
     {
-        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
         $this->actingAs($user);
 
-        $response = $this->json('DELETE','/api/tasks/'.$task->id);
+        $response = $this->json('DELETE','/api/users/'.$user->id);
 
         $response->assertSuccessful();
 
-        $this->assertDatabaseMissing('tasks',[
-            'id' => $task->id
+        $this->assertDatabaseMissing('users',[
+            'id' => $user->id
         ]);
 
         $response->assertJson([
-            'id' => $task->id,
-            'name' => $task->name
+            'id' => $user->id,
+            'name' => $user->name
         ]);
     }
 
     /**
      * @test
      */
-    public function cannot_delete_unexisting_task()
+    public function cannot_delete_unexisting_user()
     {
         $user = factory(User::class)->create();
 
         $this->actingAs($user);
 
-        $response = $this->json('DELETE','/api/tasks/1');
+        $response = $this->json('DELETE','/api/users/1');
 
         $response->assertStatus(404);
     }
@@ -149,33 +154,33 @@ class ApiTaskControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_edit_task()
+    public function can_edit_user()
     {
         // PREPARE
-        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
         $this->actingAs($user);
 
         // EXECUTE
-        $response = $this->json('PUT','/api/tasks/'.$task->id, [
+        $response = $this->json('PUT','/api/users/'.$user->id, [
             'name' => $newName = 'NOU NOM'
         ]);
 
         // ASSERT
         $response->assertSuccessful();
-        $this->assertDatabaseHas('tasks', [
-            'id' => $task->id,
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
             'name' => $newName
         ]);
 
-        $this->assertDatabaseMissing('tasks', [
-            'id' => $task->id,
-            'name' => $task->name
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+            'name' => $user->name
         ]);
 
         $response->assertJson([
-            'id' => $task->id,
+            'id' => $user->id,
             'name' => $newName
         ]);
     }
