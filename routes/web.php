@@ -25,24 +25,24 @@ Route::group(['middleware' => 'auth'], function () {
     #adminlte_routes
     Route::get('task','TaskController@index');
     Route::post('task','TaskController@store');
-
     Route::get('tasks','TaskController@index');
 
-    Route::get('api/v1/tasks','ApiTaskController@index');
-    Route::post('api/v1/tasks','ApiTaskController@store');
-
-    Route::get('api/v1/tasks/{task}','ApiTaskController@show');
-
-    Route::delete('api/v1/tasks/{task}','ApiTaskController@destroy');
-    Route::put('api/v1/tasks/{task}','ApiTaskController@update');
 
 
 
-    Route::get('api/v1/users','ApiUserController@index');
-    Route::post('api/v1/users','ApiUserController@store');
 
-    Route::get('api/v1/users/{user}','ApiUserController@show');
-
-    Route::delete('api/v1/users/{user}','ApiUserController@destroy');
-    Route::put('api/v1/users/{user}','ApiUserController@update');
+//
+//    Route::get('api/v1/tasks','ApiTaskController@index');
+//    Route::post('api/v1/tasks','ApiTaskController@store');
+//    Route::get('api/v1/tasks/{task}','ApiTaskController@show');
+//    Route::delete('api/v1/tasks/{task}','ApiTaskController@destroy');
+//    Route::put('api/v1/tasks/{task}','ApiTaskController@update');
+//
+//
+//
+//    Route::get('api/v1/users','ApiUserController@index');
+//    Route::post('api/v1/users','ApiUserController@store');
+//    Route::get('api/v1/users/{user}','ApiUserController@show');
+//    Route::delete('api/v1/users/{user}','ApiUserController@destroy');
+//    Route::put('api/v1/users/{user}','ApiUserController@update');
 });

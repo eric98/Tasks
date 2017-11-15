@@ -14,6 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
+        // TODO acabar de posar Tasques PHP en la plantilla de adminLTE
         $tasks = Task::all();
         return view('tasks',['tasks' => json_encode($tasks)]);
     }
