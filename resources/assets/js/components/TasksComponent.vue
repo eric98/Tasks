@@ -98,7 +98,7 @@
             },
             addTask() {
                 this.creating = true
-                let url = '/api/tasks'
+                let url = '/api/v1/tasks'
                 axios.post(url, { name: this.newTask } ).then((response) =>  {
                     this.tasks.push({ name : this.newTask, completed : false})
                     this.newTask=''
@@ -112,7 +112,7 @@
                 return task.completed
             },
             deleteTask(task) {
-                let url = '/api/tasks/' + task.id
+                let url = '/api/v1/tasks/' + task.id
                 this.taskBeingDeleted = task.id
                 axios.delete(url).then( (response) => {
                     this.tasks.splice( this.tasks.indexOf(task) , 1 )
@@ -139,7 +139,7 @@
             console.log(this.tasks)
 
             // HTTP CLIENT
-            let url = '/api/tasks'
+            let url = '/api/v1/tasks'
             //Promises
             this.$emit('loading',true)
             axios.get(url).then((response) => {

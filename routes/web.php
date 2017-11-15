@@ -25,7 +25,8 @@ Route::group(['middleware' => 'auth'], function () {
     #adminlte_routes
     Route::get('task','TaskController@index');
     Route::post('task','TaskController@store');
-    Route::get('tasks','TaskController@index');
+    Route::get('tasks_php','TaskController@index');
+    Route::get('tasks','TaskController@indexVue');
 
 
 
