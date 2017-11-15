@@ -4,7 +4,12 @@
     Tasks
 @endsection
 
-
 @section('main-content')
-    <h1>Hola</h1>
+    <h1>Tasques:</h1>
+
+    @foreach ($tasks as $task)
+        <ul>
+            <li>Title: {{ $task->name }}</li>
+        </ul>
+    @endforeach
 @endsection
