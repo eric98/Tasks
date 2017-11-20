@@ -20,16 +20,16 @@
                 Tasques pendents: {{ pendingTasks }}
                 <br>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">User</label>
+                    <label for="user_id">User</label>
                     <!--<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">-->
-                    <users></users>
+                    <users id="user_id" name="user_id"></users>
                 </div>
                 <div class="form-group">
-                    <label for="newTask">Task name</label>
-                    <input class="form-control" type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
+                    <label for="name">Task name</label>
+                    <input class="form-control" type="text" v-model="form.name" id="name" @keyup.enter="addTask">
                 </div>
-                <button :diseabled="creating" id="add" @click="addTask" class="btn btn-primary">
-                    <i class="fa fa-refresh fa-spin" v-if="creating"></i>
+                <button :diseabled="form.submitting" id="add" @click="addTask" class="btn btn-primary">
+                    <i class="fa fa-refresh fa-spin" v-if="form.submitting"></i>
                     Afegir
                 </button>
 
@@ -65,6 +65,7 @@
 <script>
 
   import Users from './Users'
+  import Form from 'acacha-forms'
 
   var filters = {
     all: function (tasks) {
@@ -84,7 +85,7 @@
 
   import { wait } from './utils.js'
 
-  //    const LOCAL_STORAGE_KEY = 'TASKS'
+  const API_URL = '/api/v1/tasks/'
 
   export default {
     components: {Users},
@@ -94,10 +95,11 @@
         editedTask: null,
         filter: 'all',
         newName: '',
-        newTask: '',
+        name: '',
         tasks: [],
         creating: false,
-        taskBeingDeleted: null
+        taskBeingDeleted: null,
+        form: new Form({user_id:'',name:''})
       }
     },
     computed: {
@@ -120,10 +122,10 @@
       },
       addTask () {
         this.creating = true
-        let url = '/api/v1/tasks'
-        axios.post(url, {name: this.newTask}).then((response) => {
-          this.tasks.push({name: this.newTask, completed: false})
-          this.newTask = ''
+        let url = API_URL
+        this.form.post(url).then((response) => {
+          this.tasks.push({name: this.form.name, user_id: this.form.user_id, completed: false})
+          this.form.name = ''
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
@@ -134,7 +136,7 @@
         return task.completed
       },
       deleteTask (task) {
-        let url = '/api/v1/tasks/' + task.id
+        let url = API_URL + task.id
         this.taskBeingDeleted = task.id
         axios.delete(url).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
@@ -147,7 +149,7 @@
       updateTask (task) {
         this.newName = task.name
         this.editedTask = task
-        let url = '/api/v1/tasks/' + task.id
+        let url = API_URL + task.id
 //        axios.put(url, {name: task.name})
 //          .then((response) => {
 //          this.tasks.push({name: task.name, completed: false})
@@ -169,7 +171,7 @@
       console.log(this.tasks)
 
       // HTTP CLIENT
-      let url = '/api/v1/tasks'
+      let url = API_URL
       //Promises
       this.$emit('loading', true)
       axios.get(url).then((response) => {

@@ -1,10 +1,6 @@
 <template>
     <div>
-        <!--<select>-->
-            <!--<option :value="user.id" v-for="user in users">{{user.name}} - {{user.email}}</option>-->
-        <!--</select>-->
-
-        <multiselect v-model="user" :options="users" :custom-label="customLabel"></multiselect>
+        <multiselect :id="id" :name="name" v-model="user" :options="users" :custom-label="customLabel"></multiselect>
     </div>
 </template>
 
@@ -23,6 +19,7 @@
         users: []
       }
     },
+    props: ['id','name'],
     computed: {
       numUsers () {
         return this.users.length
