@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'api','prefix' => 'v1', 'middleware' => ['throttle','bindings']], function () {
-//    Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['middleware' => 'auth:api'], function() {
         Route::get('tasks',                     'ApiTaskController@index');
         Route::get('tasks/{task}',              'ApiTaskController@show');
         Route::post('tasks',                    'ApiTaskController@store');
@@ -30,5 +30,5 @@ Route::group(['middleware' => 'api','prefix' => 'v1', 'middleware' => ['throttle
         Route::post('users',                    'ApiUserController@store');
         Route::put('users/{task}',              'ApiUserController@update');
         Route::delete('users/{task}',           'ApiUserController@destroy');
-//    });
+    });
 });

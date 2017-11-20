@@ -7,5 +7,5 @@
 
 @section('main-content')
     <users></users>
-    <tasks-view></tasks-view>
+    {{--<tasks-view></tasks-view>--}}
 @endsection
