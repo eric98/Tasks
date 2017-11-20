@@ -6,6 +6,6 @@
 
 
 @section('main-content')
-    <users></users>
-    {{--<tasks-view></tasks-view>--}}
+    {{--<users></users>--}}
+    <tasks></tasks>
 @endsection

@@ -1,33 +1,50 @@
 <template>
-    <div v-cloak>
-        <ul>
-            <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }"
-                @dblclick="updateTask(task)">
-                <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
-                       @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
-                <div v-else>
-                    {{task.name}}
-                    <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
-                    <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
-                    <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
+    <div>
+        <widget :loading="loading">
+            <p slot="title">Tasques</p>
+            <div v-cloak>
+
+                <ul>
+                    <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }"
+                        @dblclick="updateTask(task)">
+                        <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
+                               @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
+                        <div v-else>
+                            {{task.name}}
+                            <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
+                            <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
+                            <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
+                        </div>
+                    </li>
+                </ul>
+                Tasques pendents: {{ pendingTasks }}
+                <br>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">User</label>
+                    <!--<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">-->
+                    <users></users>
                 </div>
-            </li>
-        </ul>
-        Tasques pendents: {{ pendingTasks }}
-        <br>
-        Nova Tasca a afegir: <input type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
-        <button :diseabled="creating" id="add" @click="addTask">
-            <i class="fa fa-refresh fa-spin" v-if="creating"></i>
-            Afegir
-        </button>
+                <div class="form-group">
+                    <label for="newTask">Task name</label>
+                    <input class="form-control" type="text" v-model="newTask" id="newTask" @keyup.enter="addTask">
+                </div>
+                <button :diseabled="creating" id="add" @click="addTask" class="btn btn-primary">
+                    <i class="fa fa-refresh fa-spin" v-if="creating"></i>
+                    Afegir
+                </button>
 
-        <h2>Filtres</h2>
+                <h2>Filtres</h2>
 
-        <ul>
-            <li @click="show('all')" :class="{ active: this.filter === 'all' }">All</li>
-            <li @click="show('completed')" :class="{ active: this.filter === 'completed' }">Completed</li>
-            <li @click="show('pending')" :class="{ active: this.filter === 'pending' }">Pending</li>
-        </ul>
+                <ul>
+                    <li @click="show('all')" :class="{ active: this.filter === 'all' }">All</li>
+                    <li @click="show('completed')" :class="{ active: this.filter === 'completed' }">Completed</li>
+                    <li @click="show('pending')" :class="{ active: this.filter === 'pending' }">Pending</li>
+                </ul>
+            </div>
+            <p slot="Footer">Footer</p>
+        </widget>
+
+        <message title="Message" message="" color="info"></message>
     </div>
 </template>
 
@@ -46,6 +63,9 @@
 </style>
 
 <script>
+
+  import Users from './Users'
+
   var filters = {
     all: function (tasks) {
       return tasks
@@ -67,8 +87,10 @@
   //    const LOCAL_STORAGE_KEY = 'TASKS'
 
   export default {
+    components: {Users},
     data () {
       return {
+        loading: false,
         editedTask: null,
         filter: 'all',
         newName: '',
