@@ -21,7 +21,7 @@ class TaskControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $response = $this->post('/task', [ 'name' => 'Comprar llet']);
+        $response = $this->post('/tasks_php', [ 'name' => 'Comprar llet']);
 
         $response->assertSuccessful();
 

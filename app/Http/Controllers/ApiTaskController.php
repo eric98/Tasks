@@ -45,7 +45,7 @@ class ApiTaskController extends Controller
         return $task;
     }
 
-    public function show(ShowTask $task)
+    public function show(ShowTask $request,Task $task)
     {
         return $task;
     }
