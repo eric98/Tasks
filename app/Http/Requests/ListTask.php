@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ListTask
@@ -17,7 +18,8 @@ class ListTask extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // Si el usuari té el permis list-tasks -> autoritzat
+        return Auth::user()->hasPermissionTo('list-tasks');
     }
 
     /**

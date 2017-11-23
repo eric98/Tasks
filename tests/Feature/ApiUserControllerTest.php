@@ -32,7 +32,7 @@ class ApiUserControllerTest extends TestCase
         $users = factory(User::class,3)->create();
 
         $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         $response = $this->json('GET','/api/v1/users');
         $response->assertSuccessful();
@@ -53,7 +53,7 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         $response = $this->json('GET', '/api/v1/users/' . $user->id);
 
@@ -78,7 +78,7 @@ class ApiUserControllerTest extends TestCase
         $faker = Factory::create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         // EXECUTE
         $response = $this->json('POST','/api/v1/users');
@@ -96,7 +96,7 @@ class ApiUserControllerTest extends TestCase
         $faker = Factory::create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         // EXECUTE
         $response = $this->json('POST','/api/v1/users', [
@@ -122,7 +122,7 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         $response = $this->json('DELETE','/api/v1/users/'.$user->id);
 
@@ -145,7 +145,7 @@ class ApiUserControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         $response = $this->json('DELETE','/api/v1/users/1');
 
@@ -161,7 +161,7 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'api');
 
         // EXECUTE
         $response = $this->json('PUT','/api/v1/users/'.$user->id, [

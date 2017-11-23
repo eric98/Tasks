@@ -15,7 +15,8 @@ class ApiTaskControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-//        $this->withoutExceptionHandling();
+        initialize_task_permission();
+        $this->withoutExceptionHandling();
     }
 
     /**
