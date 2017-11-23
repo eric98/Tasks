@@ -27,6 +27,9 @@ class ApiTaskControllerTest extends TestCase
         $tasks = factory(Task::class,3)->create();
 
         $user = factory(User::class)->create();
+
+        $user->givePermissionTo('list-tasks');
+
         $this->actingAs($user,'api');
 
         $response = $this->json('GET','/api/v1/tasks');
