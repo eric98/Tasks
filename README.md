@@ -1,6 +1,7 @@
 # Tasks
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eric98/Tasks/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eric98/Tasks/?branch=master)
+[![StyleCI](https://styleci.io/repos/107173113/shield?branch=master)](https://styleci.io/repos/107173113)
 
 # Tasques
 
