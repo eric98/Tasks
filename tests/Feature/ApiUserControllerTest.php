@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: alumne
  * Date: 06/11/17
- * Time: 19:50
+ * Time: 19:50.
  */
 
 namespace Tests\Feature;
-
 
 use App\User;
 use Faker\Factory;
@@ -17,6 +16,7 @@ use Tests\TestCase;
 class ApiUserControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     // TODO arreglar els testos per a user
     public function setUp()
     {
@@ -29,19 +29,19 @@ class ApiUserControllerTest extends TestCase
      */
     public function can_list_users()
     {
-        $users = factory(User::class,3)->create();
+        $users = factory(User::class, 3)->create();
 
         $user = factory(User::class)->create();
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
-        $response = $this->json('GET','/api/v1/users');
+        $response = $this->json('GET', '/api/v1/users');
         $response->assertSuccessful();
 
         $response->assertJsonStructure([[
             'id',
             'name',
             'created_at',
-            'updated_at'
+            'updated_at',
         ]]);
     }
 
@@ -53,21 +53,19 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $user = factory(User::class)->create();
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
-        $response = $this->json('GET', '/api/v1/users/' . $user->id);
+        $response = $this->json('GET', '/api/v1/users/'.$user->id);
 
         $response->assertSuccessful();
 
         $response->assertJson([
-            'id' => $user->id,
-            'name' => $user->name,
+            'id'         => $user->id,
+            'name'       => $user->name,
             'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at
+            'updated_at' => $user->updated_at,
         ]);
     }
-
-
 
     /**
      * @test
@@ -78,10 +76,10 @@ class ApiUserControllerTest extends TestCase
         $faker = Factory::create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
         // EXECUTE
-        $response = $this->json('POST','/api/v1/users');
+        $response = $this->json('POST', '/api/v1/users');
 
         // ASSERT
         $response->assertStatus(422);
@@ -96,21 +94,21 @@ class ApiUserControllerTest extends TestCase
         $faker = Factory::create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
         // EXECUTE
-        $response = $this->json('POST','/api/v1/users', [
-            'name' => $name = $faker->word
+        $response = $this->json('POST', '/api/v1/users', [
+            'name' => $name = $faker->word,
         ]);
 
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
-            'name' => $name
+            'name' => $name,
         ]);
 
         $response->assertJson([
-            'name' => $name
+            'name' => $name,
         ]);
     }
 
@@ -122,19 +120,19 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
-        $response = $this->json('DELETE','/api/v1/users/'.$user->id);
+        $response = $this->json('DELETE', '/api/v1/users/'.$user->id);
 
         $response->assertSuccessful();
 
-        $this->assertDatabaseMissing('users',[
-            'id' => $user->id
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
         ]);
 
         $response->assertJson([
-            'id' => $user->id,
-            'name' => $user->name
+            'id'   => $user->id,
+            'name' => $user->name,
         ]);
     }
 
@@ -145,9 +143,9 @@ class ApiUserControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
-        $response = $this->json('DELETE','/api/v1/users/1');
+        $response = $this->json('DELETE', '/api/v1/users/1');
 
         $response->assertStatus(404);
     }
@@ -161,28 +159,28 @@ class ApiUserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
-        $this->actingAs($user,'api');
+        $this->actingAs($user, 'api');
 
         // EXECUTE
-        $response = $this->json('PUT','/api/v1/users/'.$user->id, [
-            'name' => $newName = 'NOU NOM'
+        $response = $this->json('PUT', '/api/v1/users/'.$user->id, [
+            'name' => $newName = 'NOU NOM',
         ]);
 
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'name' => $newName
+            'id'   => $user->id,
+            'name' => $newName,
         ]);
 
         $this->assertDatabaseMissing('users', [
-            'id' => $user->id,
-            'name' => $user->name
+            'id'   => $user->id,
+            'name' => $user->name,
         ]);
 
         $response->assertJson([
-            'id' => $user->id,
-            'name' => $newName
+            'id'   => $user->id,
+            'name' => $newName,
         ]);
     }
 }

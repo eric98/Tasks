@@ -20,16 +20,16 @@ class ApiUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         return $user;
-
     }
 
     public function destroy(Request $request, User $user)
     {
         $user->delete();
+
         return $user;
     }
 
@@ -40,6 +40,7 @@ class ApiUserController extends Controller
         ]);
         $user->name = $request->name;
         $user->save();
+
         return $user;
     }
 

@@ -6,8 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class ListTask
- * @package App\Http\Requests
+ * Class ListTask.
  */
 class ListTask extends FormRequest
 {

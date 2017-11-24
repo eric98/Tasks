@@ -39,9 +39,9 @@ class ListTasksCommand extends Command
     public function handle()
     {
         try {
-            $headers = ['id','Name'];
+            $headers = ['id', 'Name'];
 
-            $users = Task::all(['id','name'])->toArray();
+            $users = Task::all(['id', 'name'])->toArray();
         } catch (Exception $e) {
             $this->error('Error');
         }

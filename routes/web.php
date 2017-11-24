@@ -22,18 +22,14 @@ Route::group(['middleware' => 'auth'], function () {
 //    });
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
-    #adminlte_routes
-    Route::get('tasks_php','TaskController@index');
-    Route::post('task_php','TaskController@store');
-    Route::get('tasks','TaskController@indexVue');
+    //adminlte_routes
+    Route::get('tasks_php', 'TaskController@index');
+    Route::post('task_php', 'TaskController@store');
+    Route::get('tasks', 'TaskController@indexVue');
 
     //PURE JAVASCRIPT
-    Route::view('/tasks','tasks');
-    Route::view('/tokens','tokens');
-
-
-
-
+    Route::view('/tasks', 'tasks');
+    Route::view('/tokens', 'tokens');
 
 //
 //    Route::get('api/v1/tasks','ApiTaskController@index');

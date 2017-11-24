@@ -6,8 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class StoreTask
- * @package App\Http\Requests
+ * Class StoreTask.
  */
 class StoreTask extends FormRequest
 {
