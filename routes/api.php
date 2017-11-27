@@ -26,9 +26,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1', 'middleware' => ['throttl
         Route::delete('tasks/{task}', 'ApiTaskController@destroy');
 
         Route::get('users', 'ApiUserController@index');
-        Route::get('users/{task}', 'ApiUserController@show');
+        Route::get('users/{user}', 'ApiUserController@show');
         Route::post('users', 'ApiUserController@store');
-        Route::put('users/{task}', 'ApiUserController@update');
-        Route::delete('users/{task}', 'ApiUserController@destroy');
+        Route::put('users/{user}', 'ApiUserController@update');
+        Route::delete('users/{user}', 'ApiUserController@destroy');
     });
 });

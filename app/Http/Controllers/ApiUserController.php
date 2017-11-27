@@ -26,7 +26,7 @@ class ApiUserController extends Controller
         return $user;
     }
 
-    public function destroy(Request $request, User $user)
+    public function destroy(User $user)
     {
         $user->delete();
 

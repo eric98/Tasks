@@ -12,20 +12,23 @@
 
   export default {
     components: {Multiselect},
-    name: 'name',
+    name: 'users',
     data () {
       return {
-        user: null,
+        user: this.value,
         users: []
       }
     },
-    props: ['id','name'],
+    props: ['id','name','value'],
     computed: {
       numUsers () {
         return this.users.length
       }
     },
     methods: {
+      select() {
+        this.$emit('select')
+      },
       customLabel( {name,email} ) {
         return `${name} — [${email}]`
       },
