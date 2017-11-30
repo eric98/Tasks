@@ -17,11 +17,10 @@ class ApiUserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    // TODO arreglar els testos per a user
     public function setUp()
     {
         parent::setUp();
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
     }
 
     /**
@@ -99,16 +98,19 @@ class ApiUserControllerTest extends TestCase
         // EXECUTE
         $response = $this->json('POST', '/api/v1/users', [
             'name' => $name = $faker->word,
+            'email' => $email = $faker->email,
         ]);
 
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
             'name' => $name,
+            'email' => $email
         ]);
 
         $response->assertJson([
             'name' => $name,
+            'email' => $email
         ]);
     }
 
