@@ -145,14 +145,28 @@
         )
       },
       updateTask (task) {
-        this.newName = task.name
-        this.editedTask = task
-        let url = API_URL + task.id
-        axios.put(url, {name: this.editedTask }).then((response) => {
-          var pos = this.tasks.indexOf(task);
+//        this.newName = task.name
+//        this.editedTask = task
+//        let url = API_URL + task.id
+//        axios.put(url, {name: this.editedTask }).then((response) => {
+//          var pos = this.tasks.indexOf(task);
+//
+//          this.tasks[pos].name = this.editedTask;
+//          this.editedTask = ''
+//        })
 
-          this.tasks[pos].name = this.editedTask;
-          this.editedTask = ''
+        this.updating = true
+        let url = '/api/v1/tasks/' + task.id
+        axios.put(url, {name: this.modifyTask }).then((response) =>  {
+          var pos =   this.tasks.indexOf(task);
+          this.tasks[pos].name = this.modifyTask;
+          this.modifyTask = ''
+          this.editedTask = null
+        }).catch((error) => {
+          flash(error.message)
+        }).then(()=> {
+          this.$emit('loading', false)
+          this.updating = false
         })
 
 
