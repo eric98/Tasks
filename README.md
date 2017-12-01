@@ -3,6 +3,13 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eric98/Tasks/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eric98/Tasks/?branch=master)
 [![StyleCI](https://styleci.io/repos/107173113/shield?branch=master)](https://styleci.io/repos/107173113)
 [![Build Status](https://travis-ci.org/eric98/Tasks.svg?branch=master)](https://travis-ci.org/eric98/Tasks)
+[![Latest Stable Version](https://poser.pugx.org/ergare17/tasks/v/stable)](https://packagist.org/packages/ergare17/tasks)
+[![Total Downloads](https://poser.pugx.org/ergare17/tasks/downloads)](https://packagist.org/packages/ergare17/tasks)
+[![Latest Unstable Version](https://poser.pugx.org/ergare17/tasks/v/unstable)](https://packagist.org/packages/ergare17/tasks)
+[![License](https://poser.pugx.org/ergare17/tasks/license)](https://packagist.org/packages/ergare17/tasks)
+[![Monthly Downloads](https://poser.pugx.org/ergare17/tasks/d/monthly)](https://packagist.org/packages/ergare17/tasks)
+[![Daily Downloads](https://poser.pugx.org/ergare17/tasks/d/daily)](https://packagist.org/packages/ergare17/tasks)
+[![composer.lock](https://poser.pugx.org/ergare17/tasks/composerlock)](https://packagist.org/packages/ergare17/tasks)
 
 # Tasques
 
