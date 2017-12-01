@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class TaskControllerTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
@@ -52,7 +51,7 @@ class TaskControllerTest extends TestCase
         }
     }
 
-    /**
+    /*
      * Can show a task.
      *
      * @test
@@ -86,7 +85,7 @@ class TaskControllerTest extends TestCase
 //        ]);
 //    }
 
-    /**
+    /*
      * Update a task.
      */
 //    public function update_a_task()
