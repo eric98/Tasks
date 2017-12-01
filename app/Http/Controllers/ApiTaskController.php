@@ -20,8 +20,8 @@ class ApiTaskController extends Controller
     public function store(StoreTask $request)
     {
         $task = Task::create([
-            'name' => $request->name,
-            'user_id' => $request->user_id
+            'name'    => $request->name,
+            'user_id' => $request->user_id,
         ]);
 
         return $task;
