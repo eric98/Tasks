@@ -1,6 +1,6 @@
 {
-    "name": "ergare17/Tasks",
-    "description": "Ergare17 Tasks",
+    "name": "ergare17/tasks",
+    "description": "Ergare Tasks",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
