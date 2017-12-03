@@ -125,8 +125,8 @@
         this.form.post(API_URL).then((response) => {
           this.tasks.push({name: this.form.name, user_id: this.form.user_id, completed: false})
           this.form.name = ''
-        }).catch((error) => {
-          flash(error.message)
+//        }).catch((error) => {
+//          flash(error.message)
         }).then(() => {
           this.creating = false
         })
@@ -138,8 +138,8 @@
         this.taskBeingDeleted = task.id
         axios.delete(API_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
-        }).catch((error) => {
-          flash(error.message)
+//        }).catch((error) => {
+//          flash(error.message)
         }).then(
           this.taskBeingDeleted = null
         )
@@ -149,8 +149,8 @@
           this.tasks[this.tasks.indexOf(task)].name = this.newName;
           this.newName = ''
           this.editedTask = null
-        }).catch((error) => {
-          flash(error.message)
+//        }).catch((error) => {
+//          flash(error.message)
         })
       },
       editTask (task) {
