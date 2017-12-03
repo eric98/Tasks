@@ -14,6 +14,7 @@
                             <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
                             <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
                             <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
+                            <i class="fa fa-check" aria-hidden="true" @click="completTask(task)"></i>
                         </div>
                     </li>
                 </ul>
@@ -159,6 +160,16 @@
       },
       cancelEdit (task) {
         this.editedTask = null
+      },
+      completTask(task){
+        axios.put(API_URL+task.id, {name: task.name }).then((response) =>  {
+          this.tasks[this.tasks.indexOf(task)].completed = true;
+          this.newName = ''
+          this.editedTask = null
+//        }).catch((error) => {
+//          flash(error.message)
+        })
+
       }
 
     },
