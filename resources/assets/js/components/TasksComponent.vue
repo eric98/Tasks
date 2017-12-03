@@ -6,9 +6,9 @@
 
                 <ul>
                     <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }"
-                        @dblclick="updateTask(task)">
+                        @dblclick="editTask(task)">
                         <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
-                               @keyup.enter="editTask(task)" @keyup.esc="cancelEdit(task)">
+                               @keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">
                         <div v-else>
                             {{task.name}}
                             <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
@@ -39,7 +39,9 @@
                     </transition>
                     <input @input="form.errors.clear('name')" class="form-control" type="text" v-model="form.name" id="name" name="name" @keyup.enter="addTask">
                 </div>
-                <button :disabled="form.submitting || form.errors.any()" id="add" @click="addTask" class="btn btn-primary">
+
+                <!--aqui al button :disabled he llevat la opció de que es deshabilite si hi ha erros, ja que si sel·lecciones l'usuari desprès de que et salte l'error, el botó no s'habilita-->
+                <button :disabled="form.submitting" id="add" @click="addTask" class="btn btn-primary">
                     <i class="fa fa-refresh fa-spin fa-lg" v-if="form.submitting"></i>
                     Afegir
                 </button>
@@ -120,8 +122,7 @@
       },
       addTask () {
         this.creating = true
-        let url = API_URL
-        this.form.post(url).then((response) => {
+        this.form.post(API_URL).then((response) => {
           this.tasks.push({name: this.form.name, user_id: this.form.user_id, completed: false})
           this.form.name = ''
         }).catch((error) => {
@@ -134,9 +135,8 @@
         return task.completed
       },
       deleteTask (task) {
-        let url = API_URL + task.id
         this.taskBeingDeleted = task.id
-        axios.delete(url).then((response) => {
+        axios.delete(API_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
         }).catch((error) => {
           flash(error.message)
@@ -145,42 +145,17 @@
         )
       },
       updateTask (task) {
-//        this.newName = task.name
-//        this.editedTask = task
-//        let url = API_URL + task.id
-//        axios.put(url, {name: this.editedTask }).then((response) => {
-//          var pos = this.tasks.indexOf(task);
-//
-//          this.tasks[pos].name = this.editedTask;
-//          this.editedTask = ''
-//        })
-
-        this.updating = true
-        let url = '/api/v1/tasks/' + task.id
-        axios.put(url, {name: this.modifyTask }).then((response) =>  {
-          var pos =   this.tasks.indexOf(task);
-          this.tasks[pos].name = this.modifyTask;
-          this.modifyTask = ''
+        axios.put(API_URL+task.id, {name: this.newName }).then((response) =>  {
+          this.tasks[this.tasks.indexOf(task)].name = this.newName;
+          this.newName = ''
           this.editedTask = null
         }).catch((error) => {
           flash(error.message)
-        }).then(()=> {
-          this.$emit('loading', false)
-          this.updating = false
         })
-
-
-//        axios.put(url, {name: task.name})
-//          .then((response) => {
-//          this.tasks.push({name: task.name, completed: false})
-//        })
-//          .catch((error) => {
-//          flash(error.message)
-//        })
       },
       editTask (task) {
-        this.editedTask.name = this.newName
-        this.editedTask = null
+        this.editedTask = task
+        this.newName = task.name
       },
       cancelEdit (task) {
         this.editedTask = null
@@ -191,10 +166,9 @@
       console.log(this.tasks)
 
       // HTTP CLIENT
-      let url = API_URL
       //Promises
       this.$emit('loading', true)
-      axios.get(url).then((response) => {
+      axios.get(API_URL).then((response) => {
         this.tasks = response.data
       }).catch((error) => {
         console.log(error)
