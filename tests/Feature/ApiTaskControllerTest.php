@@ -98,7 +98,7 @@ class ApiTaskControllerTest extends TestCase
 
         // EXECUTE
         $response = $this->json('POST', '/api/v1/tasks', [
-            'name' => $name = $faker->word,
+            'name'    => $name = $faker->word,
             'user_id' => $user->id,
         ]);
 

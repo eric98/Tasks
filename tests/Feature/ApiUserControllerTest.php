@@ -97,20 +97,20 @@ class ApiUserControllerTest extends TestCase
 
         // EXECUTE
         $response = $this->json('POST', '/api/v1/users', [
-            'name' => $name = $faker->word,
+            'name'  => $name = $faker->word,
             'email' => $email = $faker->email,
         ]);
 
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
-            'name' => $name,
-            'email' => $email
+            'name'  => $name,
+            'email' => $email,
         ]);
 
         $response->assertJson([
-            'name' => $name,
-            'email' => $email
+            'name'  => $name,
+            'email' => $email,
         ]);
     }
 
