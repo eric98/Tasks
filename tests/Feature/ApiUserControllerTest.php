@@ -20,7 +20,7 @@ class ApiUserControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
     }
 
     /**
@@ -72,7 +72,6 @@ class ApiUserControllerTest extends TestCase
     public function cannot_add_user_if_not_name_provided()
     {
         // PREPARE
-        $faker = Factory::create();
         $user = factory(User::class)->create();
 
         $this->actingAs($user, 'api');
@@ -99,6 +98,7 @@ class ApiUserControllerTest extends TestCase
         $response = $this->json('POST', '/api/v1/users', [
             'name'  => $name = $faker->word,
             'email' => $email = $faker->email,
+            'password' => $password = $faker->password,
         ]);
 
         // ASSERT
@@ -106,6 +106,7 @@ class ApiUserControllerTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name'  => $name,
             'email' => $email,
+            'password' => $password,
         ]);
 
         $response->assertJson([
@@ -119,7 +120,6 @@ class ApiUserControllerTest extends TestCase
      */
     public function can_delete_user()
     {
-        $user = factory(User::class)->create();
         $user = factory(User::class)->create();
 
         $this->actingAs($user, 'api');
@@ -135,6 +135,7 @@ class ApiUserControllerTest extends TestCase
         $response->assertJson([
             'id'   => $user->id,
             'name' => $user->name,
+            'email' => $user->email,
         ]);
     }
 
@@ -147,7 +148,7 @@ class ApiUserControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->json('DELETE', '/api/v1/users/1');
+        $response = $this->json('DELETE', '/api/v1/users/5');
 
         $response->assertStatus(404);
     }
@@ -173,16 +174,19 @@ class ApiUserControllerTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id'   => $user->id,
             'name' => $newName,
+            'email' => $user->email,
         ]);
 
         $this->assertDatabaseMissing('users', [
             'id'   => $user->id,
             'name' => $user->name,
+            'email' => $user->email,
         ]);
 
         $response->assertJson([
             'id'   => $user->id,
             'name' => $newName,
+            'email' => $user->email,
         ]);
     }
 }

@@ -77,7 +77,6 @@ class ApiTaskControllerTest extends TestCase
     public function cannot_add_task_if_not_name_provided()
     {
         // PREPARE
-        $faker = Factory::create();
         $user = $this->loginAndAuthorize();
 
         // EXECUTE

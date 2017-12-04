@@ -17,6 +17,8 @@ class ApiUserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
         $user = User::create([

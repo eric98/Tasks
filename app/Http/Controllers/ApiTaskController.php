@@ -19,6 +19,10 @@ class ApiTaskController extends Controller
     // Injeccció de depèndències
     public function store(StoreTask $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $task = Task::create([
             'name'    => $request->name,
             'user_id' => $request->user_id,
