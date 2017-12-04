@@ -42,8 +42,8 @@ class CreateTaskCommand extends Command
         //TODO fer un test que provoque l'error i que mire si surt l'error
         try {
             Task::create([
-                'name' => $this->argument('name') ? $this->argument('name') : $this->ask('Task name?'),
-                'user_id' => $this->argument('user_id') ? $this->argument('user_id') : $this->ask('Task user_id?'),
+                'name'      => $this->argument('name') ? $this->argument('name') : $this->ask('Task name?'),
+                'user_id'   => $this->argument('user_id') ? $this->argument('user_id') : $this->ask('Task user_id?'),
                 'completed' => false,
             ]);
         } catch (Exception $e) {
