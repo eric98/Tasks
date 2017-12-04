@@ -11,7 +11,7 @@
                                @keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">
                         <div v-else>
                             {{task.name}}
-                            <i class="fa fa-pencil" aria-hidden="true" @click="updateTask(task)"></i>
+                            <i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>
                             <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
                             <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
                             <i class="fa fa-check" aria-hidden="true" @click="completTask(task)"></i>
@@ -58,6 +58,9 @@
     [v-cloak] {
         display: none;
     }
+    li.completed {
+        text-decoration: line-through;
+    }
 </style>
 
 <script>
@@ -71,12 +74,12 @@
     },
     pending: function (tasks) {
       return tasks.filter(function (task) {
-        return !task.completed
+        return task.completed
       })
     },
     completed: function (tasks) {
       return tasks.filter(function (task) {
-        return task.completed
+        return !task.completed
       })
     }
   }
@@ -122,6 +125,7 @@
         this.filter = filter
       },
       addTask () {
+        this.$emit('loading', true)
         this.creating = true
         this.form.post(API_URL).then((response) => {
           this.tasks.push({name: this.form.name, user_id: this.form.user_id, completed: false})
@@ -130,28 +134,35 @@
 //          flash(error.message)
         }).then(() => {
           this.creating = false
+          this.$emit('loading', false)
         })
       },
       isCompleted (task) {
-        return task.completed
+        return !task.completed
       },
       deleteTask (task) {
+        this.$emit('loading', true)
         this.taskBeingDeleted = task.id
         axios.delete(API_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
 //        }).catch((error) => {
 //          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
         }).then(
           this.taskBeingDeleted = null
         )
       },
       updateTask (task) {
+        this.$emit('loading', true)
         axios.put(API_URL+task.id, {name: this.newName }).then((response) =>  {
           this.tasks[this.tasks.indexOf(task)].name = this.newName;
           this.newName = ''
           this.editedTask = null
 //        }).catch((error) => {
 //          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
         })
       },
       editTask (task) {
@@ -162,12 +173,16 @@
         this.editedTask = null
       },
       completTask(task){
+        this.$emit('loading', true)
+        console.log(task.completed)
         axios.put(API_URL+task.id, {name: task.name }).then((response) =>  {
-          this.tasks[this.tasks.indexOf(task)].completed = true;
+          this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
           this.newName = ''
           this.editedTask = null
-//        }).catch((error) => {
-//          flash(error.message)
+        }).catch((error) => {
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
         })
 
       }
