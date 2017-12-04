@@ -39,9 +39,16 @@ class ListTasksCommand extends Command
     public function handle()
     {
         try {
-            $headers = ['id', 'Name'];
+            $headers = ['id', 'Name','Completed'];
 
-            $users = Task::all(['id', 'name'])->toArray();
+            $users = Task::all(['id', 'name','completed'])->toArray();
+//            foreach ($users as $user){
+//                if ($user['completed'] == 1){
+//                    $user['completed'] = true;
+//                } else {
+//                    $user['completed'] = false;
+//                }
+//            }
         } catch (Exception $e) {
             $this->error('Error');
         }
