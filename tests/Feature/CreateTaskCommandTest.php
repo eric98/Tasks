@@ -19,8 +19,8 @@ class CreateTaskCommandTest extends TestCase
 
         //2) Execute
 
-        $this->artisan('task:create',[
-            'name' => 'Comprar pa',
+        $this->artisan('task:create', [
+            'name'    => 'Comprar pa',
             'user_id' => $user->id,
         ]);
 
@@ -56,7 +56,7 @@ class CreateTaskCommandTest extends TestCase
         //2) Execute
         $this->artisan('task:create');
 
-        $this->assertDatabaseHas('tasks', ['name' => 'Comprar llet','user_id' => $user->id]);
+        $this->assertDatabaseHas('tasks', ['name' => 'Comprar llet', 'user_id' => $user->id]);
 
         //3) Assert
         $resultAsText = Artisan::output();
