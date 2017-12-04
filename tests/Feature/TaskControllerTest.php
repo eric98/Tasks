@@ -21,7 +21,7 @@ class TaskControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
     }
 
     /**
