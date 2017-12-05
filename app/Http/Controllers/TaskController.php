@@ -14,10 +14,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // TODO acabar de posar Tasques PHP en la plantilla de adminLTE
         $tasks = Task::all();
 
         return view('tasks_php', ['tasks' => $tasks]);
+
+//        $tasks = Task::all();
+//        return view('tasks::list_task', compact('tasks'));
     }
 
     public function indexVue()
@@ -34,7 +36,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks::create_task');
     }
 
     /**
@@ -46,6 +48,12 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+//        Task::create($request->only(['name','description']));
+//
+//        Session::flash('status', 'Created ok!');
+//        return Redirect::to('/tasks_php/create');
+
+
         Task::create([
             'name' => $request->name,
         ]);
@@ -60,7 +68,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+//        return view('tasks::show_task', compact('task'));
     }
 
     /**
@@ -72,7 +80,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+//        return view('tasks::edit_task', ['task' => $task]);
     }
 
     /**
@@ -85,7 +93,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+//        $task->update($request->only(['name','description']));
+//
+//        Session::flash('status', 'Edited ok!');
+//        return Redirect::to('/tasks_php/edit/'.$task->id);
     }
 
     /**
@@ -97,6 +108,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+//        $task->delete();
+//        Session::flash('status', 'Task was deleted successful!');
+//        return Redirect::to('/tasks_php');
     }
 }
