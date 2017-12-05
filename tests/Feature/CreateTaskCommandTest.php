@@ -62,5 +62,4 @@ class CreateTaskCommandTest extends TestCase
         $resultAsText = Artisan::output();
         $this->assertContains('Task has been added to database succesfully', $resultAsText);
     }
-
 }
