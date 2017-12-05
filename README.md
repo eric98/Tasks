@@ -10,6 +10,7 @@
 [![Monthly Downloads](https://poser.pugx.org/ergare17/tasks/d/monthly)](https://packagist.org/packages/ergare17/tasks)
 [![Daily Downloads](https://poser.pugx.org/ergare17/tasks/d/daily)](https://packagist.org/packages/ergare17/tasks)
 [![composer.lock](https://poser.pugx.org/ergare17/tasks/composerlock)](https://packagist.org/packages/ergare17/tasks)
+[![Dependency Status](https://www.versioneye.com/user/projects/5a1847e80fb24f212afb343e/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a1847e80fb24f212afb343e)
 
 # Tasques
 
