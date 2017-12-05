@@ -33,32 +33,32 @@ describe('Users', () => {
     moxios.uninstall()
   })
 
-  // it('contains Users', () => {
-  //   expect(component.html()).toContain('Users (3):')
-  // })
+  it('contains Users', () => {
+    expect(component.html()).toContain('Users (3):')
+  })
 
   it('expect users empty', () => {
     expect(component.vm.users).toEqual([])
   })
 
-  // it('contains correct number of users after mount', done => {
-  //
-  //   // 1 Prepare
-  //   moxios.stubRequest('/api/v1/users', {
-  //     status: 200,
-  //     response: USERS
-  //   })
-  //
-  //   moxios.wait( () => {
-  //     expect(component.vm.users).toEqual(USERS)
-  //     expect(component.html()).toContain('Users (3):')
-  //     done()
-  //   })
-  //
-  //   // 2 Execute
-  //
-  //   // 3 ASSERT
-  //
-  // })
+  it('contains correct number of users after mount', done => {
+
+    // 1 Prepare
+    moxios.stubRequest('/api/v1/users', {
+      status: 200,
+      response: USERS
+    })
+
+    moxios.wait( () => {
+      expect(component.vm.users).toEqual(USERS)
+      expect(component.html()).toContain('Users (3):')
+      done()
+    })
+
+    // 2 Execute
+
+    // 3 ASSERT
+
+  })
 
 })
