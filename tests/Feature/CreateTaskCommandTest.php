@@ -63,12 +63,4 @@ class CreateTaskCommandTest extends TestCase
         $this->assertContains('Task has been added to database succesfully', $resultAsText);
     }
 
-    public function testItAsksForATaskNameAndThenCatchTheError()
-    {
-        try {
-            $this->artisan('task:create');
-        } catch (\Exception $e) {
-            $this->assertTrue(true);
-        }
-    }
 }
