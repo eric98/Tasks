@@ -39,7 +39,6 @@ class CreateTaskCommand extends Command
      */
     public function handle()
     {
-        //TODO fer un test que provoque l'error i que mire si surt l'error
         try {
             Task::create([
                 'name'      => $this->argument('name') ? $this->argument('name') : $this->ask('Task name?'),
