@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        factory(User::class,4)->create();
-
         initialize_task_permissions();
 
         create_user();
