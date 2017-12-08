@@ -21,7 +21,16 @@ class TaskControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        initialize_task_permissions();
 //        $this->withoutExceptionHandling();
+    }
+
+    protected function loginAsTaskManager()
+    {
+        $user = factory(User::class)->create();
+        $user->assignRole('task-manager');
+        $this->actingAs($user);
+        View::share('user', $user);
     }
 
     /**
@@ -56,58 +65,57 @@ class TaskControllerTest extends TestCase
      *
      * @test
      */
-//    public function can_show_a_task()
-//    {
-//        $task = factory(Task::class)->create();
-//        $user = factory(User::class)->create();
-//        $this->actingAs($user);
-//        View::share('user', $user);
-//
-//        $response = $this->get('/tasks_php/'.$task->id);
-//
-//        $response->assertSuccessful();
-//        $response->assertViewIs('show_task');
-//        $response->assertViewHas('task');
-//
-//        $response->assertSeeText($task->name);
-//    }
+    public function can_show_a_task()
+    {
+        $task = factory(Task::class)->create();
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        View::share('user', $user);
 
-//    public function testStoreTask()
-//    {
-//        $user = factory(User::class)->create();
-//        $this->actingAs($user);
-//        $response = $this->post('/tasks_php', ['name' => 'Comprar llet']);
-//
-//        $response->assertSuccessful();
-//
-//        $this->assertDatabaseHas('tasks', [
-//            'name' => 'Comprar llet',
-//        ]);
-//    }
+        $response = $this->get('/tasks_php/'.$task->id);
+
+        $response->assertSuccessful();
+        $response->assertViewIs('show_task');
+        $response->assertViewHas('task');
+
+        $response->assertSeeText($task->name);
+    }
+
+    public function testStoreTask()
+    {
+        $this->loginAsTaskManager();
+        $user = factory(User::class)->create();
+        $response = $this->post('/tasks_php', ['name' => 'Comprar llet','user_id' => $user->id,'completed' => false]);
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('tasks', [
+            'name' => 'Comprar llet',
+            'user_id' => $user->id,
+            'completed' => false
+        ]);
+    }
 
     /*
      * Update a task.
      */
-//    public function update_a_task()
+//    public function testUpdateTask()
 //    {
 //        $task = factory(Task::class)->create();
 //
 //        $newTask = factory(Task::class)->make();
 //        $response = $this->put('/tasks_php/'.$task->id, [
 //            'name'        => $newTask->name,
-//            'description' => $newTask->description,
 //        ]);
 //
 //        $this->assertDatabaseHas('tasks_php', [
 //            'id'          => $task->id,
 //            'name'        => $newTask->name,
-//            'description' => $newTask->description,
 //        ]);
 //
 //        $this->assertDatabaseMissing('tasks_php', [
 //            'id'          => $task->id,
 //            'name'        => $task->name,
-//            'description' => $task->description,
 //        ]);
 //
 //        $response->assertRedirect('tasks/edit');
