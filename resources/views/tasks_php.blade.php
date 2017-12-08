@@ -13,12 +13,13 @@
         </div>
     @endif
 
-    <a href="/tasks_php/create" class="btn btn-success" role="button" aria-disabled="true">Create Task</a>
-
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Tasks:</h3>
         </div>
+        <form action="/tasks_php/create" method="GET">
+            <input class="btn btn-success" type="submit" value="Create Task">
+        </form>
         <div class="box-body">
             <table class="table table-bordered table-hover table-striped">
                 <tbody>
@@ -36,6 +37,7 @@
                         <td>{{ $task->id}}</td>
                         <td>{{ $task->name }}</td>
                         <td>{{ $task->user_id }}</td>
+
                         <td>
                             <form action="/tasks_php/{{ $task->id }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">

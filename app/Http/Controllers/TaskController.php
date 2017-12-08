@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTask;
+use App\Http\Requests\ShowTask;
+use App\Http\Requests\StoreTask;
+use App\Http\Requests\UpdateTask;
 use App\Task;
-use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class TaskController extends Controller
@@ -16,18 +21,10 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
+        $users = User::all();
 
-        return view('tasks_php', ['tasks' => $tasks]);
+        return view('tasks_php', ['tasks' => $tasks,'users' => $users]);
 
-//        $tasks = Task::all();
-//        return view('list_tasks', compact('tasks'));
-    }
-
-    public function indexVue()
-    {
-        $tasks = Task::all();
-
-        return view('tasks', ['tasks' => json_encode($tasks)]);
     }
 
     /**
@@ -37,7 +34,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('create_tasks');
+        $users = User::all();
+
+        return view('create_tasks', ['users' => $users]);
     }
 
     /**
@@ -47,17 +46,16 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTask $request)
     {
-        Task::create($request->only(['name','user_id']));
+        Task::create([
+            'name' => $request->name,
+            'user_id' => $request->user_id,
+            'completed' => false
+            ]);
 
         Session::flash('status', 'Created ok!');
         return Redirect::to('/tasks_php/create');
-
-
-//        Task::create([
-//            'name' => $request->name,
-//        ]);
     }
 
     /**
@@ -67,9 +65,9 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(ShowTask $request, Task $task)
     {
-        return view('show_tasks', compact('task'));
+        return view('show_tasks', ['task' => $task]);
     }
 
     /**
@@ -81,7 +79,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('edit_tasks', ['task' => $task]);
+        $users = User::all();
+
+        return view('edit_tasks', ['task' => $task, 'users' => $users]);
     }
 
     /**
@@ -92,7 +92,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTask $request, Task $task)
     {
         $task->update($request->only(['name','user_id']));
 
@@ -107,7 +107,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(DestroyTask $request, Task $task)
     {
         $task->delete();
         Session::flash('status', 'Task was deleted successful!');

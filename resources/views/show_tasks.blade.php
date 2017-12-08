@@ -6,14 +6,27 @@
 
 
 @section('main-content')
-    <h1>Task:</h1>
-
-    <ul>
-        <li>Name: {{ $task->name }}</li>
-        <li>User_id: {{ $task->user_id }}</li>
-    </ul>
-
-    <form action="/tasks_php" method="GET">
-        <input type="submit" value="List Tasks">
+    <form action="/tasks_php/{{ $task->id }}" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="btn-group">
+            <a href="/tasks_php" class="btn btn-success" role="button" aria-disabled="true"> < Back</a>
+            <a href="/tasks_php/edit/{{ $task->id}}" class="btn btn-warning" role="button" aria-disabled="true">Edit</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
     </form>
+
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Task:</h3>
+        </div>
+        <div class="box-body">
+            <ul>
+                <li>Id: {{ $task->id }}</li>
+                <li>Name: {{ $task->name }}</li>
+                <li>User_id: {{ $task->user_id }}</li>
+            </ul>
+        </div>
+    </div>
 @endsection
