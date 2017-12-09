@@ -23,8 +23,7 @@ class TaskController extends Controller
         $tasks = Task::all();
         $users = User::all();
 
-        return view('tasks_php', ['tasks' => $tasks,'users' => $users]);
-
+        return view('tasks_php', ['tasks' => $tasks, 'users' => $users]);
     }
 
     /**
@@ -49,12 +48,13 @@ class TaskController extends Controller
     public function store(StoreTask $request)
     {
         Task::create([
-            'name' => $request->name,
-            'user_id' => $request->user_id,
-            'completed' => false
+            'name'      => $request->name,
+            'user_id'   => $request->user_id,
+            'completed' => false,
             ]);
 
         Session::flash('status', 'Created ok!');
+
         return Redirect::to('/tasks_php/create');
     }
 
@@ -94,9 +94,10 @@ class TaskController extends Controller
      */
     public function update(UpdateTask $request, Task $task)
     {
-        $task->update($request->only(['name','user_id']));
+        $task->update($request->only(['name', 'user_id']));
 
         Session::flash('status', 'Edited ok!');
+
         return Redirect::to('/tasks_php/edit/'.$task->id);
     }
 
@@ -111,6 +112,7 @@ class TaskController extends Controller
     {
         $task->delete();
         Session::flash('status', 'Task was deleted successful!');
+
         return Redirect::to('/tasks_php');
     }
 }

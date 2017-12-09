@@ -47,7 +47,7 @@ class ShowTaskCommand extends Command
 
             $fields = [
               ['Name:', $task->name],
-                ['Completed:', $task->completed?'Yes':'No',],
+                ['Completed:', $task->completed ? 'Yes' : 'No'],
               ['User id:', $task->user_id],
               ['User name:', $user->name],
             ];
