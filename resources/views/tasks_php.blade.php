@@ -17,8 +17,11 @@
         <div class="box-header with-border">
             <h3 class="box-title">Tasks:</h3>
         </div>
+
         <form action="/tasks_php/create" method="GET">
-            <input class="btn btn-success" type="submit" value="Create Task">
+            <div class="box-header with-border">
+                <input class="btn btn-success" type="submit" value="Create Task">
+            </div>
         </form>
         <div class="box-body">
             <table class="table table-bordered table-hover table-striped">

@@ -44,7 +44,6 @@
 
                 <div class="box-header with-border">
                     <button class="btn btn-warning" type="submit">Update</button>
-
                 </div>
 
             </form>
