@@ -74,14 +74,14 @@ class TaskControllerTest extends TestCase
     {
         $this->loginAsTaskManager();
         $user = factory(User::class)->create();
-        $response = $this->post('/tasks_php', ['name' => 'Comprar llet','user_id' => $user->id,'completed' => false]);
+        $response = $this->post('/tasks_php', ['name' => 'Comprar llet', 'user_id' => $user->id, 'completed' => false]);
 
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('tasks', [
-            'name' => 'Comprar llet',
-            'user_id' => $user->id,
-            'completed' => false
+            'name'      => 'Comprar llet',
+            'user_id'   => $user->id,
+            'completed' => false,
         ]);
     }
 

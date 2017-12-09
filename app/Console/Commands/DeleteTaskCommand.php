@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Console\Commands\Traits\AsksForTasks;
 use App\Task;
-use Mockery\Exception;
 use Illuminate\Console\Command;
+use Mockery\Exception;
 
 class DeleteTaskCommand extends Command
 {
