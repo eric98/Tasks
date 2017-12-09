@@ -28,7 +28,7 @@ class EditTaskCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Edits a task';
+    protected $description = 'Edit a task';
 
     /**
      * Create a new command instance.
