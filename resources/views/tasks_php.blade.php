@@ -59,6 +59,4 @@
             </table>
         </div>
     </div>
-
-    {{ Session::get('status') or '' }}
 @endsection

@@ -20,7 +20,7 @@ class CreateTaskCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create a task';
 
     /**
      * Create a new command instance.

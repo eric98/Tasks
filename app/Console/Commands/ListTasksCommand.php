@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Task;
+use App\User;
 use Illuminate\Console\Command;
+use Mockery\Exception;
 
 class ListTasksCommand extends Command
 {
@@ -19,7 +21,7 @@ class ListTasksCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'List all tasks';
 
     /**
      * Create a new command instance.
@@ -39,19 +41,22 @@ class ListTasksCommand extends Command
     public function handle()
     {
         try {
-            $headers = ['id', 'Name', 'Completed'];
+            $tasks = Task::all();
 
-            $users = Task::all(['id', 'name', 'completed'])->toArray();
-//            foreach ($users as $user){
-//                if ($user['completed'] == 1){
-//                    $user['completed'] = true;
-//                } else {
-//                    $user['completed'] = false;
-//                }
-//            }
+            $headers = ['id', 'Name', 'Completed','User id','User Name'];
+            $fields = [];
+            foreach ($tasks as $task) {
+                $fields[] = [
+                    'id:'        => $task->id,
+                    'Name:'        => $task->name,
+                    'Completed:'        => $task->completed?'Yes':'No',
+                    'User id:'     => $task->user_id,
+                    'User name:'   => User::findOrFail($task->user_id)->name,
+                ];
+            }
         } catch (Exception $e) {
             $this->error('Error');
         }
-        $this->table($headers, $users);
+        $this->table($headers, $fields);
     }
 }
