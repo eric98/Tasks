@@ -33,12 +33,7 @@ class TaskControllerTest extends TestCase
         View::share('user', $user);
     }
 
-    /**
-     * Can list tasks.
-     *
-     * @test
-     */
-    public function can_list_tasks()
+    public function testListTasks()
     {
         factory(Task::class, 3)->create();
 
@@ -60,22 +55,16 @@ class TaskControllerTest extends TestCase
         }
     }
 
-    /*
-     * Can show a task.
-     *
-     * @test
-     */
-    public function can_show_a_task()
+    public function testShowATask()
     {
         $task = factory(Task::class)->create();
+        $this->loginAsTaskManager();
         $user = factory(User::class)->create();
-        $this->actingAs($user);
-        View::share('user', $user);
 
         $response = $this->get('/tasks_php/'.$task->id);
 
         $response->assertSuccessful();
-        $response->assertViewIs('show_task');
+        $response->assertViewIs('show_tasks');
         $response->assertViewHas('task');
 
         $response->assertSeeText($task->name);
@@ -96,28 +85,42 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    /*
-     * Update a task.
-     */
-//    public function testUpdateTask()
-//    {
-//        $task = factory(Task::class)->create();
-//
-//        $newTask = factory(Task::class)->make();
-//        $response = $this->put('/tasks_php/'.$task->id, [
-//            'name'        => $newTask->name,
-//        ]);
-//
-//        $this->assertDatabaseHas('tasks_php', [
-//            'id'          => $task->id,
-//            'name'        => $newTask->name,
-//        ]);
-//
-//        $this->assertDatabaseMissing('tasks_php', [
-//            'id'          => $task->id,
-//            'name'        => $task->name,
-//        ]);
-//
-//        $response->assertRedirect('tasks/edit');
-//    }
+    public function testUpdateTask()
+    {
+        $this->loginAsTaskManager();
+        $task = factory(Task::class)->create();
+        $newTask = factory(Task::class)->make();
+
+        $response = $this->put('/tasks_php/'.$task->id, [
+            'name'        => $newTask->name,
+            'user_id'     => $newTask->user_id,
+        ]);
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('tasks', [
+            'id'          => $task->id,
+            'name'        => $newTask->name,
+        ]);
+
+        $this->assertDatabaseMissing('tasks', [
+            'id'          => $task->id,
+            'name'        => $task->name,
+        ]);
+    }
+
+    public function testDestroyTask()
+    {
+        $this->loginAsTaskManager();
+
+        $task = factory(Task::class)->create();
+
+        $response = $this->delete('/tasks_php/'.$task->id);
+
+        $this->assertDatabaseMissing('tasks', [
+            'name'        => $task->name,
+        ]);
+
+        $response->assertRedirect('tasks_php');
+    }
 }
