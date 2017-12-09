@@ -27,7 +27,7 @@ class ShowTaskCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Show an task';
+    protected $description = 'Show a task';
 
     /**
      * Execute the console command.
