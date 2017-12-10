@@ -23,10 +23,10 @@ class DeleteTaskCommandTest extends TestCase
         $resultAsText = Artisan::output();
 
         $this->assertDatabaseMissing('tasks', [
-            'id'      => $task->id,
-            'name'    => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
+            'completed' => $task->completed,
         ]);
 
         $this->assertContains('Task has been deleted to database succesfully', $resultAsText);
@@ -52,7 +52,7 @@ class DeleteTaskCommandTest extends TestCase
             'id'          => $task->id,
             'name'        => $task->name,
             'user_id'     => $task->user_id,
-            'completed'   => $task->completed
+            'completed'   => $task->completed,
         ]);
 
         $this->assertContains('Task has been deleted to database succesfully', $resultAsText);

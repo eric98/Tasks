@@ -16,7 +16,6 @@ class EditTaskCommandTest extends TestCase
 {
     use RefreshDatabase;
 
-
     public function testItEditsATask()
     {
         $task = factory(Task::class)->create();
@@ -28,14 +27,14 @@ class EditTaskCommandTest extends TestCase
             'id'          => $task->id,
             'name'        => 'Comprar pa',
             'user_id'     => $task->user_id,
-            'completed'   => $task->completed
+            'completed'   => $task->completed,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
             'id'          => $task->id,
             'name'        => $task->name,
             'user_id'     => $task->user_id,
-            'completed'   => $task->completed
+            'completed'   => $task->completed,
         ]);
 
         $this->assertContains('Task has been edited to database succesfully', $resultAsText);

@@ -27,7 +27,7 @@ class ShowTaskCommandTest extends TestCase
         $this->assertContains($task->name, $resultAsText);
 
         $this->assertContains('Completed: ', $resultAsText);
-        $this->assertContains($task->completed?'Yes':'No', $resultAsText);
+        $this->assertContains($task->completed ? 'Yes' : 'No', $resultAsText);
 
         $this->assertContains('User id: ', $resultAsText);
         $this->assertContains((string) $task->user_id, $resultAsText);
@@ -56,7 +56,7 @@ class ShowTaskCommandTest extends TestCase
         $this->assertContains($task->name, $resultAsText);
 
         $this->assertContains('Completed: ', $resultAsText);
-        $this->assertContains($task->completed?'Yes':'No', $resultAsText);
+        $this->assertContains($task->completed ? 'Yes' : 'No', $resultAsText);
 
         $this->assertContains('User id: ', $resultAsText);
         $this->assertContains((string) $task->user_id, $resultAsText);

@@ -43,15 +43,15 @@ class ListTasksCommand extends Command
         try {
             $tasks = Task::all();
 
-            $headers = ['id', 'Name', 'Completed','User id','User Name'];
+            $headers = ['id', 'Name', 'Completed', 'User id', 'User Name'];
             $fields = [];
             foreach ($tasks as $task) {
                 $fields[] = [
-                    'id:'        => $task->id,
-                    'Name:'        => $task->name,
-                    'Completed:'        => $task->completed?'Yes':'No',
-                    'User id:'     => $task->user_id,
-                    'User name:'   => User::findOrFail($task->user_id)->name,
+                    'id:'               => $task->id,
+                    'Name:'             => $task->name,
+                    'Completed:'        => $task->completed ? 'Yes' : 'No',
+                    'User id:'          => $task->user_id,
+                    'User name:'        => User::findOrFail($task->user_id)->name,
                 ];
             }
         } catch (Exception $e) {
