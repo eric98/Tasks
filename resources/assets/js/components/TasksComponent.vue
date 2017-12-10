@@ -177,8 +177,6 @@
         console.log(task.completed)
         axios.put(API_URL+task.id, {name: task.name }).then((response) =>  {
           this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
-          this.newName = ''
-          this.editedTask = null
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
