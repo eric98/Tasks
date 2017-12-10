@@ -74,12 +74,12 @@
     },
     pending: function (tasks) {
       return tasks.filter(function (task) {
-        return task.completed
+        return !tasks.completed
       })
     },
     completed: function (tasks) {
       return tasks.filter(function (task) {
-        return !task.completed
+        return task.completed
       })
     }
   }
@@ -138,7 +138,7 @@
         })
       },
       isCompleted (task) {
-        return !task.completed
+        return task.completed
       },
       deleteTask (task) {
         this.$emit('loading', true)
