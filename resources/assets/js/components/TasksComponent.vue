@@ -74,12 +74,12 @@
     },
     pending: function (tasks) {
       return tasks.filter(function (task) {
-        return !task.completed
+        return task.completed
       })
     },
     completed: function (tasks) {
       return tasks.filter(function (task) {
-        return task.completed
+        return !task.completed
       })
     }
   }
