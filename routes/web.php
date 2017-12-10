@@ -29,7 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tasks_php/statuschance/{task}', 'TaskController@complete');
     Route::delete('tasks_php/{task}', 'TaskController@destroy');
 
-
     //PURE JAVASCRIPT
     Route::view('/tasks', 'tasks');
     Route::view('/tokens', 'tokens');
