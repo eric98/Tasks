@@ -29,8 +29,10 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th style="width: 10px">Id</th>
-                    <th>Task</th>
+                    <th style="width: 500px">Task</th>
+                    <th style="width: 10px">Status</th>
                     <th style="width: 10px">User_Id</th>
+                    <th style="width: 200px">User Name</th>
                     <th style="width: 200px">Actions</th>
                 </tr>
 
@@ -39,13 +41,16 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $task->id}}</td>
                         <td>{{ $task->name }}</td>
+                        <td>{{ $task->completed?'Completed':'Pending' }}</td>
                         <td>{{ $task->user_id }}</td>
+                        <td>{{ App\User::findOrFail($task->user_id)->name }}</td>
 
                         <td>
                             <form action="/tasks_php/{{ $task->id }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <div class="btn-group">
+                                    <a href="/tasks_php/statuschance/{{ $task->id}}" class="btn btn-success" role="button" aria-disabled="true">{{ $task->completed?'To do':'Complete' }}</a>
                                     <a href="/tasks_php/{{ $task->id}}" class="btn btn-info" role="button" aria-disabled="true">Show</a>
                                     <a href="/tasks_php/edit/{{ $task->id}}" class="btn btn-warning" role="button" aria-disabled="true">Edit</a>
                                     <button type="submit" class="btn btn-danger">Delete</button>

@@ -101,6 +101,15 @@ class TaskController extends Controller
         return Redirect::to('/tasks_php/edit/'.$task->id);
     }
 
+    public function complete(Task $task)
+    {
+        $task->update(['completed' => $task->completed?false:true]);
+
+        Session::flash('status', 'Status changed!');
+
+        return Redirect::to('/tasks_php');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

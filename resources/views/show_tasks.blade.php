@@ -25,7 +25,9 @@
             <ul>
                 <li>Id: {{ $task->id }}</li>
                 <li>Name: {{ $task->name }}</li>
+                <li>Status: {{ $task->completed?'Completed':'Pending' }}</li>
                 <li>User_id: {{ $task->user_id }}</li>
+                <li>User name: {{ App\User::findOrFail($task->user_id)->name }}</li>
             </ul>
         </div>
     </div>

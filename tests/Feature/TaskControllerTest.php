@@ -51,7 +51,11 @@ class TaskControllerTest extends TestCase
         $response->assertViewHas('tasks', $tasks);
 
         foreach ($tasks as $task) {
-            $response->assertSee($task->name);
+            $response->assertSee((string)$task->id);
+            $response->assertSeeText($task->name);
+            $response->assertSeeText($task->completed?'Completed':'Pending');
+            $response->assertSee($task->user_id);
+            $response->assertSeeText(User::findOrFail($task->user_id)->name);
         }
     }
 
@@ -67,7 +71,12 @@ class TaskControllerTest extends TestCase
         $response->assertViewIs('show_tasks');
         $response->assertViewHas('task');
 
+        $response->assertSee((string)$task->id);
         $response->assertSeeText($task->name);
+        $response->assertSeeText('Status');
+        $response->assertSeeText($task->completed?'Completed':'Pending');
+        $response->assertSee((string)$task->user_id);
+        $response->assertSeeText(User::findOrFail($task->user_id)->name);
     }
 
     public function testStoreTask()

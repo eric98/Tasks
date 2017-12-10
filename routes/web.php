@@ -26,7 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('tasks_php/{task}', 'TaskController@show');
     Route::post('tasks_php', 'TaskController@store');
     Route::put('tasks_php/{task}', 'TaskController@update');
+    Route::get('/tasks_php/statuschance/{task}', 'TaskController@complete');
     Route::delete('tasks_php/{task}', 'TaskController@destroy');
+
 
     //PURE JAVASCRIPT
     Route::view('/tasks', 'tasks');
