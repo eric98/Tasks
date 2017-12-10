@@ -39,17 +39,17 @@ class CreateTaskCommandTest extends TestCase
         $user = factory(User::class)->create();
 
         //1) Prepare
-        $command = Mockery::mock('App\Console\Commands\CreateTaskCommand[ask]');
+        $command = Mockery::mock('App\Console\Commands\CreateTaskCommand[ask,choice]');
 
         $command->shouldReceive('ask')
             ->once()
             ->with('Task name?')
             ->andReturn('Comprar llet');
 
-        $command->shouldReceive('ask')
+        $command->shouldReceive('choice')
             ->once()
-            ->with('Task user_id?')
-            ->andReturn($user->id);
+            ->with('User?', [0 => $user->name])
+            ->andReturn($user->name);
 
         $this->app['Illuminate\Contracts\Console\Kernel']->registerCommand($command);
 
