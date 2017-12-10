@@ -7,6 +7,6 @@ $factory->define(App\Task::class, function (Faker $faker) {
     return [
         'name'      => $faker->word,
         'user_id'   => factory(User::class)->create()->id,
-        'completed' => false,
+        'completed' => $faker->boolean,
     ];
 });
