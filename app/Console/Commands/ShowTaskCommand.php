@@ -20,7 +20,7 @@ class ShowTaskCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'task:show {id? : The task id to edit}';
+    protected $signature = 'task:show {id? : The task id to show}';
 
     /**
      * The console command description.
@@ -39,8 +39,6 @@ class ShowTaskCommand extends Command
         $id = $this->argument('id') ? $this->argument('id') : $this->askForTasks();
         $task = Task::findOrFail($id);
         $user = User::findOrFail($task->user_id);
-
-        $this->info('Task:');
 
         try {
             $headers = ['Key', 'Value'];
