@@ -138,7 +138,7 @@
         })
       },
       isCompleted (task) {
-        return task.completed
+        return !task.completed
       },
       deleteTask (task) {
         this.$emit('loading', true)
