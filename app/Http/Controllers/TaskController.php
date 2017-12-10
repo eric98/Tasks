@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompleteTask;
 use App\Http\Requests\DestroyTask;
 use App\Http\Requests\ShowTask;
 use App\Http\Requests\StoreTask;
@@ -101,7 +102,7 @@ class TaskController extends Controller
         return Redirect::to('/tasks_php/edit/'.$task->id);
     }
 
-    public function complete(Task $task)
+    public function complete(CompleteTask $request, Task $task)
     {
         $task->update(['completed' => $task->completed?false:true]);
 
