@@ -49,7 +49,7 @@ class ListTasksCommand extends Command
                 $fields[] = [
                     'id:'               => $task->id,
                     'Name:'             => $task->name,
-                    'Completed:'        => $task->completed ? 'No' : 'Yes',
+                    'Completed:'        => $task->completed ? 'Yes' : 'No',
                     'User id:'          => $task->user_id,
                     'User name:'        => User::findOrFail($task->user_id)->name,
                 ];
