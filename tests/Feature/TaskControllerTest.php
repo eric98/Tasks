@@ -94,6 +94,30 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
+    public function testCompleteTask()
+    {
+        $this->loginAsTaskManager();
+        $task = factory(Task::class)->create();
+
+        $response = $this->get('/tasks_php/statuschance/'.$task->id);
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('tasks', [
+            'id'          => $task->id,
+            'name'        => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed?false:true
+        ]);
+
+        $this->assertDatabaseMissing('tasks', [
+            'id'          => $task->id,
+            'name'        => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed?true:false
+        ]);
+    }
+
     public function testUpdateTask()
     {
         $this->loginAsTaskManager();
