@@ -51,9 +51,9 @@ class TaskControllerTest extends TestCase
         $response->assertViewHas('tasks', $tasks);
 
         foreach ($tasks as $task) {
-            $response->assertSee((string)$task->id);
+            $response->assertSee((string) $task->id);
             $response->assertSeeText($task->name);
-            $response->assertSeeText($task->completed?'Completed':'Pending');
+            $response->assertSeeText($task->completed ? 'Completed' : 'Pending');
             $response->assertSee($task->user_id);
             $response->assertSeeText(User::findOrFail($task->user_id)->name);
         }
@@ -71,11 +71,11 @@ class TaskControllerTest extends TestCase
         $response->assertViewIs('show_tasks');
         $response->assertViewHas('task');
 
-        $response->assertSee((string)$task->id);
+        $response->assertSee((string) $task->id);
         $response->assertSeeText($task->name);
         $response->assertSeeText('Status');
-        $response->assertSeeText($task->completed?'Completed':'Pending');
-        $response->assertSee((string)$task->user_id);
+        $response->assertSeeText($task->completed ? 'Completed' : 'Pending');
+        $response->assertSee((string) $task->user_id);
         $response->assertSeeText(User::findOrFail($task->user_id)->name);
     }
 
@@ -106,15 +106,15 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'id'          => $task->id,
             'name'        => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed?false:true
+            'user_id'     => $task->user_id,
+            'completed'   => $task->completed ? false : true,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
             'id'          => $task->id,
             'name'        => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed?true:false
+            'user_id'     => $task->user_id,
+            'completed'   => $task->completed ? true : false,
         ]);
     }
 
@@ -132,17 +132,17 @@ class TaskControllerTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('tasks', [
-            'id'          => $task->id,
-            'name'        => $newTask->name,
+            'id'             => $task->id,
+            'name'           => $newTask->name,
             'user_id'        => $newTask->user_id,
-            'completed' => $task->completed
+            'completed'      => $task->completed,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'          => $task->id,
-            'name'        => $task->name,
+            'id'             => $task->id,
+            'name'           => $task->name,
             'user_id'        => $task->user_id,
-            'completed' => $task->completed
+            'completed'      => $task->completed,
         ]);
     }
 
@@ -155,10 +155,10 @@ class TaskControllerTest extends TestCase
         $response = $this->delete('/tasks_php/'.$task->id);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'          => $task->id,
-            'name'        => $task->name,
+            'id'             => $task->id,
+            'name'           => $task->name,
             'user_id'        => $task->user_id,
-            'completed' => $task->completed
+            'completed'      => $task->completed,
         ]);
 
         $response->assertRedirect('tasks_php');

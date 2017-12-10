@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Console\Commands\Traits\AsksForTasks;
 use App\Task;
-use App\User;
 use Illuminate\Console\Command;
 use Mockery\Exception;
 
@@ -40,7 +39,7 @@ class CompleteTaskCommand extends Command
             $id = $this->argument('id') ? $this->argument('id') : $this->askForTasks();
             $task = Task::findOrFail($id);
             $task->update([
-                'completed'        => $task->completed?false:true,
+                'completed'        => $task->completed ? false : true,
             ]);
         } catch (Exception $e) {
             $this->error('Error');

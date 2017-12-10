@@ -104,7 +104,7 @@ class TaskController extends Controller
 
     public function complete(CompleteTask $request, Task $task)
     {
-        $task->update(['completed' => $task->completed?false:true]);
+        $task->update(['completed' => $task->completed ? false : true]);
 
         Session::flash('status', 'Status changed!');
 

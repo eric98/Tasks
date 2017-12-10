@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Task;
-use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Mockery;
@@ -27,7 +26,7 @@ class CompleteTaskCommandTest extends TestCase
             'id'          => $task->id,
             'name'        => $task->name,
             'user_id'     => $task->user_id,
-            'completed'   => $task->completed?0:1,
+            'completed'   => $task->completed ? 0 : 1,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
@@ -60,7 +59,7 @@ class CompleteTaskCommandTest extends TestCase
             'id'          => $task->id,
             'name'        => $task->name,
             'user_id'     => $task->user_id,
-            'completed'   => $task->completed?0:1,
+            'completed'   => $task->completed ? 0 : 1,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
