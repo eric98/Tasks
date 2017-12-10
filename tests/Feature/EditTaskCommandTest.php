@@ -69,14 +69,14 @@ class EditTaskCommandTest extends TestCase
             'id'          => $task->id,
             'name'        => 'Nou nom',
             'user_id'     => $newUser->id,
-            'completed'   => false,
+            'completed'   => $task->completed,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
             'id'          => $task->id,
             'name'        => $task->name,
             'user_id'     => $task->user_id,
-            'completed'   => false,
+            'completed'   => $task->completed,
         ]);
 
         $resultAsText = Artisan::output();
