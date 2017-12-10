@@ -134,11 +134,15 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'id'          => $task->id,
             'name'        => $newTask->name,
+            'user_id'        => $newTask->user_id,
+            'completed' => $task->completed
         ]);
 
         $this->assertDatabaseMissing('tasks', [
             'id'          => $task->id,
             'name'        => $task->name,
+            'user_id'        => $task->user_id,
+            'completed' => $task->completed
         ]);
     }
 
@@ -151,7 +155,10 @@ class TaskControllerTest extends TestCase
         $response = $this->delete('/tasks_php/'.$task->id);
 
         $this->assertDatabaseMissing('tasks', [
+            'id'          => $task->id,
             'name'        => $task->name,
+            'user_id'        => $task->user_id,
+            'completed' => $task->completed
         ]);
 
         $response->assertRedirect('tasks_php');
