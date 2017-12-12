@@ -175,7 +175,7 @@
       completTask(task){
         this.$emit('loading', true)
         console.log(task.completed)
-        axios.put(API_URL+task.id, {name: task.name }).then((response) =>  {
+        axios.put(API_URL+task.id).then((response) =>  {
           this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
         }).catch((error) => {
           flash(error.message)
