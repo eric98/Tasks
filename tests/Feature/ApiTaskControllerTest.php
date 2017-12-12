@@ -41,10 +41,12 @@ class ApiTaskControllerTest extends TestCase
 
         $response = $this->json('GET', '/api/v1/tasks');
         $response->assertSuccessful();
-            
+
         $response->assertJsonStructure([[
             'id',
             'name',
+            'user_id',
+            'completed',
             'created_at',
             'updated_at',
         ]]);
@@ -66,6 +68,8 @@ class ApiTaskControllerTest extends TestCase
         $response->assertJson([
             'id'         => $task->id,
             'name'       => $task->name,
+            'user_id'    => $task->user_id,
+            'completed'  => $task->completed,
             'created_at' => $task->created_at,
             'updated_at' => $task->updated_at,
         ]);
@@ -104,11 +108,13 @@ class ApiTaskControllerTest extends TestCase
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'name' => $name,
+            'name'    => $name,
+            'user_id' => $user->id,
         ]);
 
         $response->assertJson([
-            'name' => $name,
+            'name'    => $name,
+            'user_id' => $user->id,
         ]);
     }
 
@@ -126,11 +132,16 @@ class ApiTaskControllerTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', [
             'id' => $task->id,
+            'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed
         ]);
 
         $response->assertJson([
             'id'   => $task->id,
             'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed
         ]);
     }
 
@@ -162,16 +173,55 @@ class ApiTaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'id'   => $task->id,
             'name' => $newName,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
             'id'   => $task->id,
             'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed,
         ]);
 
         $response->assertJson([
             'id'   => $task->id,
             'name' => $newName,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_complete_task()
+    {
+        $task = factory(Task::class)->create();
+        $user = $this->loginAndAuthorize();
+
+        $response = $this->json('GET', '/api/v1/tasks/statuschance/'.$task->id);
+
+        $response->assertSuccessful();
+        $this->assertDatabaseHas('tasks', [
+            'id'   => $task->id,
+            'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed?false:true,
+        ]);
+
+        $this->assertDatabaseMissing('tasks', [
+            'id'   => $task->id,
+            'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed,
+        ]);
+
+        $response->assertJson([
+            'id'   => $task->id,
+            'name' => $task->name,
+            'user_id' => $task->user_id,
+            'completed' => $task->completed?false:true,
         ]);
     }
 }
