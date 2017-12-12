@@ -131,17 +131,17 @@ class ApiTaskControllerTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertDatabaseMissing('tasks', [
-            'id' => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
+            'completed' => $task->completed,
         ]);
 
         $response->assertJson([
-            'id'   => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
+            'completed' => $task->completed,
         ]);
     }
 
@@ -171,23 +171,23 @@ class ApiTaskControllerTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'id'   => $task->id,
-            'name' => $newName,
-            'user_id' => $task->user_id,
+            'id'        => $task->id,
+            'name'      => $newName,
+            'user_id'   => $task->user_id,
             'completed' => $task->completed,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'   => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
             'completed' => $task->completed,
         ]);
 
         $response->assertJson([
-            'id'   => $task->id,
-            'name' => $newName,
-            'user_id' => $task->user_id,
+            'id'        => $task->id,
+            'name'      => $newName,
+            'user_id'   => $task->user_id,
             'completed' => $task->completed,
         ]);
     }
@@ -204,24 +204,24 @@ class ApiTaskControllerTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'id'   => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed?false:true,
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
+            'completed' => $task->completed ? false : true,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'   => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
             'completed' => $task->completed,
         ]);
 
         $response->assertJson([
-            'id'   => $task->id,
-            'name' => $task->name,
-            'user_id' => $task->user_id,
-            'completed' => $task->completed?false:true,
+            'id'        => $task->id,
+            'name'      => $task->name,
+            'user_id'   => $task->user_id,
+            'completed' => $task->completed ? false : true,
         ]);
     }
 }
