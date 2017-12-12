@@ -51,7 +51,7 @@ class EditTaskCommand extends Command
             $id = $this->argument('id') ? $this->argument('id') : $this->askForTasks();
             $task = Task::findOrFail($id);
             $task->update([
-                'name'        => $this->argument('name') ? $this->argument('name') : $this->ask('Task name?',$task->name),
+                'name'        => $this->argument('name') ? $this->argument('name') : $this->ask('Task name?', $task->name),
                 'user_id'     => $this->argument('user_id') ? $this->argument('user_id') : $this->askForUsers(),
             ]);
         } catch (Exception $e) {
