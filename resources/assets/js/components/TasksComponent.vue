@@ -155,10 +155,10 @@
       },
       updateTask (task) {
         this.$emit('loading', true)
-        axios.put(API_URL+task.id, {name: this.newName }).then((response) =>  {
-          this.tasks[this.tasks.indexOf(task)].name = this.newName;
-          this.newName = ''
-          this.editedTask = null
+        axios.get(API_URL+task.id).then((response) =>  {
+//          this.tasks[this.tasks.indexOf(task)].name = this.newName;
+//          this.newName = ''
+//          this.editedTask = null
 //        }).catch((error) => {
 //          flash(error.message)
         }).then(() => {

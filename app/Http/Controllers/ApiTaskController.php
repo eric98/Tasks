@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompleteTask;
 use App\Http\Requests\DestroyTask;
 use App\Http\Requests\ListTask;
 use App\Http\Requests\ShowTask;
@@ -46,6 +47,13 @@ class ApiTaskController extends Controller
         ]);
         $task->name = $request->name;
         $task->save();
+
+        return $task;
+    }
+
+    public function complete(CompleteTask $request, Task $task)
+    {
+        $task->update(['completed' => $task->completed ? false : true]);
 
         return $task;
     }
