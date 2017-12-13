@@ -53,7 +53,7 @@ class EditTaskCommandTest extends TestCase
             ->andReturn($task->name);
         $command->shouldReceive('ask')
             ->once()
-            ->with('Task name?')
+            ->with('Task name?', $task->name)
             ->andReturn('Nou nom');
 
         $command->shouldReceive('choice')
