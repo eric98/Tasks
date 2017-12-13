@@ -13,8 +13,13 @@ const { mix } = require('laravel-mix');
 
 mix.webpackConfig({
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".js", ".json", ".less"]
+    extensions: [".webpack.js", ".web.js", ".js", ".json", ".less"],
+    modules: [
+      path.resolve(__dirname, './resources/assets/js'),
+      path.resolve(__dirname, 'node_modules')
+    ]
   }
+
 });
 
 mix.js('resources/assets/js/app.js', 'public/js')
