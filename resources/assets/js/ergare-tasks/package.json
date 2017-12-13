@@ -1,0 +1,12 @@
+{
+  "name": "ergare-tasks",
+  "version": "1.0.0",
+  "description": "Ergare Tasks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Eric Garcia Reverter <ergare.17@gmail.com> (https://github.com/eric98)",
+  "license": "ISC"
+}
