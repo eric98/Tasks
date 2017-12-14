@@ -19,6 +19,7 @@ mix.webpackConfig({
       path.resolve(__dirname, 'node_modules')
     ]
   }
+
 });
 
 mix.js('resources/assets/js/app.js', 'public/js')
