@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" id="app">
+  <div id="app" class="wrapper">
     <header class="main-header">
       <!-- Logo -->
       <a href="#" class="logo">
@@ -34,7 +34,7 @@
                     <li><!-- start message -->
                       <a href="#">
                         <div class="pull-left">
-                          <img src="./assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                          <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           Support Team
@@ -106,13 +106,13 @@
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="./assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <img src="assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
                 <span class="hidden-xs">Alexander Pierce</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="./assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
                     Alexander Pierce - Web Developer
@@ -153,13 +153,14 @@
         </div>
       </nav>
     </header>
+
     <aside class="main-sidebar">
       <!-- sidebar: style can be found in sidebar.less -->
       <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="./assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
             <p>Alexander Pierce</p>
@@ -180,16 +181,16 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MAIN NAVIGATION</li>
-          <li class="treeview">
+          <li class="treeview active">
             <a href="#">
-              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+              <i class="fa fa-dashboard"></i> <span>Components</span>
               <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-              <li><a href="#"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+              <li><a href="#/hello"><i class="fa fa-circle-o"></i>Hello component</a></li>
+              <li><a href="#/example"><i class="fa fa-circle-o"></i>Example component</a></li>
             </ul>
           </li>
           <li class="treeview">
@@ -291,7 +292,7 @@
             </span>
             </a>
           </li>
-          <li class="treeview active">
+          <li class="treeview">
             <a href="#">
               <i class="fa fa-folder"></i> <span>Examples</span>
               <span class="pull-right-container">
@@ -306,7 +307,7 @@
               <li><a href="#"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> 404 Error</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-              <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+              <li class="active"><a href="blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> Pace Page</a></li>
             </ul>
           </li>
@@ -343,7 +344,7 @@
               <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
             </ul>
           </li>
-          <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+          <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
           <li class="header">LABELS</li>
           <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
           <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -352,6 +353,7 @@
       </section>
       <!-- /.sidebar -->
     </aside>
+
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
@@ -368,34 +370,11 @@
 
       <!-- Main content -->
       <section class="content">
-
-        <!-- Default box -->
-        <div class="box">
-          <div class="box-header with-border">
-            <h3 class="box-title">Title</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                      title="Collapse">
-                <i class="fa fa-minus"></i></button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                <i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <div class="box-body">
-            Start creating your amazing application!
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            Footer
-          </div>
-          <!-- /.box-footer-->
-        </div>
-        <!-- /.box -->
-
+        <router-view/>
       </section>
       <!-- /.content -->
     </div>
+
     <footer class="main-footer">
       <div class="pull-right hidden-xs">
         <b>Version</b> 2.4.0
@@ -403,6 +382,8 @@
       <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
       reserved.
     </footer>
+
+    <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Create the tabs -->
       <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -592,8 +573,11 @@
         <!-- /.tab-pane -->
       </div>
     </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
-    <router-view/>
+
   </div>
 </template>
 

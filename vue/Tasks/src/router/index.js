@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Prova from '@/components/Prova'
+import Example from '@/components/Example'
 
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -13,9 +14,13 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/prova',
-      name: 'Prova',
-      component: Prova
+      path: '/hello',
+      redirect: '/'
+    },
+    {
+      path: '/example',
+      name: 'Example',
+      component: Example
     }
   ]
 })

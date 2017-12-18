@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="hello" id="vuehello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -46,5 +46,14 @@ li {
 }
 a {
   color: #42b983;
+}
+
+#vuehello {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
