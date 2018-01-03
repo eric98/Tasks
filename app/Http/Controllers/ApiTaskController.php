@@ -26,6 +26,8 @@ class ApiTaskController extends Controller
 
         $task = Task::create([
             'name'      => $request->name,
+//            'description' => $request->description,
+            'description' => "hola don pepito",
             'user_id'   => $request->user_id,
             'completed' => false,
         ]);

@@ -1,20 +1,80 @@
 <template>
     <div>
+        <div>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-description">
+                Launch Default Modal
+            </button>
+
+            <div id="prova" class="editable">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nostrum, tempore. At dolore dolorum ea expedita laudantium nam, numquam officiis repudiandae tenetur totam? Autem debitis, ducimus ea quia quod sapiente.
+            </div>
+
+            <div class="modal fade" id="modal-description">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Description</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="editor">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nostrum, tempore. At dolore dolorum ea expedita laudantium nam, numquam officiis repudiandae tenetur totam? Autem debitis, ducimus ea quia quod sapiente.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
         <widget :loading="loading">
             <p slot="title">Tasques</p>
             <div v-cloak>
 
+                <!--versio nova-->
+                <table class="table table-bordered table-hover">
+                    <tbody><tr>
+                        <th style="width: 10px">#</th>
+                        <th>Task</th>
+                        <th>Read</th>
+                        <th>Description</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr v-for="(task, index) in filteredTasks">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ task.name }}</td>
+                        <td> <toggle-button :value="true"/> </td>
+                        <td class="description">{{ task.description }}</td>
+                        <td>
+                            <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
+                        </td>
+                        <td>
+                            <a class="pull-right" data-toggle="tooltip" :title="task.updated_at" v-text="human(task.updated_at)"></a>
+                        </td>
+                        <td>TODO actions here</td>
+                    </tr>
+
+                    </tbody></table>
+
+                <!--versio vella-->
                 <ul>
-                    <li v-for="task in filteredTasks" :class="{ completed: isCompleted(task) }"
+                    <li v-for="task in filteredTasks" v-bind:class="{done: task.completed}"
                         @dblclick="editTask(task)">
                         <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
                                @keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">
                         <div v-else>
-                            {{task.name}}
+                            {{task.name}} -> {{task.completed}}
                             <i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>
                             <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
                             <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
-                            <i class="fa fa-check" aria-hidden="true" @click="completTask(task)"></i>
+                            <i class="fa fa-check" aria-hidden="true" @click="completTask(task)" v-model="task.completed"></i>
                         </div>
                     </li>
                 </ul>
@@ -54,11 +114,16 @@
     </div>
 </template>
 
+<style src="quill/dist/quill.snow.css"></style>
+
+<style src="medium-editor/dist/css/medium-editor.min.css"></style>
+<style src="medium-editor/dist/css/themes/default.min.css"></style>
+
 <style>
     [v-cloak] {
         display: none;
     }
-    li.completed {
+    li.done {
         text-decoration: line-through;
     }
 </style>
@@ -67,6 +132,8 @@
 
   import Users from './Users'
   import Form from 'acacha-forms'
+  import Quill from 'quill'
+  import MediumEditor from 'medium-editor'
 
   var filters = {
     all: function (tasks) {
@@ -85,6 +152,7 @@
   }
 
   import { wait } from './utils.js'
+  import moment from 'moment'
 
   const API_URL = '/api/v1/tasks/'
 
@@ -97,6 +165,7 @@
         filter: 'all',
         newName: '',
         name: '',
+        completed: '',
         tasks: [],
         creating: false,
         taskBeingDeleted: null,
@@ -118,6 +187,9 @@
       }
     },
     methods: {
+      human(date) {
+        return moment(date).fromNow()
+      },
       userSelected(user) {
         this.form.user_id = user.id
       },
@@ -128,10 +200,10 @@
         this.$emit('loading', true)
         this.creating = true
         this.form.post(API_URL).then((response) => {
-          this.tasks.push({name: this.form.name, user_id: this.form.user_id, completed: false})
+          this.tasks.push({name: this.form.name, description: "hola", user_id: this.form.user_id, completed: false})
           this.form.name = ''
-//        }).catch((error) => {
-//          flash(error.message)
+        }).catch((error) => {
+          flash(error.message)
         }).then(() => {
           this.creating = false
           this.$emit('loading', false)
@@ -145,8 +217,8 @@
         this.taskBeingDeleted = task.id
         axios.delete(API_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
-//        }).catch((error) => {
-//          flash(error.message)
+        }).catch((error) => {
+          flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         }).then(
@@ -159,8 +231,8 @@
           this.tasks[this.tasks.indexOf(task)].name = this.newName;
           this.newName = ''
           this.editedTask = null
-//        }).catch((error) => {
-//          flash(error.message)
+        }).catch((error) => {
+          flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
@@ -173,20 +245,24 @@
         this.editedTask = null
       },
       completTask(task){
-        this.$emit('loading', true)
-        console.log(task.completed)
-        axios.put(API_URL+task.id).then((response) =>  {
+        console.log('completat: ',task.completed)
+        this.form.get(API_URL+'statuschance/'+task.id).then((response) => {
           this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
-
       }
 
     },
     mounted () {
+      var quill = new Quill('#editor', {
+        theme: 'snow'
+      });
+
+      new MediumEditor('.editable');
+
       console.log(this.tasks)
 
       // HTTP CLIENT

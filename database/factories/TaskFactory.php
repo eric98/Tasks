@@ -6,6 +6,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Task::class, function (Faker $faker) {
     return [
         'name'      => $faker->word,
+        'description' => $faker->paragraph,
         'user_id'   => factory(User::class)->create()->id,
         'completed' => $faker->boolean,
     ];
