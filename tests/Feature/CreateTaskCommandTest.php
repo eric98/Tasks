@@ -21,6 +21,7 @@ class CreateTaskCommandTest extends TestCase
 
         $this->artisan('task:create', [
             'name'    => 'Comprar pa',
+            'description'    => 'Com sempre',
             'user_id' => $user->id,
         ]);
 
@@ -28,7 +29,7 @@ class CreateTaskCommandTest extends TestCase
         // If you need result of console output
         $resultAsText = Artisan::output();
 
-        $this->assertDatabaseHas('tasks', ['name' => 'Comprar pa', 'user_id' => $user->id]);
+        $this->assertDatabaseHas('tasks', ['name' => 'Comprar pa', 'description' => 'Com sempre', 'user_id' => $user->id]);
 
         //Receive "Task has been added to database succesfully."
         $this->assertContains('Task has been added to database succesfully', $resultAsText);
@@ -46,6 +47,11 @@ class CreateTaskCommandTest extends TestCase
             ->with('Task name?')
             ->andReturn('Comprar llet');
 
+        $command->shouldReceive('ask')
+            ->once()
+            ->with('Task description?')
+            ->andReturn('Com sempre');
+
         $command->shouldReceive('choice')
             ->once()
             ->with('User?', [0 => $user->name])
@@ -56,7 +62,7 @@ class CreateTaskCommandTest extends TestCase
         //2) Execute
         $this->artisan('task:create');
 
-        $this->assertDatabaseHas('tasks', ['name' => 'Comprar llet', 'user_id' => $user->id]);
+        $this->assertDatabaseHas('tasks', ['name' => 'Comprar llet', 'description' => 'Com sempre', 'user_id' => $user->id]);
 
         //3) Assert
         $resultAsText = Artisan::output();

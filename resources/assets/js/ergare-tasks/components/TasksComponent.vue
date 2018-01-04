@@ -51,9 +51,13 @@
                         <td>{{ index + 1 }}</td>
                         <td>{{ task.name }}</td>
                         <td>
-                            <toggle-button :value="true" @change="completTask(task)" v-model="task.completed"/>
+                            <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
+                            <!--<toggle-button :value="true" v-if="completedFilter" @change="completTask(task)" v-model="task.completed"/>-->
+                            <!--<toggle-button :value="true" v-else @change="completTask(task)" v-model="!task.completed"/>-->
+                            <!--<toggle-button :value="true" @change="completTask(task)" v-model="completedFilter ? !task.completed : task.completed"/>-->
                             <!--<input type="checkbox" :value="true" @click="completTask(task)" >-->
-                            {{ task.completed }}
+                            task.completed: {{ task.completed }}
+                            completedFilter: {{ completedFilter }}
                         </td>
                         <td class="description">{{ task.description }}</td>
                         <td>
@@ -173,7 +177,6 @@
         filter: 'all',
         newName: '',
         name: '',
-//        completed: '',
         tasks: [],
         creating: false,
         taskBeingDeleted: null,
@@ -182,6 +185,9 @@
     },
     computed: {
       // a computed getter
+      completedFilter() {
+        return this.filter==='completed'
+      },
       filteredTasks () {
         return filters[this.filter](this.tasks)
       },
@@ -249,15 +255,25 @@
       cancelEdit (task) {
         this.editedTask = null
       },
-      completTask(task){
+      completeTask(task){
         console.log('completat: ',task.completed)
-        this.form.get(API_URL+'statuschance/'+task.id).then((response) => {
-//          this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
+        this.form.post('/api/v1/complete-task/'+task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
+      },
+      incompleteTask(task){
+        console.log('completat: ',task.completed)
+        axios.delete('/api/v1/complete-task/'+task.id).then((response) => {
+        }).catch((error) => {
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
+        }).then(
+          this.taskBeingDeleted = null
+        )
       }
 
     },

@@ -8,11 +8,8 @@ class Task extends Model
 {
     protected $fillable = ['name','description', 'user_id', 'completed'];
 
-//    protected $timestamps = true;
-
     public function toArray()
     {
-//        dd($this->created_at);
         return [
             'id' => $this->id,
             'name' => $this->name,

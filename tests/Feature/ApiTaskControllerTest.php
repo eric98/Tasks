@@ -191,37 +191,4 @@ class ApiTaskControllerTest extends TestCase
             'completed' => $task->completed,
         ]);
     }
-
-    /**
-     * @test
-     */
-    public function can_complete_task()
-    {
-        $task = factory(Task::class)->create();
-        $user = $this->loginAndAuthorize();
-
-        $response = $this->json('GET', '/api/v1/tasks/statuschance/'.$task->id);
-
-        $response->assertSuccessful();
-        $this->assertDatabaseHas('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
-            'user_id'   => $task->user_id,
-            'completed' => $task->completed ? false : true,
-        ]);
-
-        $this->assertDatabaseMissing('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
-            'user_id'   => $task->user_id,
-            'completed' => $task->completed,
-        ]);
-
-        $response->assertJson([
-            'id'        => $task->id,
-            'name'      => $task->name,
-            'user_id'   => $task->user_id,
-            'completed' => $task->completed ? false : true,
-        ]);
-    }
 }

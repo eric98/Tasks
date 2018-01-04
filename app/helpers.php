@@ -14,6 +14,9 @@ if (!function_exists('initialize_task_permission')) {
         Permission::firstOrCreate(['name' => 'update-tasks']);
         Permission::firstOrCreate(['name' => 'destroy-tasks']);
 
+        Permission::firstOrCreate(['name' => 'store-completed-tasks']);
+        Permission::firstOrCreate(['name' => 'destroy-completed-tasks']);
+
         $role = Role::firstOrCreate(['name' => 'task-manager']);
 
         $role->givePermissionTo('list-tasks');
@@ -22,6 +25,9 @@ if (!function_exists('initialize_task_permission')) {
         $role->givePermissionTo('complete-tasks');
         $role->givePermissionTo('update-tasks');
         $role->givePermissionTo('destroy-tasks');
+
+        $role->givePermissionTo('store-completed-tasks');
+        $role->givePermissionTo('destroy-completed-tasks');
     }
 }
 
