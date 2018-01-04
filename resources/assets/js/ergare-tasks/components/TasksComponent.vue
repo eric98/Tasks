@@ -41,16 +41,20 @@
                     <tbody><tr>
                         <th style="width: 10px">#</th>
                         <th>Task</th>
-                        <th>Read</th>
+                        <th>Completed</th>
                         <th>Description</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th>Actions</th>
                     </tr>
-                    <tr v-for="(task, index) in filteredTasks">
+                    <tr v-for="(task, index) in filteredTasks" v-bind:class="{completed: task.completed}">
                         <td>{{ index + 1 }}</td>
                         <td>{{ task.name }}</td>
-                        <td> <toggle-button :value="true"/> </td>
+                        <td>
+                            <toggle-button :value="true" @change="completTask(task)" v-model="task.completed"/>
+                            <!--<input type="checkbox" :value="true" @click="completTask(task)" >-->
+                            {{ task.completed }}
+                        </td>
                         <td class="description">{{ task.description }}</td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -58,26 +62,30 @@
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.updated_at" v-text="human(task.updated_at)"></a>
                         </td>
-                        <td>TODO actions here</td>
+                        <td>
+                            <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+                            <button type="button" class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+                        </td>
                     </tr>
 
                     </tbody></table>
 
                 <!--versio vella-->
-                <ul>
-                    <li v-for="task in filteredTasks" v-bind:class="{done: task.completed}"
-                        @dblclick="editTask(task)">
-                        <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
-                               @keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">
-                        <div v-else>
-                            {{task.name}} -> {{task.completed}}
-                            <i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>
-                            <i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>
-                            <i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>
-                            <i class="fa fa-check" aria-hidden="true" @click="completTask(task)" v-model="task.completed"></i>
-                        </div>
-                    </li>
-                </ul>
+                <!--<ul>-->
+                    <!--<li v-for="task in filteredTasks" v-bind:class="{completed: task.completed}"-->
+                        <!--@dblclick="editTask(task)">-->
+                        <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
+                               <!--@keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">-->
+                        <!--<div v-else>-->
+                            <!--{{task.name}} -> {{task.completed}}-->
+                            <!--<i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>-->
+                            <!--<i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>-->
+                            <!--<i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>-->
+                            <!--<i class="fa fa-check" aria-hidden="true" @click="completTask(task)" v-model="task.completed"></i>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+
                 Tasques pendents: {{ pendingTasks }}
                 <br>
                 <div class="btn-group">
@@ -123,7 +131,7 @@
     [v-cloak] {
         display: none;
     }
-    li.done {
+    li.completed {
         text-decoration: line-through;
     }
 </style>
@@ -165,7 +173,7 @@
         filter: 'all',
         newName: '',
         name: '',
-        completed: '',
+//        completed: '',
         tasks: [],
         creating: false,
         taskBeingDeleted: null,
@@ -209,9 +217,6 @@
           this.$emit('loading', false)
         })
       },
-      isCompleted (task) {
-        return task.completed
-      },
       deleteTask (task) {
         this.$emit('loading', true)
         this.taskBeingDeleted = task.id
@@ -247,7 +252,7 @@
       completTask(task){
         console.log('completat: ',task.completed)
         this.form.get(API_URL+'statuschance/'+task.id).then((response) => {
-          this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
+//          this.tasks[this.tasks.indexOf(task)].completed = !task.completed;
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
