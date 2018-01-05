@@ -6,39 +6,60 @@
             </button>
 
             <div id="prova" class="editable">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nostrum, tempore. At dolore dolorum ea expedita laudantium nam, numquam officiis repudiandae tenetur totam? Autem debitis, ducimus ea quia quod sapiente.
+                EDITOR 1
             </div>
 
-            <div class="modal fade" id="modal-description">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Description</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="editor">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nostrum, tempore. At dolore dolorum ea expedita laudantium nam, numquam officiis repudiandae tenetur totam? Autem debitis, ducimus ea quia quod sapiente.
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Update</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
+            <!--<div class="modal fade" id="modal-description">-->
+                <!--<div class="modal-dialog">-->
+                    <!--<div class="modal-content">-->
+                        <!--<div class="modal-header">-->
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                <!--<span aria-hidden="true">&times;</span></button>-->
+                            <!--<h4 class="modal-title">Description</h4>-->
+                        <!--</div>-->
+                        <!--<div class="modal-body">-->
+                            <!--<div id="editor">-->
+                                <!--{{task.description}}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="modal-footer">-->
+                            <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
+                            <!--<button type="button" class="btn btn-primary">Update</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
         </div>
-        <widget :loading="loading">
+        <!--<widget :loading="loading">-->
             <p slot="title">Tasques</p>
             <div v-cloak>
-
                 <!--versio nova-->
                 <table class="table table-bordered table-hover">
                     <tbody><tr>
+                        <div class="modal fade" id="modal-description">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Description</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="editor">
+                                            lkajsdlkjasdlkjasldkj
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
                         <th style="width: 10px">#</th>
                         <th>Task</th>
                         <th>Completed</th>
@@ -56,10 +77,17 @@
                             <!--<toggle-button :value="true" v-else @change="completTask(task)" v-model="!task.completed"/>-->
                             <!--<toggle-button :value="true" @change="completTask(task)" v-model="completedFilter ? !task.completed : task.completed"/>-->
                             <!--<input type="checkbox" :value="true" @click="completTask(task)" >-->
-                            task.completed: {{ task.completed }}
-                            completedFilter: {{ completedFilter }}
+                            <!--task.completed: {{ task.completed }}-->
+                            <!--completedFilter: {{ completedFilter }}-->
                         </td>
-                        <td class="description">{{ task.description }}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
+                            {{ task.description }}
+                            <!--<div id="provas" class="editable">-->
+                                <!--hola que tal tio-->
+                            <!--</div>-->
+
+                        </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
                         </td>
@@ -73,6 +101,10 @@
                     </tr>
 
                     </tbody></table>
+
+                <div id="edasdasdas" class="editable">
+                    CACA
+                </div>
 
                 <!--versio vella-->
                 <!--<ul>-->
@@ -120,7 +152,7 @@
                 </button>
             </div>
             <p slot="Footer">Footer</p>
-        </widget>
+        <!--</widget>-->
 
         <message title="Message" message="" color="info"></message>
     </div>
@@ -165,6 +197,7 @@
 
   import { wait } from './utils.js'
   import moment from 'moment'
+  import {config} from '../config/tasks.js'
 
   const API_URL = '/api/v1/tasks/'
 
