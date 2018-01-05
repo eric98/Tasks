@@ -81,12 +81,11 @@
                             <!--completedFilter: {{ completedFilter }}-->
                         </td>
                         <td>
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
-                            {{ task.description }}
-                            <!--<div id="provas" class="editable">-->
-                                <!--hola que tal tio-->
-                            <!--</div>-->
-
+                            <div v-if="editor == 'quill'">
+                                <button type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
+                                {{ task.description }}
+                            </div>
+                            <medium-editor v-if="editor == 'medium-editor'" :text='task.description' v-on:edit='completeTask(task)'></medium-editor>
                         </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -96,16 +95,11 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
-                            <button type="button" class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+                            <button type="button" class="btn btn-danger"><span class="fa fa-trash-o" @click="deleteTask(task)"></span></button>
                         </td>
                     </tr>
 
                     </tbody></table>
-
-                <div id="edasdasdas" class="editable">
-                    CACA
-                </div>
-
                 <!--versio vella-->
                 <!--<ul>-->
                     <!--<li v-for="task in filteredTasks" v-bind:class="{completed: task.completed}"-->
@@ -117,7 +111,7 @@
                             <!--<i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>-->
                             <!--<i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>-->
                             <!--<i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>-->
-                            <!--<i class="fa fa-check" aria-hidden="true" @click="completTask(task)" v-model="task.completed"></i>-->
+                            <!--<i class="fa fa-check" aria-hidden="true" @click="completeTask(task)" v-model="task.completed"></i>-->
                         <!--</div>-->
                     <!--</li>-->
                 <!--</ul>-->
@@ -178,6 +172,7 @@
   import Form from 'acacha-forms'
   import Quill from 'quill'
   import MediumEditor from 'medium-editor'
+  import editor from 'vue2-medium-editor'
 
   var filters = {
     all: function (tasks) {
@@ -202,9 +197,10 @@
   const API_URL = '/api/v1/tasks/'
 
   export default {
-    components: {Users},
+    components: {Users,'medium-editor': editor},
     data () {
       return {
+        editor: config.editor,
         loading: false,
         editedTask: null,
         filter: 'all',
