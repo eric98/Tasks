@@ -28,7 +28,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1', 'middleware' => ['throttl
         Route::post('complete-task/{task}', 'ApiCompleteTaskController@store');
         Route::delete('complete-task/{task}', 'ApiCompleteTaskController@destroy');
 
-        Route::get('tasks/statuschance/{task}', 'ApiTaskController@complete');
+        Route::put('description-task/{task}', 'ApiDescriptionTaskController@update');
+
+//        Route::get('tasks/statuschance/{task}', 'ApiTaskController@complete');
 
         Route::get('users', 'ApiUserController@index');
         Route::get('users/{user}', 'ApiUserController@show');

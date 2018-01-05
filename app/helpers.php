@@ -11,11 +11,13 @@ if (!function_exists('initialize_task_permission')) {
         Permission::firstOrCreate(['name' => 'show-tasks']);
         Permission::firstOrCreate(['name' => 'store-tasks']);
         Permission::firstOrCreate(['name' => 'complete-tasks']);
-        Permission::firstOrCreate(['name' => 'update-tasks']);
+        Permission::firstOrCreate(['name' => 'update-name-tasks']);
         Permission::firstOrCreate(['name' => 'destroy-tasks']);
 
         Permission::firstOrCreate(['name' => 'store-completed-tasks']);
         Permission::firstOrCreate(['name' => 'destroy-completed-tasks']);
+
+        Permission::firstOrCreate(['name' => 'update-description-tasks']);
 
         $role = Role::firstOrCreate(['name' => 'task-manager']);
 
@@ -23,11 +25,13 @@ if (!function_exists('initialize_task_permission')) {
         $role->givePermissionTo('show-tasks');
         $role->givePermissionTo('store-tasks');
         $role->givePermissionTo('complete-tasks');
-        $role->givePermissionTo('update-tasks');
+        $role->givePermissionTo('update-name-tasks');
         $role->givePermissionTo('destroy-tasks');
 
         $role->givePermissionTo('store-completed-tasks');
         $role->givePermissionTo('destroy-completed-tasks');
+
+        $role->givePermissionTo('update-description-tasks');
     }
 }
 

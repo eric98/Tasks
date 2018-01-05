@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DestroyCompletedTask;
 use App\Http\Requests\StoreCompletedTask;
 use App\Task;
-use Illuminate\Http\Request;
 
 class ApiCompleteTaskController extends Controller
 {

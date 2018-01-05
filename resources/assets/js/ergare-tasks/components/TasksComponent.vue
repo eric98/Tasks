@@ -5,10 +5,6 @@
                 Launch Default Modal
             </button>
 
-            <div id="prova" class="editable">
-                EDITOR 1
-            </div>
-
             <!--<div class="modal fade" id="modal-description">-->
                 <!--<div class="modal-dialog">-->
                     <!--<div class="modal-content">-->
@@ -70,7 +66,12 @@
                     </tr>
                     <tr v-for="(task, index) in filteredTasks" v-bind:class="{completed: task.completed}">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ task.name }}</td>
+                        <td>
+                            <div v-if="editor == 'quill'">
+                                <button v-bind:id="'name-'+task.id" type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
+                                {{ task.name }}
+                            </div>
+                            <medium-editor v-bind:id="'name-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.name' v-on:edit='updateNameTask(task)'></medium-editor></td>
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
                             <!--<toggle-button :value="true" v-if="completedFilter" @change="completTask(task)" v-model="task.completed"/>-->
@@ -82,10 +83,10 @@
                         </td>
                         <td>
                             <div v-if="editor == 'quill'">
-                                <button type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
+                                <button v-bind:id="'description-'+task.id" type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
                                 {{ task.description }}
                             </div>
-                            <medium-editor v-if="editor == 'medium-editor'" :text='task.description' v-on:edit='completeTask(task)'></medium-editor>
+                            <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
                         </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -95,7 +96,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
-                            <button type="button" class="btn btn-danger"><span class="fa fa-trash-o" @click="deleteTask(task)"></span></button>
+                            <button type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
                         </td>
                     </tr>
 
@@ -194,7 +195,8 @@
   import moment from 'moment'
   import {config} from '../config/tasks.js'
 
-  const API_URL = '/api/v1/tasks/'
+  const API_URL = '/api/v1/'
+  const API_TASKS_URL = API_URL+'tasks/'
 
   export default {
     components: {Users,'medium-editor': editor},
@@ -205,6 +207,7 @@
         editedTask: null,
         filter: 'all',
         newName: '',
+        newDescription: '',
         name: '',
         tasks: [],
         creating: false,
@@ -242,7 +245,7 @@
       addTask () {
         this.$emit('loading', true)
         this.creating = true
-        this.form.post(API_URL).then((response) => {
+        this.form.post(API_TASKS_URL).then((response) => {
           this.tasks.push({name: this.form.name, description: "hola", user_id: this.form.user_id, completed: false})
           this.form.name = ''
         }).catch((error) => {
@@ -255,7 +258,7 @@
       deleteTask (task) {
         this.$emit('loading', true)
         this.taskBeingDeleted = task.id
-        axios.delete(API_URL + task.id).then((response) => {
+        axios.delete(API_TASKS_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
         }).catch((error) => {
           flash(error.message)
@@ -265,28 +268,39 @@
           this.taskBeingDeleted = null
         )
       },
-      updateTask (task) {
+      updateNameTask (task) {
         this.$emit('loading', true)
-        axios.put(API_URL+task.id, {name: this.newName }).then((response) =>  {
-          this.tasks[this.tasks.indexOf(task)].name = this.newName;
-          this.newName = ''
-          this.editedTask = null
-        }).catch((error) => {
+        axios.put(API_TASKS_URL+task.id, {name: document.getElementById('name-'+task.id).innerHTML}).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
+        console.log("NAME IN EXIT")
       },
-      editTask (task) {
-        this.editedTask = task
-        this.newName = task.name
+      updateDescriptionTask (task) {
+        this.$emit('loading', true)
+        axios.put(API_URL+'description-task/'+task.id, {description: document.getElementById('description-'+task.id).innerHTML }).catch((error) => {
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
+        })
+        console.log("DESCRIPTION IN EXIT")
       },
-      cancelEdit (task) {
-        this.editedTask = null
-      },
+//      editTask (task) {
+//        this.editedTask = task
+//        this.newName = document.getElementById('name-'+task.id).textContent
+//        this.newDescription = document.getElementById('description-'+task.id).textContent
+////        console.log('NAME:           '+document.getElementById('name-'+task.id).textContent)
+////        console.log('DESCRIPTION:    '+document.getElementById('description-'+task.id).textContent)
+//        this.updateDescriptionTask(task)
+//      },
+//      cancelEdit (task) {
+//        console.log("ANUL·LAR!")
+//        this.editedTask = null
+//      },
       completeTask(task){
         console.log('completat: ',task.completed)
-        this.form.post('/api/v1/complete-task/'+task.id).then((response) => {
+        this.form.post(API_URL+'complete-task/'+task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
@@ -295,7 +309,7 @@
       },
       incompleteTask(task){
         console.log('completat: ',task.completed)
-        axios.delete('/api/v1/complete-task/'+task.id).then((response) => {
+        axios.delete(API_URL+'complete-task/'+task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
@@ -318,7 +332,7 @@
       // HTTP CLIENT
       //Promises
       this.$emit('loading', true)
-      axios.get(API_URL).then((response) => {
+      axios.get(API_TASKS_URL).then((response) => {
         this.tasks = response.data
       }).catch((error) => {
         console.log(error)
