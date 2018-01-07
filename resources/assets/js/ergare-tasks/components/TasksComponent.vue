@@ -118,27 +118,12 @@
                             <a class="pull-right" data-toggle="tooltip" :title="task.updated_at" v-text="human(task.updated_at)"></a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>
+                            <!--<button type="button" class="btn btn-success" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>-->
                             <button type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
                         </td>
                     </tr>
 
                     </tbody></table>
-                <!--versio vella-->
-                <!--<ul>-->
-                    <!--<li v-for="task in filteredTasks" v-bind:class="{completed: task.completed}"-->
-                        <!--@dblclick="editTask(task)">-->
-                        <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
-                               <!--@keyup.enter="updateTask(task)" @keyup.esc="cancelEdit(task)">-->
-                        <!--<div v-else>-->
-                            <!--{{task.name}} -> {{task.completed}}-->
-                            <!--<i class="fa fa-pencil" aria-hidden="true" @click="editTask(task)"></i>-->
-                            <!--<i class="fa fa-refresh fa-spin" v-if="task.id === taskBeingDeleted"></i>-->
-                            <!--<i class="fa fa-times" aria-hidden="true" @click="deleteTask(task)"></i>-->
-                            <!--<i class="fa fa-check" aria-hidden="true" @click="completeTask(task)" v-model="task.completed"></i>-->
-                        <!--</div>-->
-                    <!--</li>-->
-                <!--</ul>-->
 
                 Tasques pendents: {{ pendingTasks }}
                 <br>
