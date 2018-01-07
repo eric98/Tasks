@@ -1,9 +1,9 @@
 <template>
     <div>
         <div>
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-description">
-                Launch Default Modal
-            </button>
+            <!--<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-description">-->
+                <!--Launch Default Modal-->
+            <!--</button>-->
 
             <!--<div class="modal fade" id="modal-description">-->
                 <!--<div class="modal-dialog">-->
@@ -34,28 +34,29 @@
                 <!--versio nova-->
                 <table class="table table-bordered table-hover">
                     <tbody><tr>
-                        <div class="modal fade" id="modal-description">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Description</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div id="editor">
-                                            lkajsdlkjasdlkjasldkj
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
+                        <!--<div class="modal fade" id="modal-description">-->
+                            <!--<div class="modal-dialog">-->
+                                <!--<div class="modal-content">-->
+                                    <!--<div class="modal-header">-->
+                                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                            <!--<span aria-hidden="true">&times;</span></button>-->
+                                        <!--<h4 class="modal-title">Description</h4>-->
+                                    <!--</div>-->
+                                    <!--<div class="modal-body">-->
+                                        <!--<div id="editor">-->
+                                            <!--lkajsdlkjasdlkjasldkj-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="modal-footer">-->
+                                        <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
+                                        <!--<button type="button" class="btn btn-primary">Update</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+
                         <th style="width: 10px">#</th>
                         <th>Task</th>
                         <th>Completed</th>
@@ -83,9 +84,31 @@
                         </td>
                         <td>
                             <div v-if="editor == 'quill'">
-                                <button v-bind:id="'description-'+task.id" type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
-                                {{ task.description }}
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
+                                <button type="button" class="btn btn-success" @click="updateDescriptionTaskBox(task)"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <p v-bind:id="'description-'+task.id">{{ task.description }}</p>
+
+                                <div class="modal fade" id="modal-description">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Id Task: {{editedTask}}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" :content="task.description" v-bind:id="'description-'+task.id">
+                                                </quill-editor>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                <button type="button" @click="updateDescriptionTask(task); updateDescriptionTaskBox(task);" class="btn btn-primary" data-dismiss="modal">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                             <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
                         </td>
                         <td>
@@ -95,7 +118,7 @@
                             <a class="pull-right" data-toggle="tooltip" :title="task.updated_at" v-text="human(task.updated_at)"></a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+                            <button type="button" class="btn btn-success" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>
                             <button type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
                         </td>
                     </tr>
@@ -172,6 +195,7 @@
   import Users from './Users'
   import Form from 'acacha-forms'
   import Quill from 'quill'
+  import { quillEditor } from 'vue-quill-editor'
   import MediumEditor from 'medium-editor'
   import editor from 'vue2-medium-editor'
 
@@ -199,9 +223,10 @@
   const API_TASKS_URL = API_URL+'tasks/'
 
   export default {
-    components: {Users,'medium-editor': editor},
+    components: {Users,'medium-editor': editor,quillEditor},
     data () {
       return {
+        normalTextFormat: false,
         editor: config.editor,
         loading: false,
         editedTask: null,
@@ -217,6 +242,9 @@
     },
     computed: {
       // a computed getter
+      editorQuill() {
+        return this.$refs.myTextEditor.quill
+      },
       completedFilter() {
         return this.filter==='completed'
       },
@@ -227,11 +255,11 @@
         return filters['pending'](this.tasks).length
       }
     },
-    watch: {
-      tasks: function () {
+//    watch: {
+//      tasks: function () {
 //                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.tasks))
-      }
-    },
+//      }
+//    },
     methods: {
       human(date) {
         return moment(date).fromNow()
@@ -241,6 +269,45 @@
       },
       show (filter) {
         this.filter = filter
+      },
+      updateDescriptionTaskBox(task){
+        console.log("FET")
+        var descriptionBox
+        do {
+          if (this.newDescription){
+            descriptionBox = this.newDescription
+          } else {
+            descriptionBox = task.description
+          }
+          if (this.normalTextFormat){
+            descriptionBox = this.escapeHtml(descriptionBox)
+          }
+          document.getElementById("description-"+task.id).innerHTML=descriptionBox
+          this.normalTextFormat = !this.normalTextFormat
+          console.log("descriptionBox: "+descriptionBox)
+          console.log("innerHTML: "+document.getElementById("description-"+task.id).innerHTML)
+        } while (descriptionBox==2)
+
+//        document.getElementById("description-"+task.id).innerHTML=this.escapeHtml(descriptionBox)
+
+      },
+      escapeHtml(text) {
+        var map = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      },
+      showTask(task){
+        console.log("description-"+task.id)
+//        document.getElementById("prova333").innerHTML='<h1>H1 de prova</h1>'
+        document.getElementById("description-"+task.id).innerHTML=this.newDescription
+//        console.log(this.form.get(API_TASKS_URL+task.id))
+//        console.log(this.newDescription)
       },
       addTask () {
         this.$emit('loading', true)
@@ -277,27 +344,33 @@
         })
         console.log("NAME IN EXIT")
       },
-      updateDescriptionTask (task) {
+      updateNewDescriptionQuill(text) {
+        this.newDescription = text.substring(3,text.length-4)
+//        console.log(text.substring(3,text.length-4))
+      },
+      updateDescriptionTask(task) {
+//        console.log(document.getElementById('description-'+task.id).innerHTML)
+//        console.log(editedTask)
+        console.log(this.newDescription)
         this.$emit('loading', true)
-        axios.put(API_URL+'description-task/'+task.id, {description: document.getElementById('description-'+task.id).innerHTML }).catch((error) => {
+        axios.put(API_URL+'description-task/'+task.id, {description: this.newDescription }).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
         console.log("DESCRIPTION IN EXIT")
       },
-//      editTask (task) {
-//        this.editedTask = task
-//        this.newName = document.getElementById('name-'+task.id).textContent
-//        this.newDescription = document.getElementById('description-'+task.id).textContent
-////        console.log('NAME:           '+document.getElementById('name-'+task.id).textContent)
-////        console.log('DESCRIPTION:    '+document.getElementById('description-'+task.id).textContent)
+      editTaskName (task) {
+        this.editedTask = task.id
+        this.newName = task.name
+//        console.log('NAME:           '+task.name)
+//        console.log('DESCRIPTION:    '+task.description)
 //        this.updateDescriptionTask(task)
-//      },
-//      cancelEdit (task) {
-//        console.log("ANUL·LAR!")
-//        this.editedTask = null
-//      },
+      },
+      editTaskDescription(task){
+        this.editedTask = task.id
+        this.newDescription = task.description
+      },
       completeTask(task){
         console.log('completat: ',task.completed)
         this.form.post(API_URL+'complete-task/'+task.id).then((response) => {
@@ -317,13 +390,12 @@
         }).then(
           this.taskBeingDeleted = null
         )
-      }
-
+      },
     },
     mounted () {
-      var quill = new Quill('#editor', {
-        theme: 'snow'
-      });
+//      var quill = new Quill('#editor', {
+//        theme: 'snow'
+//      });
 
       new MediumEditor('.editable');
 
@@ -340,6 +412,7 @@
       }).then(() => {
         this.$emit('loading', false)
       })
+
 
 //            setTimeout( () => {
 //                component.hide()
