@@ -226,7 +226,6 @@
     components: {Users,'medium-editor': editor,quillEditor},
     data () {
       return {
-        normalTextFormat: false,
         editor: config.editor,
         loading: false,
         editedTask: null,
@@ -271,24 +270,19 @@
         this.filter = filter
       },
       updateDescriptionTaskBox(task){
-        console.log("FET")
         var descriptionBox
-        do {
-          if (this.newDescription){
-            descriptionBox = this.newDescription
-          } else {
-            descriptionBox = task.description
-          }
-          if (this.normalTextFormat){
-            descriptionBox = this.escapeHtml(descriptionBox)
-          }
-          document.getElementById("description-"+task.id).innerHTML=descriptionBox
-          this.normalTextFormat = !this.normalTextFormat
-          console.log("descriptionBox: "+descriptionBox)
-          console.log("innerHTML: "+document.getElementById("description-"+task.id).innerHTML)
-        } while (descriptionBox==2)
 
-//        document.getElementById("description-"+task.id).innerHTML=this.escapeHtml(descriptionBox)
+        if (this.newDescription){
+          descriptionBox = this.newDescription
+        } else {
+          descriptionBox = task.description
+        }
+        if (document.getElementById("description-"+task.id).innerHTML==descriptionBox) {
+          descriptionBox = this.escapeHtml(descriptionBox)
+        }
+        document.getElementById("description-"+task.id).innerHTML=descriptionBox
+
+
 
       },
       escapeHtml(text) {
