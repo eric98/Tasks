@@ -97,12 +97,12 @@
                                                 <h4 class="modal-title">Id Task: {{editedTask}}</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" :content="task.description" v-bind:id="'description-'+task.id">
+                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" v-model="quillText" v-bind:id="'description-'+task.id">
                                                 </quill-editor>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                <button type="button" @click="updateDescriptionTask(task); updateDescriptionTaskBox(task);" class="btn btn-primary" data-dismiss="modal">Update</button>
+                                                <button type="button" @click="updateDescriptionTask(task); updateDescriptionTaskBox(task,true);" class="btn btn-primary" data-dismiss="modal">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -226,6 +226,7 @@
     components: {Users,'medium-editor': editor,quillEditor},
     data () {
       return {
+        quillText: '',
         editor: config.editor,
         loading: false,
         editedTask: null,
@@ -269,20 +270,44 @@
       show (filter) {
         this.filter = filter
       },
-      updateDescriptionTaskBox(task){
-        var descriptionBox
-
-        if (this.newDescription){
-          descriptionBox = this.newDescription
+      cancelEdit(){
+        this.editedTask = null
+        this.newDescription = null
+        this.newName = null
+      },
+      updateDescriptionTaskBox(task,editedFinal){
+        var idTask
+        if (!this.editedTask){
+          idTask = task.id
         } else {
-          descriptionBox = task.description
+          idTask = this.editedTask
         }
-        if (document.getElementById("description-"+task.id).innerHTML==descriptionBox) {
+        var descriptionBox
+        this.filteredTasks.filter(function(o){
+          if (o.id == idTask){
+            console.log('descriptionBox TROBAT: '+o.description)
+            descriptionBox = o.description
+          }
+        })
+
+        console.log(descriptionBox)
+        if(editedFinal){
+          descriptionBox = this.quillText.substring(3,this.quillText.length-4)
+          this.filteredTasks.filter(function(o){
+            if (o.id == idTask){
+              o.description = descriptionBox
+            }
+          })
+        }
+
+        if (document.getElementById("description-"+idTask).innerHTML==descriptionBox) {
           descriptionBox = this.escapeHtml(descriptionBox)
         }
-        document.getElementById("description-"+task.id).innerHTML=descriptionBox
 
+        document.getElementById("description-"+idTask).innerHTML=descriptionBox
+//        this.quillText=descriptionBox
 
+        this.cancelEdit()
 
       },
       escapeHtml(text) {
@@ -298,10 +323,7 @@
       },
       showTask(task){
         console.log("description-"+task.id)
-//        document.getElementById("prova333").innerHTML='<h1>H1 de prova</h1>'
         document.getElementById("description-"+task.id).innerHTML=this.newDescription
-//        console.log(this.form.get(API_TASKS_URL+task.id))
-//        console.log(this.newDescription)
       },
       addTask () {
         this.$emit('loading', true)
@@ -343,16 +365,18 @@
 //        console.log(text.substring(3,text.length-4))
       },
       updateDescriptionTask(task) {
-//        console.log(document.getElementById('description-'+task.id).innerHTML)
-//        console.log(editedTask)
-        console.log(this.newDescription)
+        var idTask = task.id
+        if (this.editor=='quill'){
+          idTask=this.editedTask
+        } else if (this.editor =='medium-editor'){
+          this.newDescription = document.getElementById('description-'+task.id).innerHTML
+        }
         this.$emit('loading', true)
-        axios.put(API_URL+'description-task/'+task.id, {description: this.newDescription }).catch((error) => {
+        axios.put(API_URL+'description-task/'+idTask, {description: this.newDescription }).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         })
-        console.log("DESCRIPTION IN EXIT")
       },
       editTaskName (task) {
         this.editedTask = task.id
@@ -364,6 +388,7 @@
       editTaskDescription(task){
         this.editedTask = task.id
         this.newDescription = task.description
+        this.quillText = task.description
       },
       completeTask(task){
         console.log('completat: ',task.completed)
