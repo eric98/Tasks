@@ -1,9 +1,29 @@
 <template>
     <div>
         <widget :loading="loading">
+            <!--<button type="button" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>-->
+            <div class="modal fade" id="modal-options">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Configuració</h2>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <input type="radio" name="editorSelected" value="quill"> Quill editor<br>
+                                <input type="radio" name="editorSelected" value="medium-editor"> Medium-editor<br>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" @click="updateEditor()" class="btn btn-primary" data-dismiss="modal">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p slot="title">Tasques</p>
             <div v-cloak>
-                <table class="table table-bordered table-hover">
+                <table id="task-table" class="table table-bordered table-hover">
                     <tbody><tr>
                         <th style="width: 10px">#</th>
                         <th>Task</th>
@@ -236,9 +256,9 @@
     },
     computed: {
       // a computed getter
-      editorQuill() {
-        return this.$refs.myTextEditor.quill
-      },
+//      editorQuill() {
+//        return this.$refs.myTextEditor.quill
+//      },
       completedFilter() {
         return this.filter==='completed'
       },
@@ -263,6 +283,22 @@
       },
       show(filter) {
         this.filter = filter
+      },
+      updateEditor(){
+        var radios = document.getElementsByName('editorSelected');
+
+        for (var i = 0, length = radios.length; i < length; i++)
+        {
+          if (radios[i].checked)
+          {
+
+            config.editor=radios[i].value
+            console.log('editor que hi ha: '+config.editor)
+            console.log(document.cookie)
+
+            break
+          }
+        }
       },
       changeEyeIcon(id){
 
