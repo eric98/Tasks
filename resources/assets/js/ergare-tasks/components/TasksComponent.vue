@@ -207,6 +207,7 @@
         this.editedTask = null
         this.newDescription = null
         this.newName = null
+        this.quillText = null
       },
       updateTaskBox(task,property,editedFinal){
         this.quillText = this.newDescription
