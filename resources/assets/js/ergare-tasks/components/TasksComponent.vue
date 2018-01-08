@@ -18,7 +18,7 @@
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
-                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'name')"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'name'); changeEyeIcon('eye-name-'+task.id);"><span v-bind:id="'eye-name-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
                                 <p v-bind:id="'name-'+task.id">{{ task.name }}</p>
 
                                 <div class="modal fade" id="modal-name">
@@ -54,7 +54,7 @@
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
-                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description')"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description'); changeEyeIcon('eye-description-'+task.id);"><span v-bind:id="'eye-description-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
                                 <p v-bind:id="'description-'+task.id">{{ task.description }}</p>
 
                                 <div class="modal fade" id="modal-description">
@@ -263,6 +263,20 @@
       },
       show(filter) {
         this.filter = filter
+      },
+      changeEyeIcon(id){
+
+        var eyesOpen = false
+
+        if (document.getElementById(id).getAttribute("class") == 'glyphicon glyphicon-eye-open'){
+          eyesOpen = true
+        }
+
+        if (eyesOpen) {
+          document.getElementById(id).setAttribute("class","glyphicon glyphicon-eye-close")
+        } else {
+          document.getElementById(id).setAttribute("class","glyphicon glyphicon-eye-open")
+        }
       },
       cancelEdit(){
         this.editedTask = null
