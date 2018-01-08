@@ -87,8 +87,34 @@
                             <a class="pull-right" data-toggle="tooltip" :title="task.updated_at" v-text="human(task.updated_at)"></a>
                         </td>
                         <td>
-                            <!--<button type="button" class="btn btn-success" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>-->
+                            <button type="button" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modal-task" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>
                             <button type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
+
+                            <div class="modal fade" id="modal-task">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul>
+                                                <li>Id: {{ showedTask.id }}</li>
+                                                <li>Name: {{ showedTask.name }}</li>
+                                                <li>Description: {{ showedTask.description }}</li>
+                                                <li>Completed: {{ showedTask.completed?'Yes':'No' }}</li>
+                                                <li>User_id: {{ showedTask.user_id }}</li>
+                                                <li>User name: {{ showedTaskUserName }}</li>
+                                                <li>Created at: {{ human(showedTask.created_at) }}, {{ showedTask.created_at }}</li>
+                                                <li>Updated at: {{ human(showedTask.updated_at) }}, {{ showedTask.updated_at }}</li>
+                                            </ul>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
 
@@ -188,6 +214,8 @@
     components: {Users,'medium-editor': editor,quillEditor},
     data () {
       return {
+        showedTask:'',
+        showedTaskUserName:'',
         quillText: '',
         editor: config.editor,
         loading: false,
@@ -197,6 +225,7 @@
         newDescription: '',
         name: '',
         tasks: [],
+        users: [],
         creating: false,
         taskBeingDeleted: null,
         form: new Form({user_id:'',name:''})
@@ -251,9 +280,9 @@
           idTask = this.editedTask
         }
         var textBox
-        this.filteredTasks.filter(function(o){
-          if (o.id == idTask){
-            textBox = o[property]
+        this.filteredTasks.filter(function(task){
+          if (task.id == idTask){
+            textBox = task[property]
           }
         })
 
@@ -264,9 +293,9 @@
             textBox = this.quillText
           }
 
-          this.filteredTasks.filter(function(o){
-            if (o.id == idTask){
-              o[property] = textBox
+          this.filteredTasks.filter(function(task){
+            if (task.id == idTask){
+              task[property] = textBox
             }
           })
         }
@@ -292,13 +321,20 @@
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
       },
       showTask(task){
-        console.log("description-"+task.id)
-        document.getElementById("description-"+task.id).innerHTML=this.newDescription
+        this.showedTask = task
+        console.log('id a buscar'+task.user_id)
+        var username
+        this.users.filter(function(user){
+          if (user.id == task.id){
+            username = user.name
+          }
+        })
+        this.showedTaskUserName = username
       },
       addTask () {
         this.$emit('loading', true)
         this.creating = true
-        this.form.post(API_TASKS_URL).then((response) => {
+        this.form.post(API_TASKS_URL).then(() => {
           this.tasks.push({name: this.form.name, description: this.form.description, user_id: this.form.user_id, completed: false})
           console.log(this.tasks)
           this.form.name = ''
@@ -313,7 +349,7 @@
       deleteTask (task) {
         this.$emit('loading', true)
         this.taskBeingDeleted = task.id
-        axios.delete(API_TASKS_URL + task.id).then((response) => {
+        axios.delete(API_TASKS_URL + task.id).then(() => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
 //        }).catch((error) => {
 //          flash(error.message)
@@ -414,6 +450,14 @@
         this.$emit('loading', false)
       })
 
+      axios.get(API_URL+'users/').then((response) => {
+        this.users = response.data
+      }).catch((error) => {
+        console.log(error)
+        flash(error.message)
+      }).then(() => {
+        this.$emit('loading', false)
+      })
 
 //            setTimeout( () => {
 //                component.hide()
