@@ -97,10 +97,12 @@
 
                                         </div>
                                         <div class="modal-body">
+                                            <button type="button" v-if="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'],true)"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                            <button type="button" v-else="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'])"><span class="glyphicon glyphicon-eye-close"></span></button>
                                             <ul>
                                                 <li>Id: {{ showedTask.id }}</li>
-                                                <li>Name: {{ showedTask.name }}</li>
-                                                <li>Description: {{ showedTask.description }}</li>
+                                                <li id="show-name">Name: {{ showedTask.name }}</li>
+                                                <li id="show-description">Description: {{ showedTask.description }}</li>
                                                 <li>Completed: {{ showedTask.completed?'Yes':'No' }}</li>
                                                 <li>User_id: {{ showedTask.user_id }}</li>
                                                 <li>User name: {{ showedTaskUserName }}</li>
@@ -216,6 +218,7 @@
       return {
         showedTask:'',
         showedTaskUserName:'',
+        showedInnerHTML: true,
         quillText: '',
         editor: config.editor,
         loading: false,
@@ -258,7 +261,7 @@
       userSelected(user) {
         this.form.user_id = user.id
       },
-      show (filter) {
+      show(filter) {
         this.filter = filter
       },
       cancelEdit(){
@@ -266,6 +269,26 @@
         this.newDescription = null
         this.newName = null
         this.quillText = null
+      },
+      showInnerHTML(ids,innerhtml){
+
+        var content
+
+
+        ids.forEach((id) => {
+
+          if (innerhtml){
+            content = document.getElementById(id).textContent
+          } else {
+            content = this.escapeHtml(document.getElementById(id).innerHTML)
+          }
+          document.getElementById(id).innerHTML = content
+        })
+
+        this.showedInnerHTML = !this.showedInnerHTML
+
+//        document.getElementById("show-description").innerHTML = document.getElementById("show-description").textContent
+
       },
       updateTaskBox(task,property,editedFinal){
         if (property == 'name'){
@@ -330,6 +353,8 @@
           }
         })
         this.showedTaskUserName = username
+        document.getElementById("show-name").textContent = this.showedTask.name
+        document.getElementById("show-description").textContent = this.showedTask.description
       },
       addTask () {
         this.$emit('loading', true)
