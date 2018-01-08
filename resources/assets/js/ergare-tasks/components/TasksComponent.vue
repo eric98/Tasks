@@ -1,62 +1,10 @@
 <template>
     <div>
-        <div>
-            <!--<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-description">-->
-                <!--Launch Default Modal-->
-            <!--</button>-->
-
-            <!--<div class="modal fade" id="modal-description">-->
-                <!--<div class="modal-dialog">-->
-                    <!--<div class="modal-content">-->
-                        <!--<div class="modal-header">-->
-                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                                <!--<span aria-hidden="true">&times;</span></button>-->
-                            <!--<h4 class="modal-title">Description</h4>-->
-                        <!--</div>-->
-                        <!--<div class="modal-body">-->
-                            <!--<div id="editor">-->
-                                <!--{{task.description}}-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="modal-footer">-->
-                            <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
-                            <!--<button type="button" class="btn btn-primary">Update</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-        </div>
-        <!--<widget :loading="loading">-->
+        <widget :loading="loading">
             <p slot="title">Tasques</p>
             <div v-cloak>
-                <!--versio nova-->
                 <table class="table table-bordered table-hover">
                     <tbody><tr>
-                        <!--<div class="modal fade" id="modal-description">-->
-                            <!--<div class="modal-dialog">-->
-                                <!--<div class="modal-content">-->
-                                    <!--<div class="modal-header">-->
-                                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                                            <!--<span aria-hidden="true">&times;</span></button>-->
-                                        <!--<h4 class="modal-title">Description</h4>-->
-                                    <!--</div>-->
-                                    <!--<div class="modal-body">-->
-                                        <!--<div id="editor">-->
-                                            <!--lkajsdlkjasdlkjasldkj-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="modal-footer">-->
-                                        <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>-->
-                                        <!--<button type="button" class="btn btn-primary">Update</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-
                         <th style="width: 10px">#</th>
                         <th>Task</th>
                         <th>Completed</th>
@@ -85,7 +33,7 @@
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
-                                <button type="button" class="btn btn-success" @click="updateDescriptionTaskBox(task)"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description')"><span class="glyphicon glyphicon-eye-open"></span></button>
                                 <p v-bind:id="'description-'+task.id">{{ task.description }}</p>
 
                                 <div class="modal fade" id="modal-description">
@@ -97,12 +45,12 @@
                                                 <h4 class="modal-title">Id Task: {{editedTask}}</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" v-model="quillText" v-bind:id="'description-'+task.id">
+                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" :content=quillText v-bind:id="'description-'+task.id">
                                                 </quill-editor>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                <button type="button" @click="updateDescriptionTask(task); updateDescriptionTaskBox(task,true);" class="btn btn-primary" data-dismiss="modal">Update</button>
+                                                <button type="button" @click="cancelEdit()" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                <button type="button" @click="updateDescriptionTask(task); updateTaskBox(task,'description',true);" class="btn btn-primary" data-dismiss="modal">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +103,7 @@
                 </button>
             </div>
             <p slot="Footer">Footer</p>
-        <!--</widget>-->
+        </widget>
 
         <message title="Message" message="" color="info"></message>
     </div>
@@ -260,7 +208,8 @@
         this.newDescription = null
         this.newName = null
       },
-      updateDescriptionTaskBox(task,editedFinal){
+      updateTaskBox(task,property,editedFinal){
+        this.quillText = this.newDescription
         var idTask
         if (!this.editedTask){
           idTask = task.id
@@ -270,27 +219,29 @@
         var descriptionBox
         this.filteredTasks.filter(function(o){
           if (o.id == idTask){
-            console.log('descriptionBox TROBAT: '+o.description)
-            descriptionBox = o.description
+            descriptionBox = o[property]
           }
         })
 
-        console.log(descriptionBox)
         if(editedFinal){
-          descriptionBox = this.quillText.substring(3,this.quillText.length-4)
+          if (descriptionBox.startsWith('<p>') && descriptionBox.endsWith('</p>')){
+            descriptionBox = this.quillText.substring(3,this.quillText.length-4)
+          } else {
+            descriptionBox = this.quillText
+          }
+
           this.filteredTasks.filter(function(o){
             if (o.id == idTask){
-              o.description = descriptionBox
+              o[property] = descriptionBox
             }
           })
         }
 
-        if (document.getElementById("description-"+idTask).innerHTML==descriptionBox) {
+        if (document.getElementById(property+"-"+idTask).innerHTML==descriptionBox) {
           descriptionBox = this.escapeHtml(descriptionBox)
         }
 
         document.getElementById("description-"+idTask).innerHTML=descriptionBox
-//        this.quillText=descriptionBox
 
         this.cancelEdit()
 
@@ -346,7 +297,11 @@
         console.log("NAME IN EXIT")
       },
       updateNewDescriptionQuill(text) {
-        this.newDescription = text.substring(3,text.length-4)
+//        if (this.newDescription.startsWith('<p>') && this.newDescription.endsWith('</p>')){
+//          console.log('eliminant')
+//          this.newDescription = text.substring(3,text.length-4)
+//        }
+        this.newDescription = text
 //        console.log(text.substring(3,text.length-4))
       },
       updateDescriptionTask(task) {
@@ -376,7 +331,6 @@
         this.quillText = task.description
       },
       completeTask(task){
-        console.log('completat: ',task.completed)
         this.form.post(API_URL+'complete-task/'+task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
@@ -385,7 +339,6 @@
         })
       },
       incompleteTask(task){
-        console.log('completat: ',task.completed)
         axios.delete(API_URL+'complete-task/'+task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
@@ -402,8 +355,6 @@
 //      });
 
       new MediumEditor('.editable');
-
-      console.log(this.tasks)
 
       // HTTP CLIENT
       //Promises
