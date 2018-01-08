@@ -20,20 +20,9 @@ class ApiTaskController extends Controller
     // Injeccció de depèndències
     public function store(StoreTask $request)
     {
-        $request->validate([
-            'name'        => 'required',
-            'description' => 'required',
-        ]);
-
-        if ($request->description) {
-            $description = $request->description;
-        } else {
-            $description = 'no se perquè $request->description no m' + "'" + 'ho agafa i he de posar este text per defecte';
-        }
-
         $task = Task::create([
             'name'        => $request->name,
-            'description' => $description,
+            'description' => $request->description,
             'user_id'     => $request->user_id,
             'completed'   => false,
         ]);

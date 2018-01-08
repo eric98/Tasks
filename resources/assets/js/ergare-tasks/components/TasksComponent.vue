@@ -253,7 +253,7 @@
         users: [],
         creating: false,
         taskBeingDeleted: null,
-        form: new Form({user_id:'',name:''})
+        form: new Form({user_id:'',name:'',description:''})
       }
     },
     computed: {
@@ -445,7 +445,6 @@
         this.creating = true
         this.form.post(API_TASKS_URL).then(() => {
           this.tasks.push({name: this.form.name, description: this.form.description, user_id: this.form.user_id, completed: false})
-          console.log(this.tasks)
           this.form.name = ''
           this.form.description = ''
         }).catch((error) => {
