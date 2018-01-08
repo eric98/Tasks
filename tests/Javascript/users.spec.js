@@ -20,7 +20,7 @@ describe('Users', () => {
     {
       id: 3,
       name: 'Zelda',
-      email: 'Zelda@gmail.com'
+      email: 'zelda@gmail.com'
     }
   ]
 
