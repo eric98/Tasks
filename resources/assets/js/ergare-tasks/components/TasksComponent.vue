@@ -1,7 +1,7 @@
 <template>
     <div>
         <widget :loading="loading">
-            <!--<button type="button" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>-->
+            <button type="button" class="btn btn-success" @click="setEditorRadioButtonChecked()" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>
             <div class="modal fade" id="modal-options">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -10,8 +10,8 @@
                         </div>
                         <div class="modal-body">
                             <form>
-                                <input type="radio" name="editorSelected" value="quill"> Quill editor<br>
-                                <input type="radio" name="editorSelected" value="medium-editor"> Medium-editor<br>
+                                <input id="quillRadioButton" type="radio" name="editorSelected" value="quill"> Quill editor<br>
+                                <input id="medium-editorRadioButton" type="radio" name="editorSelected" value="medium-editor"> Medium-editor<br>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -242,7 +242,7 @@
         showedTaskUserName:'',
         showedInnerHTML: false,
         quillText: '',
-        editor: config.editor,
+//        editor: config.editor,
         loading: false,
         editedTask: null,
         filter: 'all',
@@ -261,6 +261,12 @@
 //      editorQuill() {
 //        return this.$refs.myTextEditor.quill
 //      },
+      editor() {
+        if (localStorage.getItem('editor') == null){
+          localStorage.setItem('editor',config.editor)
+        }
+        return localStorage.getItem('editor')
+      },
       completedFilter() {
         return this.filter==='completed'
       },
@@ -286,6 +292,9 @@
       show(filter) {
         this.filter = filter
       },
+      setEditorRadioButtonChecked(){
+        document.getElementById(localStorage.getItem('editor')+"RadioButton").setAttribute("checked",true)
+      },
       updateEditor(){
         var radios = document.getElementsByName('editorSelected');
 
@@ -293,11 +302,9 @@
         {
           if (radios[i].checked)
           {
-
-            config.editor=radios[i].value
-            console.log('editor que hi ha: '+config.editor)
-            console.log(document.cookie)
-
+            console.log(localStorage.getItem('editor'))
+            localStorage.setItem('editor', radios[i].value)
+            location.href=window.location.href
             break
           }
         }
