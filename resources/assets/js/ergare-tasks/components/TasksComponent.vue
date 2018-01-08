@@ -133,6 +133,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                            <button v-if="getTaskPos(showedTask)!=0" type="button" @click="showTask(afterBeforeTask(false))"><span><</span></button>
+                                            <button v-if="!isLastTaskFiltered(showedTask)"type="button" @click="showTask(afterBeforeTask(true))"><span>></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -300,6 +302,31 @@
           }
         }
       },
+      isLastTaskFiltered(task){
+        var length = this.filteredTasks.length
+
+        return this.getTaskPos(task)+1 == length
+      },
+      getTaskPos(task){
+        for (var i = 0; i < this.filteredTasks.length; i++) {
+          if (this.filteredTasks[i] == task){
+            return i
+          }
+        }
+      },
+      afterBeforeTask(after){
+        var op
+        if (after) {
+          op = 1
+        } else {
+          op = -1
+        }
+        for (var i = 0; i < this.filteredTasks.length; i++) {
+          if (this.filteredTasks[i] == this.showedTask){
+            return this.filteredTasks[i+op]
+          }
+        }
+      },
       changeEyeIcon(id){
 
         var eyesOpen = false
@@ -396,7 +423,6 @@
       showTask(task){
         this.showedInnerHTML = true
         this.showedTask = task
-        console.log('id a buscar'+task.user_id)
         var username
         this.users.filter(function(user){
           if (user.id == task.id){
