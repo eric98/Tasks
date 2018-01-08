@@ -97,7 +97,7 @@
 
                                         </div>
                                         <div class="modal-body">
-                                            <button type="button" v-if="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'],true)"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                            <button type="button" v-if="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'])"><span class="glyphicon glyphicon-eye-open"></span></button>
                                             <button type="button" v-else="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'])"><span class="glyphicon glyphicon-eye-close"></span></button>
                                             <ul>
                                                 <li>Id: {{ showedTask.id }}</li>
@@ -218,7 +218,7 @@
       return {
         showedTask:'',
         showedTaskUserName:'',
-        showedInnerHTML: true,
+        showedInnerHTML: false,
         quillText: '',
         editor: config.editor,
         loading: false,
@@ -270,14 +270,14 @@
         this.newName = null
         this.quillText = null
       },
-      showInnerHTML(ids,innerhtml){
+      showInnerHTML(ids){
 
         var content
 
 
         ids.forEach((id) => {
 
-          if (innerhtml){
+          if (this.showedInnerHTML){
             content = document.getElementById(id).textContent
           } else {
             content = this.escapeHtml(document.getElementById(id).innerHTML)
@@ -344,6 +344,7 @@
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
       },
       showTask(task){
+        this.showedInnerHTML = true
         this.showedTask = task
         console.log('id a buscar'+task.user_id)
         var username
