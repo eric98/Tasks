@@ -14,6 +14,7 @@ class ApiDescriptionTaskController extends Controller
         ]);
         $task->description = $request->description;
         $task->save();
+
         return $task;
     }
 }

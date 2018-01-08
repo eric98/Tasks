@@ -88,10 +88,10 @@ class TaskControllerTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('tasks', [
-            'name'      => 'Comprar llet',
+            'name'        => 'Comprar llet',
             'description' => 'Com sempre',
-            'user_id'   => $user->id,
-            'completed' => false,
+            'user_id'     => $user->id,
+            'completed'   => false,
         ]);
     }
 

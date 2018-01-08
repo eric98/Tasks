@@ -28,9 +28,9 @@ class StoreTask extends FormRequest
     public function rules()
     {
         return [
-            'name'    => 'required',
+            'name'           => 'required',
             'description'    => 'required',
-            'user_id' => 'required',
+            'user_id'        => 'required',
         ];
     }
 }
