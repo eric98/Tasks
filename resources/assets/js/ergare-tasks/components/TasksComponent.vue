@@ -17,8 +17,29 @@
                         <td>{{ index + 1 }}</td>
                         <td>
                             <div v-if="editor == 'quill'">
-                                <button v-bind:id="'name-'+task.id" type="button" class="btn btn-warning" v-if="editor == 'quill'" data-toggle="modal" data-target="#modal-description"><span class="fa fa-pencil"></span></button>
-                                {{ task.name }}
+                                <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
+                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'name')"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <p v-bind:id="'name-'+task.id">{{ task.name }}</p>
+
+                                <div class="modal fade" id="modal-name">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" @click="cancelEdit()" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Id Task: {{editedTask}}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <quill-editor ref="myTextEditor" @change="updateNewTextQuill($event.html,'name')" :content=quillText v-bind:id="'name-'+task.id">
+                                                </quill-editor>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" @click="cancelEdit()" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                <button type="button" @click="updateNameTask(task); updateTaskBox(task,'name',true);" class="btn btn-primary" data-dismiss="modal">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <medium-editor v-bind:id="'name-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.name' v-on:edit='updateNameTask(task)'></medium-editor></td>
                         <td>
@@ -32,7 +53,7 @@
                         </td>
                         <td>
                             <div v-if="editor == 'quill'">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
+                                <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
                                 <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description')"><span class="glyphicon glyphicon-eye-open"></span></button>
                                 <p v-bind:id="'description-'+task.id">{{ task.description }}</p>
 
@@ -40,12 +61,12 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <button type="button" @click="cancelEdit()" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span></button>
                                                 <h4 class="modal-title">Id Task: {{editedTask}}</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <quill-editor ref="myTextEditor" @change="updateNewDescriptionQuill($event.html)" :content=quillText v-bind:id="'description-'+task.id">
+                                                <quill-editor ref="myTextEditor" @change="updateNewTextQuill($event.html,'description')" :content=quillText v-bind:id="'description-'+task.id">
                                                 </quill-editor>
                                             </div>
                                             <div class="modal-footer">
@@ -94,6 +115,14 @@
                         <span v-text="form.errors.get('name')" v-if="form.errors.has('name')" class="help-block"></span>
                     </transition>
                     <input @input="form.errors.clear('name')" class="form-control" type="text" v-model="form.name" id="name" name="name" @keyup.enter="addTask">
+                </div>
+
+                <div class="form-group has-feedback" :class="{ 'has-error': form.errors.has('description') }">
+                    <label for="description">Task description</label>
+                    <transition name="fade">
+                        <span v-text="form.errors.get('description')" v-if="form.errors.has('description')" class="help-block"></span>
+                    </transition>
+                    <input @input="form.errors.clear('description')" class="form-control" type="text" v-model="form.description" id="description" name="description" @keyup.enter="addTask">
                 </div>
 
                 <!--aqui al button :disabled he llevat la opció de que es deshabilite si hi ha erros, ja que si sel·lecciones l'usuari desprès de que et salte l'error, el botó no s'habilita-->
@@ -210,39 +239,43 @@
         this.quillText = null
       },
       updateTaskBox(task,property,editedFinal){
-        this.quillText = this.newDescription
+        if (property == 'name'){
+          this.quillText = this.newName
+        } else if (property == 'description'){
+          this.quillText = this.newDescription
+        }
         var idTask
         if (!this.editedTask){
           idTask = task.id
         } else {
           idTask = this.editedTask
         }
-        var descriptionBox
+        var textBox
         this.filteredTasks.filter(function(o){
           if (o.id == idTask){
-            descriptionBox = o[property]
+            textBox = o[property]
           }
         })
 
         if(editedFinal){
-          if (descriptionBox.startsWith('<p>') && descriptionBox.endsWith('</p>')){
-            descriptionBox = this.quillText.substring(3,this.quillText.length-4)
+          if (textBox.startsWith('<p>') && textBox.endsWith('</p>')){
+            textBox = this.quillText.substring(3,this.quillText.length-4)
           } else {
-            descriptionBox = this.quillText
+            textBox = this.quillText
           }
 
           this.filteredTasks.filter(function(o){
             if (o.id == idTask){
-              o[property] = descriptionBox
+              o[property] = textBox
             }
           })
         }
 
-        if (document.getElementById(property+"-"+idTask).innerHTML==descriptionBox) {
-          descriptionBox = this.escapeHtml(descriptionBox)
+        if (document.getElementById(property+"-"+idTask).innerHTML==textBox) {
+          textBox = this.escapeHtml(textBox)
         }
 
-        document.getElementById("description-"+idTask).innerHTML=descriptionBox
+        document.getElementById(property+"-"+idTask).innerHTML=textBox
 
         this.cancelEdit()
 
@@ -266,8 +299,10 @@
         this.$emit('loading', true)
         this.creating = true
         this.form.post(API_TASKS_URL).then((response) => {
-          this.tasks.push({name: this.form.name, description: "hola", user_id: this.form.user_id, completed: false})
+          this.tasks.push({name: this.form.name, description: this.form.description, user_id: this.form.user_id, completed: false})
+          console.log(this.tasks)
           this.form.name = ''
+          this.form.description = ''
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
@@ -280,38 +315,50 @@
         this.taskBeingDeleted = task.id
         axios.delete(API_TASKS_URL + task.id).then((response) => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
-        }).catch((error) => {
-          flash(error.message)
+//        }).catch((error) => {
+//          flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
         }).then(
           this.taskBeingDeleted = null
         )
       },
-      updateNameTask (task) {
-        this.$emit('loading', true)
-        axios.put(API_TASKS_URL+task.id, {name: document.getElementById('name-'+task.id).innerHTML}).catch((error) => {
-          flash(error.message)
-        }).then(() => {
-          this.$emit('loading', false)
-        })
-        console.log("NAME IN EXIT")
-      },
-      updateNewDescriptionQuill(text) {
+      updateNewTextQuill(text,property) {
 //        if (this.newDescription.startsWith('<p>') && this.newDescription.endsWith('</p>')){
 //          console.log('eliminant')
 //          this.newDescription = text.substring(3,text.length-4)
 //        }
-        this.newDescription = text
-//        console.log(text.substring(3,text.length-4))
+        if (property == 'name'){
+          this.newName = text
+        } else if (property == 'description'){
+          this.newDescription = text
+        }
       },
-      updateDescriptionTask(task) {
+      getUpdateIdTask(task,property){
         var idTask = task.id
         if (this.editor=='quill'){
           idTask=this.editedTask
         } else if (this.editor =='medium-editor'){
-          this.newDescription = document.getElementById('description-'+task.id).innerHTML
+          var newText = document.getElementById(property+'-'+task.id).innerHTML
+          if (property == 'name'){
+            this.newName = newText
+          } else if (property == 'description'){
+            this.newDescription = newText
+          }
         }
+        return idTask
+      },
+      updateNameTask (task) {
+        var idTask = this.getUpdateIdTask(task,'name')
+        this.$emit('loading', true)
+        axios.put(API_TASKS_URL+idTask, {name: this.newName}).catch((error) => {
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
+        })
+      },
+      updateDescriptionTask(task) {
+        var idTask = this.getUpdateIdTask(task,'description')
         this.$emit('loading', true)
         axios.put(API_URL+'description-task/'+idTask, {description: this.newDescription }).catch((error) => {
           flash(error.message)
@@ -322,9 +369,7 @@
       editTaskName (task) {
         this.editedTask = task.id
         this.newName = task.name
-//        console.log('NAME:           '+task.name)
-//        console.log('DESCRIPTION:    '+task.description)
-//        this.updateDescriptionTask(task)
+        this.quillText = task.name
       },
       editTaskDescription(task){
         this.editedTask = task.id
