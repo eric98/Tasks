@@ -101,23 +101,23 @@ class ApiTaskControllerTest extends TestCase
 
         // EXECUTE
         $response = $this->json('POST', '/api/v1/tasks', [
-            'name'    => $name = $faker->word,
+            'name'        => $name = $faker->word,
             'description' => $description = $faker->paragraph,
-            'user_id' => $user->id,
+            'user_id'     => $user->id,
         ]);
 
         // ASSERT
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'name'    => $name,
+            'name'        => $name,
             'description' => $description,
-            'user_id' => $user->id,
+            'user_id'     => $user->id,
         ]);
 
         $response->assertJson([
-            'name'    => $name,
+            'name'        => $name,
             'description' => $description,
-            'user_id' => $user->id,
+            'user_id'     => $user->id,
         ]);
     }
 

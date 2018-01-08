@@ -49,10 +49,10 @@ class TaskController extends Controller
     public function store(StoreTask $request)
     {
         Task::create([
-            'name'      => $request->name,
+            'name'             => $request->name,
             'description'      => $request->description,
-            'user_id'   => $request->user_id,
-            'completed' => false,
+            'user_id'          => $request->user_id,
+            'completed'        => false,
             ]);
 
         Session::flash('status', 'Created ok!');

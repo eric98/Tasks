@@ -42,27 +42,27 @@ class ApiCompleteTaskControllerTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => true,
+            'user_id'     => $task->user_id,
+            'completed'   => true,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => $task->completed,
+            'user_id'     => $task->user_id,
+            'completed'   => $task->completed,
         ]);
 
         $response->assertJson([
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => true,
+            'user_id'     => $task->user_id,
+            'completed'   => true,
         ]);
     }
 
@@ -79,27 +79,27 @@ class ApiCompleteTaskControllerTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertDatabaseHas('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => false,
+            'user_id'     => $task->user_id,
+            'completed'   => false,
         ]);
 
         $this->assertDatabaseMissing('tasks', [
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => true,
+            'user_id'     => $task->user_id,
+            'completed'   => true,
         ]);
 
         $response->assertJson([
-            'id'        => $task->id,
-            'name'      => $task->name,
+            'id'          => $task->id,
+            'name'        => $task->name,
             'description' => $task->description,
-            'user_id'   => $task->user_id,
-            'completed' => false,
+            'user_id'     => $task->user_id,
+            'completed'   => false,
         ]);
     }
 }

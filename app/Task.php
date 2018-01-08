@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $fillable = ['name','description', 'user_id', 'completed'];
+    protected $fillable = ['name', 'description', 'user_id', 'completed'];
 
     public function toArray()
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'          => $this->id,
+            'name'        => $this->name,
             'description' => $this->description,
-            'user_id' => $this->user_id,
-            'completed' => $this->completed? true:false,
-            'created_at' => $this->created_at."",
-            'updated_at' => $this->updated_at."",
+            'user_id'     => $this->user_id,
+            'completed'   => $this->completed ? true : false,
+            'created_at'  => $this->created_at.'',
+            'updated_at'  => $this->updated_at.'',
         ];
     }
 }

@@ -21,21 +21,21 @@ class ApiTaskController extends Controller
     public function store(StoreTask $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name'        => 'required',
             'description' => 'required',
         ]);
 
-        if ($request->description){
+        if ($request->description) {
             $description = $request->description;
         } else {
-            $description = 'no se perquè $request->description no m'+"'"+'ho agafa i he de posar este text per defecte';
+            $description = 'no se perquè $request->description no m' + "'" + 'ho agafa i he de posar este text per defecte';
         }
 
         $task = Task::create([
-            'name'      => $request->name,
+            'name'        => $request->name,
             'description' => $description,
-            'user_id'   => $request->user_id,
-            'completed' => false,
+            'user_id'     => $request->user_id,
+            'completed'   => false,
         ]);
 
         return $task;

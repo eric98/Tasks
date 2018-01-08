@@ -12,6 +12,7 @@ class ApiCompleteTaskController extends Controller
     {
         $task->completed = true;
         $task->save();
+
         return $task;
     }
 
@@ -19,6 +20,7 @@ class ApiCompleteTaskController extends Controller
     {
         $task->completed = false;
         $task->save();
+
         return $task;
     }
 }

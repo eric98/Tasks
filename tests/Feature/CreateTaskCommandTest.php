@@ -20,9 +20,9 @@ class CreateTaskCommandTest extends TestCase
         //2) Execute
 
         $this->artisan('task:create', [
-            'name'    => 'Comprar pa',
+            'name'           => 'Comprar pa',
             'description'    => 'Com sempre',
-            'user_id' => $user->id,
+            'user_id'        => $user->id,
         ]);
 
         //3)Assert
