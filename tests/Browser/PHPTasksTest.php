@@ -124,15 +124,17 @@ class PHPTasksTest extends DuskTestCase
 
             //See box footer
             $browser->assertVisible('.box .box-footer .btn');
-            $this->assertContains('Create', $browser->text('.box .box-footer .btn'));
+            $browser->assertInputValue('.box .box-footer .btn','Create');
 
             //Test validation
             $browser->press('Create');
             $browser->waitFor('.alert');
             $browser->waitForText('The name field is required.');
+            $browser->waitForText('The description field is required.');
 
             //Create task
             $browser->type('name', 'Buy bread');
+            $browser->type('description', 'At the bakery');
             //Select a random user in users dropdown
             $browser->select('user_id');
             $browser->press('Create');
