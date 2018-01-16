@@ -7,7 +7,7 @@ import MainLayout from '@/components/layouts/MainLayout'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   // mode: 'history',
   routes: [
     {
@@ -41,3 +41,17 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth) && (!router.app.$store.state.token || router.app.$store.state.token === 'null')) {
+    window.console.log('Not authenticated')
+    next({
+      path: '/login',
+      query: {redirect: to.fullPath}
+    })
+  } else {
+    next()
+  }
+})
+
+export default router

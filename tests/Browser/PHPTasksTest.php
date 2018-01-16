@@ -42,7 +42,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * List tasks.
-     * @group prova
+     *
      * @test
      * @return void
      */
@@ -55,7 +55,7 @@ class PHPTasksTest extends DuskTestCase
             $this->loginAndAuthorize($browser);
 
             $browser->visit('/tasks_php');
-            $browser->assertTitleContains('Tasks:');
+            $browser->assertTitleContains('Tasks');
             //don't see alert message (only show when errors or ok messages)
             $browser->assertMissing('.alert');
             $browser->assertSeeLink('Create Task');
@@ -72,8 +72,8 @@ class PHPTasksTest extends DuskTestCase
             foreach ($tasks as $task) {
                 $browser->assertSee($task->id);
                 $browser->assertSee($task->name);
-                $browser->assertSee($task->user->id);
-                $browser->assertSee($task->user->name);
+                $browser->assertSee($task->user_id);
+                $browser->assertSee(User::findOrFail($task->user_id)->name);
                 $browser->assertVisible('#show-task-' . $task->id);
                 $this->assertContains('Show',$browser->text('#show-task-' . $task->id));
                 $browser->assertVisible('#edit-task-' . $task->id);
@@ -86,7 +86,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * Create tasks.
-     *
+     * @group prova
      * @test
      * @return void
      */
@@ -104,8 +104,8 @@ class PHPTasksTest extends DuskTestCase
             $browser->clickLink('Create Task');
             $browser->assertMissing('.alert');
             //Test back button
-            $browser->assertSeeLink('Back');
-            $browser->clickLink('Back');
+            $browser->assertSeeLink('List Tasks');
+            $browser->clickLink('List Tasks');
             $browser->clickLink('Create Task');
 
             // See create task box

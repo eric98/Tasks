@@ -45,7 +45,7 @@ return [
             'prefix'   => '',
         ],
 
-        'sqlite_testing' => [
+        'sqlite_dusk_testing' => [
             'driver'   => 'sqlite',
             'database' => env('DB_DATABASE_TESTING_DUSK', database_path('testing.dusk.database.sqlite')),
             'prefix'   => '',

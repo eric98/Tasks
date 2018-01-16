@@ -39,14 +39,12 @@
                 </div>
                 <div class="box-header with-border">
                     <input class="btn btn-warning" type="submit" value="Create">
+                    <a href="/tasks_php" class="btn btn-success pull-right" role="button" aria-disabled="true">List Tasks</a>
                 </div>
             </form>
 
-            <form action="/tasks_php" method="GET">
-                <div class="box-header with-border">
-                    <input class="btn btn-success" type="submit" value="List Tasks">
-                </div>
-            </form>
+            {{--<div class="box-header with-border">--}}
+            {{--</div>--}}
         </div>
     </div>
 @endsection

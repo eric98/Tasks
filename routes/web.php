@@ -31,5 +31,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //PURE JAVASCRIPT
     Route::view('/tasks', 'tasks');
+    Route::view('/tasks2', 'tasks2');
     Route::view('/tokens', 'tokens');
 });

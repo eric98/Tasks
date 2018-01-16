@@ -38,7 +38,6 @@
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
-                                <button type="button" class="btn btn-success" @click="updateTaskBox(task,'name'); changeEyeIcon('eye-name-'+task.id);"><span v-bind:id="'eye-name-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
                                 <p v-bind:id="'name-'+task.id">{{ task.name }}</p>
 
                                 <div class="modal fade" id="modal-name">
@@ -64,18 +63,12 @@
                             <medium-editor v-bind:id="'name-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.name' v-on:edit='updateNameTask(task)'></medium-editor></td>
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
-                            <!--<toggle-button :value="true" v-if="completedFilter" @change="completTask(task)" v-model="task.completed"/>-->
-                            <!--<toggle-button :value="true" v-else @change="completTask(task)" v-model="!task.completed"/>-->
-                            <!--<toggle-button :value="true" @change="completTask(task)" v-model="completedFilter ? !task.completed : task.completed"/>-->
-                            <!--<input type="checkbox" :value="true" @click="completTask(task)" >-->
-                            <!--task.completed: {{ task.completed }}-->
-                            <!--completedFilter: {{ completedFilter }}-->
                         </td>
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
                                 <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description'); changeEyeIcon('eye-description-'+task.id);"><span v-bind:id="'eye-description-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
-                                <p v-bind:id="'description-'+task.id">{{ task.description }}</p>
+                                <p v-bind:id="'description-'+task.id" v-html="task.description"></p>
 
                                 <div class="modal fade" id="modal-description">
                                     <div class="modal-dialog">
@@ -117,12 +110,10 @@
 
                                         </div>
                                         <div class="modal-body">
-                                            <button type="button" v-if="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'])"><span class="glyphicon glyphicon-eye-open"></span></button>
-                                            <button type="button" v-else="showedInnerHTML" class="btn btn-success" @click="showInnerHTML(['show-name', 'show-description'])"><span class="glyphicon glyphicon-eye-close"></span></button>
                                             <ul>
                                                 <li>Id: {{ showedTask.id }}</li>
-                                                <li id="show-name">Name: {{ showedTask.name }}</li>
-                                                <li id="show-description">Description: {{ showedTask.description }}</li>
+                                                <li>Name: {{ showedTask.name }}</li>
+                                                <li id="show-description">Description: </li>
                                                 <li>Completed: {{ showedTask.completed?'Yes':'No' }}</li>
                                                 <li>User_id: {{ showedTask.user_id }}</li>
                                                 <li>User name: {{ showedTaskUserName }}</li>
@@ -141,7 +132,6 @@
                             </div>
                         </td>
                     </tr>
-
                     </tbody></table>
 
                 Tasques pendents: {{ pendingTasks }}
@@ -437,8 +427,7 @@
           }
         })
         this.showedTaskUserName = username
-        document.getElementById("show-name").textContent = this.showedTask.name
-        document.getElementById("show-description").textContent = this.showedTask.description
+        document.getElementById("show-description").innerHTML = "Description: "+this.showedTask.description
       },
       addTask () {
         this.$emit('loading', true)
@@ -538,44 +527,32 @@
           this.taskBeingDeleted = null
         )
       },
+      fetchTasks(){
+        this.$emit('loading', true)
+        axios.get(API_TASKS_URL).then((response) => {
+          this.tasks = response.data
+        }).catch((error) => {
+          console.log(error)
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
+        })
+      },
+      fetchUsers(){
+        axios.get(API_URL+'users/').then((response) => {
+          this.users = response.data
+        }).catch((error) => {
+          console.log(error)
+          flash(error.message)
+        }).then(() => {
+          this.$emit('loading', false)
+        })
+      }
     },
     mounted () {
-//      var quill = new Quill('#editor', {
-//        theme: 'snow'
-//      });
-
       new MediumEditor('.editable');
-
-      // HTTP CLIENT
-      //Promises
-      this.$emit('loading', true)
-      axios.get(API_TASKS_URL).then((response) => {
-        this.tasks = response.data
-      }).catch((error) => {
-        console.log(error)
-        flash(error.message)
-      }).then(() => {
-        this.$emit('loading', false)
-      })
-
-      axios.get(API_URL+'users/').then((response) => {
-        this.users = response.data
-      }).catch((error) => {
-        console.log(error)
-        flash(error.message)
-      }).then(() => {
-        this.$emit('loading', false)
-      })
-
-//            setTimeout( () => {
-//                component.hide()
-//            },3000)
-
-      // API HTTP amb JSON <- Web service
-      // URL GET http://NOM_SERVIDOR/api/tasks
-      // URL POST http://NOM_SERVIDOR/api/tasks
-      // URL DELETE http://NOM_SERVIDOR/api/tasks/{task}
-      // URL PUT/PATCH http://NOM_SERVIDOR/api/tasks/{task}
+      this.fetchTasks();
+      this.fetchUsers();
     }
   }
 </script>
