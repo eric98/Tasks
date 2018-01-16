@@ -37,6 +37,7 @@
             <li><a href="/tasks_php"><i class='fa fa-link'></i><span>Tasques PHP</span></a></li>
             <li><a href="/tasks"><i class='fa fa-link'></i><span>Tasques Vue</span></a></li>
             <li><a href="/tasks2"><i class='fa fa-link'></i> <span>Tasques Vue 2</span></a></li>
+            <li><a href="/mail"><i class='fa fa-link'></i> <span>Prova Mail</span></a></li>
             <li class="header">Settings</li>
             <li><a href="/tokens"><i class='fa fa-link'></i><span>Tokens</span></a></li>
         </ul><!-- /.sidebar-menu -->

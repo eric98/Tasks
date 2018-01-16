@@ -11,6 +11,10 @@
 |
 */
 
+use App\Mail\Hello;
+use App\Mail\HelloUser;
+use App\User;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,4 +37,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/tasks', 'tasks');
     Route::view('/tasks2', 'tasks2');
     Route::view('/tokens', 'tokens');
+
+    //PROVES
+    Route::view('/mail', 'mail');
+    Route::get('/test_send_email', function () {
+        $user = User::find(1);
+        $hello = new Hello($user);
+        Mail::to($user)->send($hello);
+    });
+    Route::get('/test_send_email2', function () {
+        $user = User::find(1);
+        $hello = new HelloUser($user);
+        Mail::to($user)->send($hello);
+    });
 });
