@@ -67,7 +67,7 @@
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
                         </td>
-                        <td>
+                        <td class="description">
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
                                 <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description'); changeEyeIcon('eye-description-'+task.id);"><span v-bind:id="'eye-description-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
@@ -97,7 +97,7 @@
                             <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
                         </td>
                         <td>
-                            {{ task.user_id }}
+                            {{ showUserName(task) }}
                         </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -195,6 +195,12 @@
     }
     li.completed {
         text-decoration: line-through;
+    }
+    .description{
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
 
@@ -409,6 +415,15 @@
         };
 
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      },
+      showUserName(task){
+        var username
+        this.users.filter(function(user){
+          if (user.id == task.id){
+            username = user.name
+          }
+        })
+        return username
       },
       showTask(task){
         this.showedInnerHTML = true
