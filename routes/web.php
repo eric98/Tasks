@@ -38,8 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/tasks2', 'tasks2');
     Route::view('/tokens', 'tokens');
 
+    Route::get('/email', 'EmailController@index');
+    Route::post('/email', 'EmailController@store');
+
     //PROVES
-    Route::view('/mail', 'mail');
+//    Route::view('/email', 'email');
     Route::get('/test_send_email', function () {
         $user = User::find(1);
         $hello = new Hello($user);

@@ -1,93 +1,172 @@
 <template>
     <body>
-        <div class="container">
-            <main>
-                <section class="content-header">CONTENT HEADER</section>
-                <section><router-view/></section>
-            </main>
+    <div class="container">
+        <header>
+            <b>AdminL</b>TE
+        </header>
 
-            <aside class="left_sidebar" :class="{ isOpen : true }">Left sidebar</aside>
-            <aside class="right_sidebar">Right sidebar</aside>
+        <nav>
+            <a href="">
+                <svg @click="toogleSideBar" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+            </a>
+            <ul>
+                <li><a href="">Emails</a></li>
+                <li><a href="">Notifications</a></li>
+                <li><a href="">Tasks</a></li>
+                <li><a href="">Logged Users</a></li>
+                <li><a href="">Preferences</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section class="content-header">CONTENT HEADER</section>
+            <section><router-view/></section>
+        </main>
 
-            <footer>FOOTER</footer>
-            <header>
-                <i class="fa fa-address-card"></i>
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-                HEADER
-            </header>
-        </div>
+        <aside class="left_sidebar" :class="{ isOpen: menuOpen }">Left Sidebar</aside>
+        <aside class="rigth_sidebar">Rigth Sidebar</aside>
+
+        <footer>FOOTER</footer>
+    </div>
     </body>
+    <!--https://codepen.io/oknoblich/pen/klnjw-->
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  export default {
+    name: 'app',
+    data () {
+      return {
+        menuOpen: false
+      }
+    },
+    methods: {
+      toogleSideBar () {
+        this.menuOpen = !this.menuOpen
+      }
+    }
+  }
 </script>
 
 <style>
 
-    html,body, .container {
+    html, body, .container {
         margin: 0;
         height: 100%;
     }
 
     body {
-        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 500;
+        font-family: 'Source Sans Pro','Helvetica Neue','Helvetica','Arial','sans-serif';
+        font-weight: 400;
         font-size: 14px;
+        line-height: 1.42857143;
         color: #333;
     }
-    .container {
-        display: grid;
-        grid-template-columns: 100px 1fr 100px;
-        grid-template-rows: 150px 1fr 100px;
+
+    a {
+        text-decoration: none;
+        color: inherit;
     }
+
     .icon {
         display: inline-block;
         height: 1.25em;
-        witdh: 1.25em;
+        width: 1.25em;
         fill: currentColor;
     }
 
-    main,header,footer,section{
-        display: grid;
-        border: solid black 1px;
+    header,
+    footer,
+    aside,
+    main,
+    .content-header {
+        padding: 1.2rem;
     }
 
-    main {
-        background-color: blue;
-        grid-row: 2;
-        grid-column: 2;
+    .container {
+        display: grid;
+        grid-template-columns: 200px 1fr 200px;
+        grid-template-rows: 50px 1fr 50px;
     }
 
     header {
-        background-color: darkred;
-        grid-row-start: 1;
-        grid-column-end: 4;
-    }
-
-    .content-header {
-        background-color: yellow;
+        color: white;
+        background-color: #367fa9;
+        grid-row: 1;
+        grid-column: 1;
     }
 
     footer {
-        background-color: beige;
+        background-color: white;
         grid-row: 3;
-        grid-column: 1;
+        grid-column: 2/4;
     }
+    main {
+        background-color: #ecf0f5;
+        grid-row: 2;
+        grid-column: 2;
+    }
+    aside {
+        color: white;
+        background-color: #222d32;
+    }
+    .content-header { background-color: #d2d6de; }
 
-    section {
-        background-color: aquamarine;
-    }
+    /*OFF CANVAS*/
+    /*.left_sidebar {*/
+    /*position: fixed; !* or choose `absolute` depending on desired behavior*!*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*width: 200px;*/
+    /*left: -200px;*/
+    /*transition: left .3s ease-in-out;*/
+    /*grid-row: 2;*/
+    /*grid-column-start: 1;*/
+    /*grid-column-end: 1;*/
+    /*}*/
+
+    /*.left_sidebar.isOpen {*/
+    /*transform: translate3d(200px,0,0);*/
+    /*}*/
 
     .left_sidebar {
-        grid-row: 2;
+        grid-row: 2/4;
         grid-column: 1;
     }
 
-    .right_sidebar {
+    .rigth_sidebar {
         grid-row: 2;
         grid-column: 3;
     }
+
+    ul, li {
+        list-style: none;
+    }
+
+    nav {
+        grid-row: 1;
+        grid-column: 2/4;
+        background-color: #3c8dbc;
+        color: #fff;
+        display: flex;
+    }
+
+    nav ul {
+        display: flex;
+        margin-left: auto;
+    }
+
+    nav ul li {
+        align-self: center;
+        border: 1px solid black;
+        /*margin-left: auto;*/
+    }
+
+    /* Responsive */
+
+    @media (max-width: 400px) {
+        .container {
+            display: block;
+        }
+    }
+
 </style>

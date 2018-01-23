@@ -25,16 +25,19 @@
             <div v-cloak>
                 <table id="task-table" class="table table-bordered table-hover">
                     <tbody><tr>
-                        <th style="width: 10px">#</th>
+                        <th>#</th>
+                        <th>Id Task</th>
                         <th>Task</th>
                         <th>Completed</th>
                         <th>Description</th>
+                        <th>User name</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th>Actions</th>
                     </tr>
                     <tr v-for="(task, index) in filteredTasks" v-bind:class="{completed: task.completed}">
-                        <td>{{ index + 1 }}</td>
+                        <td><b>{{ index + 1 }}</b></td>
+                        <td>{{ task.id }}</td>
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
@@ -92,6 +95,9 @@
                             </div>
 
                             <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
+                        </td>
+                        <td>
+                            {{ task.user_id }}
                         </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -247,10 +253,6 @@
       }
     },
     computed: {
-      // a computed getter
-//      editorQuill() {
-//        return this.$refs.myTextEditor.quill
-//      },
       editor() {
         if (localStorage.getItem('editor') == null){
           localStorage.setItem('editor',config.editor)
@@ -267,11 +269,6 @@
         return filters['pending'](this.tasks).length
       }
     },
-//    watch: {
-//      tasks: function () {
-//                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.tasks))
-//      }
-//    },
     methods: {
       human(date) {
         return moment(date).fromNow()
@@ -348,7 +345,6 @@
 
         var content
 
-
         ids.forEach((id) => {
 
           if (this.showedInnerHTML){
@@ -360,9 +356,6 @@
         })
 
         this.showedInnerHTML = !this.showedInnerHTML
-
-//        document.getElementById("show-description").innerHTML = document.getElementById("show-description").textContent
-
       },
       updateTaskBox(task,property,editedFinal){
         if (property == 'name'){
@@ -448,19 +441,14 @@
         this.taskBeingDeleted = task.id
         axios.delete(API_TASKS_URL + task.id).then(() => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
-//        }).catch((error) => {
-//          flash(error.message)
+        }).catch((error) => {
+          flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
-        }).then(
           this.taskBeingDeleted = null
-        )
+          this.$emit('loading', false)
+        })
       },
       updateNewTextQuill(text,property) {
-//        if (this.newDescription.startsWith('<p>') && this.newDescription.endsWith('</p>')){
-//          console.log('eliminant')
-//          this.newDescription = text.substring(3,text.length-4)
-//        }
         if (property == 'name'){
           this.newName = text
         } else if (property == 'description'){
@@ -550,6 +538,7 @@
       }
     },
     mounted () {
+      this.$emit('loading', true)
       new MediumEditor('.editable');
       this.fetchTasks();
       this.fetchUsers();
