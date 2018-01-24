@@ -41,37 +41,23 @@
                         <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
-                                <p v-bind:id="'name-'+task.id">{{ task.name }}</p>
-
-                                <div class="modal fade" id="modal-name">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" @click="cancelEdit()" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Id Task: {{editedTask}}</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <quill-editor ref="myTextEditor" @change="updateNewTextQuill($event.html,'name')" :content=quillText v-bind:id="'name-'+task.id">
-                                                </quill-editor>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" @click="cancelEdit()" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                <button type="button" @click="updateNameTask(task); updateTaskBox(task,'name',true);" class="btn btn-primary" data-dismiss="modal">Update</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p v-bind:id="'name-'+task.id" @dblclick="editTaskName(task)">
+                                    <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
+                                           <!--@keyup.enter="updateTaskName(task)" @keyup.esc="cancelEdit(task)">-->
+                                    <!--<div v-else>-->
+                                        <!--{{task.name}}-->
+                                    <!--</div>-->
+                                </p>
                             </div>
                             <medium-editor v-bind:id="'name-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.name' v-on:edit='updateNameTask(task)'></medium-editor></td>
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
                         </td>
-                        <td class="description">
+                        <td>
                             <div v-if="editor == 'quill'">
                                 <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-description" @click="editTaskDescription(task)"><span class="fa fa-pencil"></span></button>
                                 <button type="button" class="btn btn-success" @click="updateTaskBox(task,'description'); changeEyeIcon('eye-description-'+task.id);"><span v-bind:id="'eye-description-'+task.id" class="glyphicon glyphicon-eye-open"></span></button>
-                                <p v-bind:id="'description-'+task.id" v-html="task.description"></p>
+                                <p class="description" v-bind:id="'description-'+task.id" v-html="task.description"></p>
 
                                 <div class="modal fade" id="modal-description">
                                     <div class="modal-dialog">
