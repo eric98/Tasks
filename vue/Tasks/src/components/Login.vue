@@ -47,7 +47,7 @@
     },
     methods: {
       submit () {
-        axios.post('http://localhost:8081/oauth/token', {
+        axios.post('http://tasks.test/oauth/token', {
           'grant_type': 'password',
           'client_id': 2,
           'client_secret': 'ltaQK3aakHu6UZi2KtRsLjJQSeTLEMPjRxmW2JIu',

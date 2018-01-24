@@ -542,6 +542,7 @@
         })
       },
       fetchUsers(){
+        this.$emit('loading', true)
         axios.get(API_URL+'users/').then((response) => {
           this.users = response.data
         }).catch((error) => {
@@ -553,7 +554,6 @@
       }
     },
     mounted () {
-      this.$emit('loading', true)
       new MediumEditor('.editable');
       this.fetchTasks();
       this.fetchUsers();
