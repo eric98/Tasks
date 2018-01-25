@@ -16,6 +16,12 @@
 
 MP7:
 
+- Webs interessants:
+  - FlatIcon
+  - Unsplash
+  - Placeholder o lorempixel
+  - https://screenpeek.io/
+
 - CRUD de tasques per línia de comandes (vegeu més abaix notes sobre les comandes):
   - Comanda task:create: 
      - Dos opcions amb nom de tasca o sense nom i executar un assistens pregunti pel nom

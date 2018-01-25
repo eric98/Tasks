@@ -39,17 +39,13 @@
                         <td><b>{{ index + 1 }}</b></td>
                         <td>{{ task.id }}</td>
                         <td>
-                            <div v-if="editor == 'quill'">
-                                <button type="button" class="btn btn-warning" data-backdrop="static" data-toggle="modal" data-target="#modal-name" @click="editTaskName(task)"><span class="fa fa-pencil"></span></button>
-                                <p v-bind:id="'name-'+task.id" @dblclick="editTaskName(task)">
-                                    <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
-                                           <!--@keyup.enter="updateTaskName(task)" @keyup.esc="cancelEdit(task)">-->
-                                    <!--<div v-else>-->
-                                        <!--{{task.name}}-->
-                                    <!--</div>-->
-                                </p>
+                            <div>
+                                <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
+                                       @keyup.enter="updateTaskName(task)" @keyup.esc="cancelEdit(task)">
+                                <!--<div v-else>-->
+                                    <!--{{task.name}}-->
+                                <!--</div>-->
                             </div>
-                            <medium-editor v-bind:id="'name-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.name' v-on:edit='updateNameTask(task)'></medium-editor></td>
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
                         </td>
