@@ -41,10 +41,10 @@
                         <td>
                             <div>
                                 <input type="text" v-model="newName" id="newName" v-if="task==editedTask"
-                                       @keyup.enter="updateTaskName(task)" @keyup.esc="cancelEdit(task)">
-                                <!--<div v-else>-->
-                                    <!--{{task.name}}-->
-                                <!--</div>-->
+                                       @keyup.enter="updateNameTask(task)" @keyup.esc="cancelEdit(task)">
+                                <div v-else v-bind:id="'name-'+task.id" @dblclick="editTaskName(task)">
+                                    {{task.name}}
+                                </div>
                             </div>
                         <td>
                             <toggle-button :value="true" @change="task.completed?completeTask(task):incompleteTask(task)" v-model="task.completed"/>
@@ -467,9 +467,12 @@
         return idTask
       },
       updateNameTask (task) {
-        var idTask = this.getUpdateIdTask(task,'name')
         this.$emit('loading', true)
-        axios.put(API_TASKS_URL+idTask, {name: this.newName}).catch((error) => {
+        axios.put(API_TASKS_URL+task.id, {name: this.newName}).then((response) =>  {
+          this.tasks[this.tasks.indexOf(task)].name = this.newName;
+          this.newName = ''
+          this.editedTask = null
+        }).catch((error) => {
           flash(error.message)
         }).then(() => {
           this.$emit('loading', false)
@@ -485,9 +488,8 @@
         })
       },
       editTaskName (task) {
-        this.editedTask = task.id
+        this.editedTask = task
         this.newName = task.name
-        this.quillText = task.name
       },
       editTaskDescription(task){
         this.editedTask = task.id
