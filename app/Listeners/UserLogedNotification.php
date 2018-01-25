@@ -27,6 +27,6 @@ class UserLogedNotification
      */
     public function handle(LogedUser $event)
     {
-        Log::info('TODO assign default permission');
+        Log::info('TODO user loged notification');
     }
 }

@@ -76,7 +76,7 @@
                                 </div>
                             </div>
 
-                            <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
+                            <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" class="description" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
                         </td>
                         <td>
                             {{ showUserName(task) }}
