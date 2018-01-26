@@ -44,14 +44,9 @@
 
                 <div class="box-header with-border">
                     <button class="btn btn-warning" type="submit">Update</button>
+                    <a href="/tasks_php" class="btn btn-success pull-right" role="button" aria-disabled="true">List Tasks</a>
                 </div>
-
             </form>
-            <div class="box-header with-border">
-                <form action="/tasks_php" method="GET">
-                    <input class="btn btn-success" type="submit" value="List Tasks">
-                </form>
-            </div>
         </div>
     </div>
 @endsection

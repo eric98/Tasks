@@ -184,8 +184,8 @@ class PHPTasksTest extends DuskTestCase
 //            $browser->click('#show-task-1');
 
             $browser->assertPathIs('/tasks_php/edit/1');
-            $browser->assertSeeLink('Back');
-            $browser->clickLink('Back');
+            $browser->assertSeeLink('List Tasks');
+            $browser->clickLink('List Tasks');
 
             //Test delete button
 //            $browser->assertSeeLink('Delete');
