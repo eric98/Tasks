@@ -86,7 +86,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * Create tasks.
-     * @group prova
+     * @group
      * @test
      * @return void
      */
@@ -154,7 +154,6 @@ class PHPTasksTest extends DuskTestCase
     /**
      * Show task.
      *
-     * @group current
      * @test
      * @return void
      */
@@ -188,10 +187,90 @@ class PHPTasksTest extends DuskTestCase
             $browser->clickLink('List Tasks');
 
             //Test delete button
-//            $browser->assertSeeLink('Delete');
-//            $browser->clickLink('Delete');
-//            $browser->click('#show-task-1');
+            $browser->assertVisible('#delete-task-1');
 
+            $browser->assertSee($tasks[0]->id);
+            $browser->assertSee($tasks[0]->name);
+            $browser->assertSee($tasks[0]->user_id);
+            $browser->assertSee(User::findOrFail($tasks[0]->user_id)->name);
+
+        });
+    }
+
+    /**
+     * Edit task.
+     * @group prova
+     * @test
+     * @return void
+     */
+    public function edit_task()
+    {
+        $this->browse(function (Browser $browser) {
+            $tasks = factory(Task::class, 3)->create();
+            $browser->maximize();
+            $user = factory(User::class)->create();
+            $user->assignRole('task-manager');
+            $this->loginAndAuthorize($browser);
+
+            $browser->visit('/tasks_php');
+
+            $browser->assertSee($tasks[0]->name);
+
+            $browser->click('#edit-task-1');
+
+            $value = $browser->value('@name');
+            $this->assertContains($tasks[0]->name, $value);
+            $value = $browser->value('@user_id');
+            $this->assertContains(strval($tasks[0]->user->id), $value);
+
+            //Test Edit
+            $task = $tasks[0];
+            $browser->visit('/tasks_php');
+            $browser->click('#edit-task-' . $task->id);
+
+            $browser->type('name', 'Buy bread');
+            //Select a random user in users dropdown
+            $browser->select('user_id',$tasks[1]->user->id);
+            $browser->press('Edit');
+
+            $browser->waitFor('.alert');
+            $browser->waitForText('Edited ok!');
+            $browser->assertSee('Edited ok!');
+
+            $browser->visit('/tasks_php/' . $task->id);
+            $browser->assertSee('Buy bread');
+            $browser->assertDontSee($task->name);
+            $browser->assertSee($tasks[1]->user->name);
+            $browser->assertDontSee($task->user->name);
+
+        });
+    }
+
+    /**
+     * Delete task.
+     *
+     * @test
+     * @return void
+     */
+    public function delete_task()  {
+        $this->browse(function (Browser $browser) {
+            $tasks = factory(Task::class, 3)->create();
+
+            $browser->maximize();
+            $user = factory(User::class)->create();
+            $user->assignRole('task-manager');
+            $this->loginAndAuthorize($browser);
+
+            $browser->visit('/tasks_php');
+
+            $task = $tasks[0];
+            $browser->click('#delete-task-' . $task->id);
+
+            $browser->waitFor('.alert');
+            $browser->waitForText('Task was deleted successful!');
+            $browser->assertSee('Task was deleted successful!');
+
+            $browser->assertDontSee($task->name);
         });
     }
 }
