@@ -199,7 +199,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * Edit task.
-     * @group prova
+     *
      * @test
      * @return void
      */
@@ -221,7 +221,7 @@ class PHPTasksTest extends DuskTestCase
             $value = $browser->value('@name');
             $this->assertContains($tasks[0]->name, $value);
             $value = $browser->value('@user_id');
-            $this->assertContains(strval($tasks[0]->user->id), $value);
+            $this->assertContains(strval($tasks[0]->user_id), $value);
 
             //Test Edit
             $task = $tasks[0];
@@ -230,8 +230,8 @@ class PHPTasksTest extends DuskTestCase
 
             $browser->type('name', 'Buy bread');
             //Select a random user in users dropdown
-            $browser->select('user_id',$tasks[1]->user->id);
-            $browser->press('Edit');
+            $browser->select('user_id',$tasks[1]->user_id);
+            $browser->press('Update');
 
             $browser->waitFor('.alert');
             $browser->waitForText('Edited ok!');
@@ -240,15 +240,15 @@ class PHPTasksTest extends DuskTestCase
             $browser->visit('/tasks_php/' . $task->id);
             $browser->assertSee('Buy bread');
             $browser->assertDontSee($task->name);
-            $browser->assertSee($tasks[1]->user->name);
-            $browser->assertDontSee($task->user->name);
+            $browser->assertSee(User::findOrFail($tasks[1]->user_id)->name);
+            $browser->assertDontSee(User::findOrFail($task->user_id)->name);
 
         });
     }
 
     /**
      * Delete task.
-     *
+     * @group prova
      * @test
      * @return void
      */

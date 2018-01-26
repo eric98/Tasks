@@ -26,11 +26,11 @@
                 <input type="hidden" name="_method" value="PUT">
                 <div class="box-header with-border">
                     <label for="name">Name</label>
-                    <input type="text" name="name" placeholder="Put your name here" value="{{ $task->name }}" id="name">
+                    <input type="text" dusk="name" name="name" placeholder="Put your name here" value="{{ $task->name }}" id="name">
                 </div>
                 <div class="box-header with-border">
                     <label for="name">User</label>
-                    <select name="user_id" id="user_id" class="form-control">
+                    <select name="user_id" id="user_id" class="form-control" dusk="user_id">
                         @foreach ($users as $user)
                             @if ( $task->user_id == $user->id )
                                 <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
