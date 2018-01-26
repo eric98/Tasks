@@ -86,7 +86,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * Create tasks.
-     * @group
+     * 
      * @test
      * @return void
      */
@@ -248,7 +248,7 @@ class PHPTasksTest extends DuskTestCase
 
     /**
      * Delete task.
-     * @group prova
+     *
      * @test
      * @return void
      */
