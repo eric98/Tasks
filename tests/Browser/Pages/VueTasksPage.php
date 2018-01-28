@@ -78,7 +78,7 @@ class VueTasksPage extends BasePage
     {
         $browser->assertVisible('.box');
         $browser->assertSeein('.box .box-title',$title);
-        $browser->assertVisible('.box .box-body ul');
+        $browser->assertVisible('.box .box-body td');
     }
 
     /**

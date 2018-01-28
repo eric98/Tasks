@@ -19,10 +19,6 @@ class Home extends BasePage
             'name' => 'Tasques PHP'
         ],
         [
-            'path'  => '/tasks_old',
-            'name' => 'Tasques Vue Old'
-        ],
-        [
             'path'  => '/tasks',
             'name' => 'Tasques Vue'
         ],

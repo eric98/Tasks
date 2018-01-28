@@ -1,7 +1,6 @@
 <template>
     <div>
         <widget :loading="loading">
-            <!--<p slot="title">Tasques new</p>-->
             <button type="button" class="btn btn-success" @click="setEditorRadioButtonChecked()" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>
             <div class="modal fade" id="modal-options">
                 <div class="modal-dialog">
@@ -33,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <p slot="title">Tasques</p>
+            <p slot="title">Tasques Vue</p>
             <div v-cloak>
                 <table id="task-table" class="table table-bordered table-hover">
                     <tbody><tr>
@@ -408,8 +407,6 @@
         }
 
         document.getElementById(property+"-"+idTask).innerHTML=textBox
-
-//        this.cancelEdit()
 
       },
       escapeHtml(text) {
