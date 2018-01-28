@@ -74,7 +74,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" @click="cancelEdit()" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                <button type="button" @click="updateDescriptionTask(task); updateTaskBox(task,'description',true);" class="btn btn-primary" data-dismiss="modal">Update</button>
+                                                <button type="button" @click="updateTaskBox(task,'description',true); updateDescriptionTask(task);cancelEdit();" class="btn btn-primary" data-dismiss="modal">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -369,12 +369,16 @@
           }
         })
 
+        console.log('hola')
+
         if(editedFinal){
           if (textBox.startsWith('<p>') && textBox.endsWith('</p>')){
             textBox = this.quillText.substring(3,this.quillText.length-4)
           } else {
             textBox = this.quillText
           }
+
+          this.newDescription = textBox;
 
           this.filteredTasks.filter(function(task){
             if (task.id == idTask){
@@ -389,7 +393,7 @@
 
         document.getElementById(property+"-"+idTask).innerHTML=textBox
 
-        this.cancelEdit()
+//        this.cancelEdit()
 
       },
       escapeHtml(text) {
@@ -485,6 +489,9 @@
       },
       updateDescriptionTask(task) {
         var idTask = this.getUpdateIdTask(task,'description')
+        if (this.newDescription.startsWith('<p>') && this.newDescription.endsWith('</p>')){
+          this.newDescription = this.newDescription.substring(3,this.newDescription.length-4)
+        }
         this.$emit('loading', true)
         axios.put(API_URL+'description-task/'+idTask, {description: this.newDescription }).catch((error) => {
           flash(error.message)

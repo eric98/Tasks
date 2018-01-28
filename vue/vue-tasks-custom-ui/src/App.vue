@@ -2,7 +2,7 @@
     <body>
     <div class="container">
         <header>
-            <b>AdminL</b>TE
+            <span style="display: inline-block; text-align: center;"><b>Admin</b>LTE</span>
         </header>
 
         <nav>
