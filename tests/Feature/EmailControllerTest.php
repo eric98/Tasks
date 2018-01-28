@@ -36,6 +36,7 @@ class EmailControllerTest extends TestCase
         $this->actingAs($user);
         View::share('user', $user);
     }
+
     /**
      * Send an email.
      *
@@ -66,5 +67,4 @@ class EmailControllerTest extends TestCase
 //        $response->dump();
         $response->assertStatus(302);
     }
-
 }

@@ -4,14 +4,13 @@ namespace Tests\Browser;
 
 use App\Task;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\VueTasksPage;
 use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
- * Class VueTasksTest
- * @package Tests\Browser
+ * Class VueTasksTest.
  */
 class VueTasksTest extends DuskTestCase
 {
@@ -56,20 +55,23 @@ class VueTasksTest extends DuskTestCase
         $user = $this->createUser();
         $this->assignRoleTaskManager($user);
         $browser->loginAs($user);
+
         return $user;
     }
 
     /**
      * List tasks.
+     *
      * @group prova
      * @test
+     *
      * @return void
      */
     public function list_tasks()
     {
         $this->browse(function (Browser $browser) {
             $this->login($browser);
-            $tasks = factory(Task::class,5)->create();
+            $tasks = factory(Task::class, 5)->create();
             $browser->maximize();
             $browser->visit(new VueTasksPage())
                 ->seeTitle('Tasques Vue')
@@ -77,7 +79,7 @@ class VueTasksTest extends DuskTestCase
                 ->seeBox('Tasques Vue')
 //                ->assertVue('tasks', $tasks->toArray(), '@tasks')
 //                ->seeTasks($tasks)
-            ;
+;
         });
     }
 
@@ -90,7 +92,7 @@ class VueTasksTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->login($browser);
-            $tasks = factory(Task::class,5)->create();
+            $tasks = factory(Task::class, 5)->create();
             $browser->maximize();
             $browser->visit(new VueTasksPage())
                 ->assertVue('tasks', $tasks->toArray(), '@tasks')
@@ -111,13 +113,12 @@ class VueTasksTest extends DuskTestCase
      * See completed tasks.
      *
      * @test
-     *
      */
     public function see_completed_tasks()
     {
         $this->browse(function (Browser $browser) {
             $this->login($browser);
-            $tasks = factory(Task::class,5)->create();
+            $tasks = factory(Task::class, 5)->create();
             $completed_tasks = factory(Task::class, 3)->states('completed')->create();
 
             $browser->maximize();
@@ -133,13 +134,12 @@ class VueTasksTest extends DuskTestCase
      *
      * @test
      * @group current
-     *
      */
     public function see_pending_tasks()
     {
         $this->browse(function (Browser $browser) {
             $this->login($browser);
-            $tasks = factory(Task::class,5)->create();
+            $tasks = factory(Task::class, 5)->create();
             $completed_tasks = factory(Task::class, 3)->states('completed')->create();
 
             $browser->maximize();
@@ -151,7 +151,7 @@ class VueTasksTest extends DuskTestCase
     }
 
     /**
-     * Add task
+     * Add task.
      */
     public function add_task()
     {
@@ -169,7 +169,7 @@ class VueTasksTest extends DuskTestCase
     }
 
     /**
-     * Edit task
+     * Edit task.
      */
     public function edit_task()
     {
@@ -190,7 +190,7 @@ class VueTasksTest extends DuskTestCase
     }
 
     /**
-     * Cancel edit
+     * Cancel edit.
      */
     public function cancel_edit()
     {
@@ -211,7 +211,7 @@ class VueTasksTest extends DuskTestCase
     }
 
     /**
-     * Delete task
+     * Delete task.
      */
     public function delete_task()
     {
@@ -229,7 +229,7 @@ class VueTasksTest extends DuskTestCase
     }
 
     /**
-     * Cancel delete task
+     * Cancel delete task.
      */
     public function cancel_delete_task()
     {
@@ -268,5 +268,4 @@ class VueTasksTest extends DuskTestCase
                 ->seeUnCompletedTask($task); //TODO
         });
     }
-
 }

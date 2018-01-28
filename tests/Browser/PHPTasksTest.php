@@ -4,14 +4,12 @@ namespace Tests\Browser;
 
 use App\Task;
 use App\User;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 /**
  * Class PHPTasksTest.
- *
- * @package Tests\Browser
  */
 class PHPTasksTest extends DuskTestCase
 {
@@ -44,11 +42,12 @@ class PHPTasksTest extends DuskTestCase
      * List tasks.
      *
      * @test
+     *
      * @return void
      */
     public function list_tasks()
     {
-        $this->browse(function (Browser $browser)  {
+        $this->browse(function (Browser $browser) {
             $tasks = factory(Task::class, 3)->create();
             $browser->maximize();
 //            $browser->resize(1920, 1080);
@@ -63,7 +62,7 @@ class PHPTasksTest extends DuskTestCase
             // See tasks box
             $browser->assertVisible('.box');
             //See box title
-            $browser->assertSeein('.box .box-title','Tasks:');
+            $browser->assertSeein('.box .box-title', 'Tasks:');
             //see table in box body
             $browser->assertVisible('.box .box-body .table');
 
@@ -74,12 +73,12 @@ class PHPTasksTest extends DuskTestCase
                 $browser->assertSee($task->name);
                 $browser->assertSee($task->user_id);
                 $browser->assertSee(User::findOrFail($task->user_id)->name);
-                $browser->assertVisible('#show-task-' . $task->id);
-                $this->assertContains('Show',$browser->text('#show-task-' . $task->id));
-                $browser->assertVisible('#edit-task-' . $task->id);
-                $this->assertContains('Edit',$browser->text('#edit-task-' . $task->id));
-                $browser->assertVisible('#delete-task-' . $task->id);
-                $this->assertContains('Delete',$browser->text('#delete-task-' . $task->id));
+                $browser->assertVisible('#show-task-'.$task->id);
+                $this->assertContains('Show', $browser->text('#show-task-'.$task->id));
+                $browser->assertVisible('#edit-task-'.$task->id);
+                $this->assertContains('Edit', $browser->text('#edit-task-'.$task->id));
+                $browser->assertVisible('#delete-task-'.$task->id);
+                $this->assertContains('Delete', $browser->text('#delete-task-'.$task->id));
             }
         });
     }
@@ -88,6 +87,7 @@ class PHPTasksTest extends DuskTestCase
      * Create tasks.
      *
      * @test
+     *
      * @return void
      */
     public function create_task()
@@ -119,12 +119,11 @@ class PHPTasksTest extends DuskTestCase
             // Assert see select/dropdown for user
             $browser->assertVisible('.box form select[name=user_id]');
 
-
 //            $browser->pause(500000);
 
             //See box footer
             $browser->assertVisible('.box .box-footer .btn');
-            $browser->assertInputValue('.box .box-footer .btn','Create');
+            $browser->assertInputValue('.box .box-footer .btn', 'Create');
 
             //Test validation
             $browser->press('Create');
@@ -146,8 +145,6 @@ class PHPTasksTest extends DuskTestCase
             $browser->assertSee('Buy bread');
 
 //            $browser->pause(500000);
-
-
         });
     }
 
@@ -155,6 +152,7 @@ class PHPTasksTest extends DuskTestCase
      * Show task.
      *
      * @test
+     *
      * @return void
      */
     public function show_task()
@@ -193,7 +191,6 @@ class PHPTasksTest extends DuskTestCase
             $browser->assertSee($tasks[0]->name);
             $browser->assertSee($tasks[0]->user_id);
             $browser->assertSee(User::findOrFail($tasks[0]->user_id)->name);
-
         });
     }
 
@@ -201,6 +198,7 @@ class PHPTasksTest extends DuskTestCase
      * Edit task.
      *
      * @test
+     *
      * @return void
      */
     public function edit_task()
@@ -226,23 +224,22 @@ class PHPTasksTest extends DuskTestCase
             //Test Edit
             $task = $tasks[0];
             $browser->visit('/tasks_php');
-            $browser->click('#edit-task-' . $task->id);
+            $browser->click('#edit-task-'.$task->id);
 
             $browser->type('name', 'Buy bread');
             //Select a random user in users dropdown
-            $browser->select('user_id',$tasks[1]->user_id);
+            $browser->select('user_id', $tasks[1]->user_id);
             $browser->press('Update');
 
             $browser->waitFor('.alert');
             $browser->waitForText('Edited ok!');
             $browser->assertSee('Edited ok!');
 
-            $browser->visit('/tasks_php/' . $task->id);
+            $browser->visit('/tasks_php/'.$task->id);
             $browser->assertSee('Buy bread');
             $browser->assertDontSee($task->name);
             $browser->assertSee(User::findOrFail($tasks[1]->user_id)->name);
             $browser->assertDontSee(User::findOrFail($task->user_id)->name);
-
         });
     }
 
@@ -250,9 +247,11 @@ class PHPTasksTest extends DuskTestCase
      * Delete task.
      *
      * @test
+     *
      * @return void
      */
-    public function delete_task()  {
+    public function delete_task()
+    {
         $this->browse(function (Browser $browser) {
             $tasks = factory(Task::class, 3)->create();
 
@@ -264,7 +263,7 @@ class PHPTasksTest extends DuskTestCase
             $browser->visit('/tasks_php');
 
             $task = $tasks[0];
-            $browser->click('#delete-task-' . $task->id);
+            $browser->click('#delete-task-'.$task->id);
 
             $browser->waitFor('.alert');
             $browser->waitForText('Task was deleted successful!');

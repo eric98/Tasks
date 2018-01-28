@@ -3,9 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\LogedUser;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Log;
 
 class AssignDefaultPermission implements ShouldQueue
 {
@@ -22,7 +20,8 @@ class AssignDefaultPermission implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
+     *
      * @return void
      */
     public function handle(LogedUser $event)

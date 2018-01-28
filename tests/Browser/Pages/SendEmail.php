@@ -20,7 +20,8 @@ class SendEmail extends BasePage
     /**
      * Assert that the browser is on the page.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
+     *
      * @return void
      */
     public function assert(Browser $browser)
@@ -31,9 +32,8 @@ class SendEmail extends BasePage
 //            ->pause(50000)
             ->assertSeeIn('.box-title', 'Send Email')
             ->assertMissing('.alert-success');
-            //->assertSourceHas($code)
+        //->assertSourceHas($code)
             //        $browser->assertVisible($selector)	Assert the element matching the given selector is visible.
-
     }
 
     /**
@@ -55,7 +55,7 @@ class SendEmail extends BasePage
      */
     public function assertSeeSuccess(Browser $browser)
     {
-        $browser->assertVisible('.alert-success')->assertSeeIn('.alert-success','Your email has been successfully send!');
+        $browser->assertVisible('.alert-success')->assertSeeIn('.alert-success', 'Your email has been successfully send!');
     }
 
     /**
