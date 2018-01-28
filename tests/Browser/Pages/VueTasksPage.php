@@ -7,9 +7,6 @@ use Laravel\Dusk\Page as BasePage;
 
 /**
  * Class VueTasksPage.
- *
- * @package Tests\Browser\Pages
- *
  */
 class VueTasksPage extends BasePage
 {
@@ -28,7 +25,8 @@ class VueTasksPage extends BasePage
     /**
      * Assert that the browser is on the page.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
+     *
      * @return void
      */
     public function assert(Browser $browser)
@@ -77,7 +75,7 @@ class VueTasksPage extends BasePage
     public function seeBox(Browser $browser, $title)
     {
         $browser->assertVisible('.box');
-        $browser->assertSeein('.box .box-title',$title);
+        $browser->assertSeein('.box .box-title', $title);
         $browser->assertVisible('.box .box-body td');
     }
 
@@ -92,7 +90,7 @@ class VueTasksPage extends BasePage
         foreach ($tasks as $task) {
             $this->seeTask($browser, $task);
         }
-        $browser->assertSee(count($tasks) . ' tasks left');
+        $browser->assertSee(count($tasks).' tasks left');
     }
 
     /**
@@ -186,7 +184,7 @@ class VueTasksPage extends BasePage
      */
     public function store_task(Browser $browser, $task)
     {
-        $this->type('name',$task->name);
+        $this->type('name', $task->name);
         $this->store($browser);
     }
 
@@ -200,7 +198,7 @@ class VueTasksPage extends BasePage
     {
         //Init edit
         $this->edit($browser);
-        $this->type('new-name',$newTask->name);
+        $this->type('new-name', $newTask->name);
         //Confirm edit
         $this->update($browser);
     }
@@ -215,7 +213,7 @@ class VueTasksPage extends BasePage
     {
         //Init edit
         $this->edit($browser);
-        $this->type('new-name',$newTask->name);
+        $this->type('new-name', $newTask->name);
         //Cancel edit
         $this->cancel_update($browser); // TODO
     }
@@ -233,7 +231,7 @@ class VueTasksPage extends BasePage
      */
     public function edit(Browser $browser, $task)
     {
-        $browser->press('#edit-task-' .  $task->id);
+        $browser->press('#edit-task-'.$task->id);
     }
 
     /**
@@ -274,7 +272,6 @@ class VueTasksPage extends BasePage
 
     public function toogle_complete() // TODO
     {
-
     }
 
     /**
@@ -282,7 +279,7 @@ class VueTasksPage extends BasePage
      */
     public function delete(Browser $browser, $task)
     {
-        $browser->press('@delete-task-' . $task->id);
+        $browser->press('@delete-task-'.$task->id);
     }
 
     /**
@@ -300,5 +297,4 @@ class VueTasksPage extends BasePage
     {
         $browser->press('@cancel-delete-task');
     }
-
 }

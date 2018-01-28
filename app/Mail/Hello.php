@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Hello extends Mailable
 {
@@ -30,6 +29,6 @@ class Hello extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.hello',['user' => $this->user]);
+        return $this->view('mails.hello', ['user' => $this->user]);
     }
 }

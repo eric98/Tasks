@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class PasswordGrantProxyController.
- *
- * @package App\Http\Controllers
  */
 class PasswordGrantProxyController extends Controller
 {
@@ -18,7 +16,7 @@ class PasswordGrantProxyController extends Controller
      */
     public function issueToken(PasswordGrantProxyControllerRequest $request)
     {
-        $http = new Client;
+        $http = new Client();
 
         $client = DB::table('oauth_clients')->where('id', 2)->first();
 
@@ -28,12 +26,12 @@ class PasswordGrantProxyController extends Controller
 
         $response = $http->post(url('http://tasks.test/oauth/token'), [
             'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => $client->id,
+                'grant_type'    => 'password',
+                'client_id'     => $client->id,
                 'client_secret' => $client->secret,
-                'username' => $request->username,
-                'password' => $request->password,
-                'scope' => '',
+                'username'      => $request->username,
+                'password'      => $request->password,
+                'scope'         => '',
             ],
         ]);
 

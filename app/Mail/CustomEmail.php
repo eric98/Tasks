@@ -5,12 +5,9 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * Class CustomEmail.
- *
- * @package App\Mail
  */
 class CustomEmail extends Mailable
 {
@@ -32,7 +29,6 @@ class CustomEmail extends Mailable
         $this->body = $body;
     }
 
-
     /**
      * Build the message.
      *
@@ -42,6 +38,7 @@ class CustomEmail extends Mailable
     {
         $body = $this->body;
         $this->subject($this->subject);
-        return $this->markdown('emails.custom', compact("body"));
+
+        return $this->markdown('emails.custom', compact('body'));
     }
 }

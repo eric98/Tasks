@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SendEmail;
 use App\Mail\CustomEmail;
-use Session;
 use Illuminate\Support\Facades\Mail;
+use Session;
 
 /**
  * Class EmailController.
- *
- * @package App\Http\Controllers
  */
 class EmailController extends Controller
 {
@@ -28,11 +26,12 @@ class EmailController extends Controller
      * Send email.
      *
      * @param SendEmail $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(SendEmail $request)
     {
-        Mail::to($request->emailto)->send(new CustomEmail($request->subject,$request->body));
+        Mail::to($request->emailto)->send(new CustomEmail($request->subject, $request->body));
 
         Session::flash('done', true);
 

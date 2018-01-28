@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SendEmail.
@@ -30,7 +29,7 @@ class SendEmail extends FormRequest
         return [
             'emailto' => 'required|email|max:255',
             'subject' => 'required',
-            'body' => 'required',
+            'body'    => 'required',
         ];
     }
 }

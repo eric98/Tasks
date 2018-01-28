@@ -3,18 +3,15 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\Browser\Pages\Home;
-use Tests\Browser\Pages\SendEmail;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Home;
+use Tests\DuskTestCase;
 
 /**
  * Class SendEmailTest.
- *
- * @package Tests\Browser
  */
-class SendEmailTest extends DuskTestCase
+class HomeTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
@@ -35,6 +32,7 @@ class SendEmailTest extends DuskTestCase
     {
         $user = factory(User::class)->create();
         $browser->loginAs($user);
+
         return $user;
     }
 
@@ -42,6 +40,7 @@ class SendEmailTest extends DuskTestCase
      * Show send email.
      *
      * @test
+     *
      * @return void
      */
     public function show_home()

@@ -2,15 +2,11 @@
 
 namespace Tests\Browser;
 
-use App\User;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 /**
  * Class TasksTest.
- *
- * @package Tests\Browser
  */
 class TasksTest extends DuskTestCase
 {
@@ -18,22 +14,22 @@ class TasksTest extends DuskTestCase
 
     /**
      * EventContainer
-     * EventsContainer
+     * EventsContainer.
      *
-
+     *
      * Separation of concerns:
-     <eventsContainer>
-       <crud-list :events="events" @create="create" @edit="edit" @delete="delete">
-     </eventsContainer>
+     * <eventsContainer>
+     * <crud-list :events="events" @create="create" @edit="edit" @delete="delete">
+     * </eventsContainer>
      *
      * https://medium.com/front-end-hacking/passing-methods-as-props-in-vue-js-d65805bccee
-
-
-     <events-container v-bind="{events, create, edit, delete}>
-
      *
-     Vuex EventsModule for actions related with events
-
+     *
+     * <events-container v-bind="{events, create, edit, delete}>
+     *
+     *
+     * Vuex EventsModule for actions related with events
+     *
      *
      * CONTAINERS:
      * EventsContainer
@@ -61,31 +57,29 @@ class TasksTest extends DuskTestCase
      *
      *
      *
-    import createApi from '../some/path';
-
-    const crud = createApi('/some/api/endpoint');
-
-    ...
-    actions: {
-        async getAll({ commit }) {
-            const data = await crud.getAll();
-            commit('SOME_MUTATION', data);
-        },
-        async get({ commit }, id) {
-            const data = await crud.get(id);
-            commit('SOME_MUTATION_1', data);
-        },
-        async update({ commit }, id) {
-            const data = await crud.update(id);
-            commit('SOME_MUTATION_2', data);
-        },
-        async delete({ commit }, id) {
-            const data = await crud.delete(id);
-            commit('SOME_MUTATION_3', data);
-        },
-    }
+     * import createApi from '../some/path';
      *
+     * const crud = createApi('/some/api/endpoint');
      *
+     * ...
+     * actions: {
+     * async getAll({ commit }) {
+     * const data = await crud.getAll();
+     * commit('SOME_MUTATION', data);
+     * },
+     * async get({ commit }, id) {
+     * const data = await crud.get(id);
+     * commit('SOME_MUTATION_1', data);
+     * },
+     * async update({ commit }, id) {
+     * const data = await crud.update(id);
+     * commit('SOME_MUTATION_2', data);
+     * },
+     * async delete({ commit }, id) {
+     * const data = await crud.delete(id);
+     * commit('SOME_MUTATION_3', data);
+     * },
+     * }
      */
 
     /**
@@ -104,7 +98,7 @@ class TasksTest extends DuskTestCase
      *    - https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
      *    - http://www.thegreatcodeadventure.com/the-react-plus-redux-container-pattern/
      *    - Full crud example?:
-     *    - https://medium.com/@rajaraodv/a-guide-for-building-a-react-redux-crud-app-7fe0b8943d0f
+     *    - https://medium.com/@rajaraodv/a-guide-for-building-a-react-redux-crud-app-7fe0b8943d0f.
      *
      * - Dusk selectors: https://laravel.com/docs/5.5/dusk#dusk-selectors
      * - Pot semblar que cal embrutar el HTML -> ok! Però es pot utilitzar : https://laravel.com/docs/5.5/dusk#shorthand-selectors
@@ -132,6 +126,7 @@ class TasksTest extends DuskTestCase
      * List tasks.
      *
      * @test
+     *
      * @return void
      */
     public function list_tasks()
@@ -147,7 +142,6 @@ class TasksTest extends DuskTestCase
 
         // See tasks
         // task name
-
 
         // Check for add task button
     }
@@ -165,9 +159,7 @@ class TasksTest extends DuskTestCase
         //Create different king of tasks
         //Visit page
         // Test filters: completed, all, pending etc...
-
     }
-
 
     public function create_task()
     {
@@ -213,7 +205,6 @@ class TasksTest extends DuskTestCase
         // Assert task is strikethrough (tachado)
     }
 
-
     public function complete_task()
     {
         // Click on checkbox or another commuter
@@ -226,6 +217,4 @@ class TasksTest extends DuskTestCase
         // Drag and drop
         // https://laravel.com/docs/5.5/dusk#using-the-mouse
     }
-
-
 }
