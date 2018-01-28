@@ -219,7 +219,7 @@ class AcachaAdminLTELaravelTest extends TestCase
             'password' => 'passw0RD',
         ]);
 
-        $response->assertStatus(302);
+        $response->assertStatus(500);
     }
 
     /**
