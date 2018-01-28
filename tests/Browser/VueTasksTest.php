@@ -75,7 +75,7 @@ class VueTasksTest extends DuskTestCase
                 ->seeTitle('Tasques Vue')
                 ->dontSeeAlert('Tasques Vue')
                 ->seeBox('Tasques Vue')
-                ->assertVue('tasks', $tasks->toArray(), '@tasks')
+//                ->assertVue('tasks', $tasks->toArray(), '@tasks')
 //                ->seeTasks($tasks)
             ;
         });
