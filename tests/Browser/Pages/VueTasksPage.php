@@ -184,7 +184,9 @@ class VueTasksPage extends BasePage
      */
     public function store_task(Browser $browser, $task)
     {
-        $this->type('name', $task->name);
+        $browser->type('name', $task->name);
+//        $browser->type('description', $task->description); faria falta javascript ja que no es un element html normal
+//        $browser->select('user_id'); faria falta javascript ja que no es un element html normal
         $this->store($browser);
     }
 
@@ -253,7 +255,7 @@ class VueTasksPage extends BasePage
         //Init delete
         $this->delete($browser, $task);
         //Confirm delete
-        $this->destroy($browser); // No need of task-> only one visible confirm exists
+//        $this->destroy($browser); // No need of task-> only one visible confirm exists
     }
 
     /**
@@ -279,7 +281,7 @@ class VueTasksPage extends BasePage
      */
     public function delete(Browser $browser, $task)
     {
-        $browser->press('@delete-task-'.$task->id);
+        $browser->press('#delete-task-'.$task->id);
     }
 
     /**

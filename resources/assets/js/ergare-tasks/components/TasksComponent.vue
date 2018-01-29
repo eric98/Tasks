@@ -100,7 +100,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modal-task" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>
-                            <button type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
+                            <button :id="'delete-task-'+task.id" type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
 
                             <div class="modal fade" id="modal-task">
                                 <div class="modal-dialog">
@@ -169,7 +169,7 @@
                 </div>
 
                 <!--aqui al button :disabled he llevat la opció de que es deshabilite si hi ha erros, ja que si sel·lecciones l'usuari desprès de que et salte l'error, el botó no s'habilita-->
-                <button :disabled="form.submitting" id="add" @click="addTask" class="btn btn-primary">
+                <button :disabled="form.submitting" id="store-task" @click="addTask" class="btn btn-primary">
                     <i class="fa fa-refresh fa-spin fa-lg" v-if="form.submitting"></i>
                     Afegir
                 </button>
