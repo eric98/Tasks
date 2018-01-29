@@ -246,8 +246,8 @@ class VueTasksTest extends DuskTestCase
             $browser->visit(new VueTasksPage())
                 ->destroy_task($task)
                 ->assertVue('taskBeingDeleted', $task->id, '@tasks') //  Test state
-//                ->assertVue('taskBeingDeleted', null, '@tasks') //  Test state
-                ->dontSeeTask($task);
+                ->dontSeeTask($task)
+                ->assertVue('taskBeingDeleted', null, '@tasks'); //  Test state
         });
     }
 

@@ -254,8 +254,9 @@ class VueTasksPage extends BasePage
     {
         //Init delete
         $this->delete($browser, $task);
+        sleep(1);
         //Confirm delete
-//        $this->destroy($browser); // No need of task-> only one visible confirm exists
+        $this->destroy($browser); // No need of task-> only one visible confirm exists
     }
 
     /**

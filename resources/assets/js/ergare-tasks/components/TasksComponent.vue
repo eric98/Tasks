@@ -100,13 +100,13 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modal-task" @click="showTask(task)"><span class="glyphicon glyphicon-search"></span></button>
-                            <button :id="'delete-task-'+task.id" type="button" class="btn btn-danger" @click="deleteTask(task)"><span class="fa fa-trash-o"></span></button>
+                            <button :id="'delete-task-'+task.id" type="button" class="btn btn-danger" data-backdrop="static" data-toggle="modal" data-target="#modal-task" @click="showTaskToDelete(task)"><span class="fa fa-trash-o"></span></button>
 
                             <div class="modal fade" id="modal-task">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-
+                                            <h2 v-if="deleting">Esteu segur de borrar aquesta tasca? </h2>
                                         </div>
                                         <div class="modal-body">
                                             <ul>
@@ -122,9 +122,15 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                            <button v-if="getTaskPos(showedTask)!=0" type="button" @click="showTask(afterBeforeTask(false))"><span><</span></button>
-                                            <button v-if="!isLastTaskFiltered(showedTask)"type="button" @click="showTask(afterBeforeTask(true))"><span>></span></button>
+                                            <div v-if="!deleting">
+                                                <button @click="cancelShow()" type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                <button v-if="getTaskPos(showedTask)!=0" type="button" @click="showTask(afterBeforeTask(false))"><span><</span></button>
+                                                <button v-if="!isLastTaskFiltered(showedTask)"type="button" @click="showTask(afterBeforeTask(true))"><span>></span></button>
+                                            </div>
+                                            <div v-else="!deleting">
+                                            <button @click="cancelShow()" type="button" class="btn btn-success pull-left" data-dismiss="modal">NO</button>
+                                            <button id="destroy-task" class="btn btn-danger" type="button" @click="deleteTask(showedTask);cancelShow()"><span>SI</span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +255,6 @@
       return {
         showedTask:'',
         showedTaskUserName:'',
-        showedInnerHTML: false,
         quillText: '',
         loading: false,
         editedTask: null,
@@ -260,6 +265,7 @@
         tasks: [],
         users: [],
         creating: false,
+        deleting: false,
         taskBeingDeleted: null,
         form: new Form({user_id:'',name:'',description:''})
       }
@@ -356,22 +362,6 @@
         this.newName = null
         this.quillText = null
       },
-      showInnerHTML(ids){
-
-        var content
-
-        ids.forEach((id) => {
-
-          if (this.showedInnerHTML){
-            content = document.getElementById(id).textContent
-          } else {
-            content = this.escapeHtml(document.getElementById(id).innerHTML)
-          }
-          document.getElementById(id).innerHTML = content
-        })
-
-        this.showedInnerHTML = !this.showedInnerHTML
-      },
       updateTaskBox(task,property,editedFinal){
         if (property == 'name'){
           this.quillText = this.newName
@@ -434,8 +424,12 @@
         })
         return username
       },
+      cancelShow(){
+        this.showedTask = ''
+        this.showedTaskUserName = ''
+        this.deleting = false
+      },
       showTask(task){
-        this.showedInnerHTML = true
         this.showedTask = task
         var username
         this.users.filter(function(user){
@@ -445,6 +439,10 @@
         })
         this.showedTaskUserName = username
         document.getElementById("show-description").innerHTML = "Description: "+this.showedTask.description
+      },
+      showTaskToDelete(task){
+        this.showTask(task)
+        this.deleting = true
       },
       addTask () {
         this.$emit('loading', true)
