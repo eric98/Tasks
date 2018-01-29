@@ -119,20 +119,19 @@ class VueTasksTest extends DuskTestCase
             $users = factory(User::class, 3)->create();
             $tasks = [Task::create(['name' => 'Comprar llet', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
                 Task::create(['name' => 'Comprar pa', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
-                Task::create(['name' => 'EstudiarPHP', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false])
+                Task::create(['name' => 'EstudiarPHP', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
             ];
             $completed_tasks = [
                 Task::create(['name' => 'Fer 3 anys', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
                 Task::create(['name' => 'Aprendre catala', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
-                    Task::create(['name' => 'Ser music', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true])
+                    Task::create(['name' => 'Ser music', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
             ];
 
             $browser->maximize();
             $browser->visit(new VueTasksPage())
                 ->applyCompletedFilter()
                 ->seeTasks($completed_tasks)
-                ->dontSeeTasks($tasks)
-            ;
+                ->dontSeeTasks($tasks);
         });
     }
 
@@ -148,26 +147,26 @@ class VueTasksTest extends DuskTestCase
             $users = factory(User::class, 3)->create();
             $tasks = [Task::create(['name' => 'Comprar llet', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
                 Task::create(['name' => 'Comprar pa', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
-                Task::create(['name' => 'EstudiarPHP', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false])
+                Task::create(['name' => 'EstudiarPHP', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => false]),
             ];
             $completed_tasks = [
                 Task::create(['name' => 'Fer 3 anys', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
                 Task::create(['name' => 'Aprendre catala', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
-                Task::create(['name' => 'Ser music', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true])
+                Task::create(['name' => 'Ser music', 'description' => 'Com sempre', 'user_id' => $users[0]->id, 'completed' => true]),
             ];
 
             $browser->maximize();
             $browser->visit(new VueTasksPage())
                 ->applyPendingFilter()
                 ->seeTasks($tasks)
-                ->dontSeeTasks($completed_tasks)
-            ;
+                ->dontSeeTasks($completed_tasks);
         });
     }
 
     /**
      * Add task.
-     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor
+     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor.
+     *
      * @test
      */
 //    public function add_task()
@@ -188,7 +187,8 @@ class VueTasksTest extends DuskTestCase
 
     /**
      * Edit task.
-     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor
+     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor.
+     *
      * @test
      */
 //    public function edit_task()
@@ -211,7 +211,8 @@ class VueTasksTest extends DuskTestCase
 
     /**
      * Cancel edit.
-     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor
+     * //no ho faig perque s'hauria de tocar codi javascript per a tocar els editors quill o medium-editor.
+     *
      * @test
      */
 //    public function cancel_edit()
@@ -253,6 +254,7 @@ class VueTasksTest extends DuskTestCase
 
     /**
      * Cancel delete task.
+     *
      * @group ds
      * @test
      */
@@ -272,7 +274,7 @@ class VueTasksTest extends DuskTestCase
         });
     }
 
-    /**
+    /*
      * Toogle complete task.
      * //no ho faig perque s'hauria de tocar codi javascript per a tocar el toggle-button
      * @test
