@@ -234,7 +234,7 @@ class VueTasksTest extends DuskTestCase
 
     /**
      * Delete task.
-     * @group ds
+     *
      * @test
      */
     public function delete_task()
@@ -253,23 +253,24 @@ class VueTasksTest extends DuskTestCase
 
     /**
      * Cancel delete task.
-     *
+     * @group ds
      * @test
      */
-//    public function cancel_delete_task()
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $this->login($browser);
-//            $browser->maximize();
-//            $task = factory(Task::class)->create();
-//            $browser->visit(new VueTasksPage())
-//                ->delete_task($task)
-//                ->assertVue('deleting', true, '@tasks') //  Test state
-//                ->cancel_delete() // TODO
-//                ->assertVue('deleting', false, '@tasks') //  Test state
-//                ->seeTask($task);
-//        });
-//    }
+    public function cancel_delete_task()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->login($browser);
+            $browser->maximize();
+            $task = factory(Task::class)->create();
+            $browser->visit(new VueTasksPage())
+                ->delete($task)
+                ->assertVue('deleting', true, '@tasks') //  Test state
+                    ->pause(1000)
+                ->cancel_delete() // TODO
+                ->assertVue('deleting', false, '@tasks') //  Test state
+                ->seeTask($task);
+        });
+    }
 
     /**
      * Toogle complete task.

@@ -128,7 +128,7 @@
                                                 <button v-if="!isLastTaskFiltered(showedTask)"type="button" @click="showTask(afterBeforeTask(true))"><span>></span></button>
                                             </div>
                                             <div v-else="!deleting">
-                                            <button @click="cancelShow()" type="button" class="btn btn-success pull-left" data-dismiss="modal">NO</button>
+                                            <button id="cancel-delete-task" @click="cancelShow()" type="button" class="btn btn-success pull-left" data-dismiss="modal">NO</button>
                                             <button id="destroy-task" class="btn btn-danger" type="button" @click="deleteTask(showedTask);cancelShow()"><span>SI</span></button>
                                             </div>
                                         </div>
