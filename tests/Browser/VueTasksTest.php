@@ -265,7 +265,7 @@ class VueTasksTest extends DuskTestCase
             $browser->visit(new VueTasksPage())
                 ->delete($task)
                 ->assertVue('deleting', true, '@tasks') //  Test state
-                    ->pause(1000)
+                ->pause(1000)
                 ->cancel_delete() // TODO
                 ->assertVue('deleting', false, '@tasks') //  Test state
                 ->seeTask($task);
