@@ -255,7 +255,6 @@ class VueTasksTest extends DuskTestCase
     /**
      * Cancel delete task.
      *
-     * @group ds
      * @test
      */
     public function cancel_delete_task()
