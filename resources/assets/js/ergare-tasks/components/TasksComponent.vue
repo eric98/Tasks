@@ -2,6 +2,7 @@
     <div>
         <widget :loading="loading">
             <button type="button" class="btn btn-success" @click="setEditorRadioButtonChecked()" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>
+            <button type="button" class="btn btn-warning" id="reload" @click="reloadPage()">Reload page</button>
             <div class="modal fade" id="modal-options">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -132,12 +133,13 @@
                     </tr>
                     </tbody></table>
 
-                Tasques pendents: {{ pendingTasks }}
+                Tasques pendents: {{ pendingTasks }} <br>
+                Tasques filtrades: {{ filteredTasks.length }}
                 <br>
                 <div class="btn-group">
                     <button @click="show('all')" type="button" class="btn btn-default" :class="{ 'btn-primary': this.filter === 'all' }">All</button>
-                    <button @click="show('completed')" type="button" class="btn btn-default" :class="{ 'btn-primary': this.filter === 'completed' }">Completed</button>
-                    <button @click="show('pending')" type="button" class="btn btn-default" :class="{ 'btn-primary': this.filter === 'pending' }">Pending</button>
+                    <button id="completed-tasks" @click="show('completed')" type="button" class="btn btn-default" :class="{ 'btn-primary': this.filter === 'completed' }">Completed</button>
+                    <button id="pending-tasks" @click="show('pending')" type="button" class="btn btn-default" :class="{ 'btn-primary': this.filter === 'pending' }">Pending</button>
                 </div>
                 <div class="form-group has-feedback" :class="{ 'has-error': form.errors.has('user_id') }">
                     <label for="user_id">User</label>
@@ -277,7 +279,7 @@
       },
       pendingTasks () {
         return filters['pending'](this.tasks).length
-      }
+      },
     },
     methods: {
       human(date) {
@@ -301,10 +303,13 @@
           {
             console.log(localStorage.getItem('editor'))
             localStorage.setItem('editor', radios[i].value)
-            location.href=window.location.href
+            window.location.reload()
             break
           }
         }
+      },
+      reloadPage(){
+        window.location.reload()
       },
       isLastTaskFiltered(task){
         var length = this.filteredTasks.length

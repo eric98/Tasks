@@ -90,7 +90,7 @@ class VueTasksPage extends BasePage
         foreach ($tasks as $task) {
             $this->seeTask($browser, $task);
         }
-        $browser->assertSee(count($tasks).' tasks left');
+        $browser->assertSee('Tasques filtrades: '.count($tasks));
     }
 
     /**

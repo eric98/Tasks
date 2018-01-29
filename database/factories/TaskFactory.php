@@ -11,3 +11,7 @@ $factory->define(App\Task::class, function (Faker $faker) {
         'completed'   => false,
     ];
 });
+
+$factory->state(App\Task::class, 'completed', [
+    'completed' => 'completed',
+]);
