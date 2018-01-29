@@ -7,5 +7,5 @@
 
 @section('main-content')
     {{--<users></users>--}}
-    <tasks></tasks>
+    <tasks id="tasks"></tasks>
 @endsection

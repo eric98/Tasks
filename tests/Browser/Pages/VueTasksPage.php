@@ -42,7 +42,7 @@ class VueTasksPage extends BasePage
     public function elements()
     {
         return [
-            '@tasks'                => '#tasks-component',
+            '@tasks'                => '#tasks',
             '@reload'               => '#reload',
             '@completed'            => '#completed-tasks',
             '@pending'              => '#pending-tasks',

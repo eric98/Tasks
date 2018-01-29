@@ -62,7 +62,6 @@ class VueTasksTest extends DuskTestCase
     /**
      * List tasks.
      *
-     *
      * @test
      *
      * @return void
@@ -77,14 +76,14 @@ class VueTasksTest extends DuskTestCase
                 ->seeTitle('Tasques Vue')
                 ->dontSeeAlert('Tasques Vue')
                 ->seeBox('Tasques Vue')
-//                ->assertVue('tasks', $tasks->toArray(), '@tasks')
+                ->assertVue('tasks', $tasks->toArray(), '@tasks')
                 ->seeTasks($tasks);
         });
     }
 
     /**
      * Reload.
-     *
+     * @group prova2
      * @test
      */
     public function reload()
@@ -94,16 +93,16 @@ class VueTasksTest extends DuskTestCase
             $tasks = factory(Task::class, 5)->create();
             $browser->maximize();
             $browser->visit(new VueTasksPage())
-//                ->assertVue('tasks', $tasks->toArray(), '@tasks')
+                ->assertVue('tasks', $tasks->toArray(), '@tasks')
                 ->seeTasks($tasks);
 
             $task = factory(Task::class)->create();
 
             $browser->reload()
 //                ->assertVisible('div.overlay>.fa-refresh')
-//                ->assertVue('loading', true, '@tasks')
+                ->assertVue('loading', true, '@tasks')
 //                ->waitUntilMissing('div.overlay>.fa-refresh')
-//                ->assertVue('loading', false, '@tasks')
+                ->assertVue('loading', false, '@tasks')
                 ->seeTask($task);
         });
     }
