@@ -17,7 +17,7 @@ class AdminUserSeeder extends Seeder
         try {
             factory(App\User::class)->create([
                     'name'     => 'eric98',
-                    'email'    => 'ergare.17@gmail.com',
+                    'email'    => 'ericgarcia@iesebre.com',
                     'password' => bcrypt(env('ADMIN_PWD', '123456')), ]
             );
         } catch (\Illuminate\Database\QueryException $exception) {
