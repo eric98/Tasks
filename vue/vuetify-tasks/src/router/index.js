@@ -5,11 +5,22 @@ import HelloWorld from '@/components/HelloWorld'
 import Landing from '@/components/Landing'
 import Login from '@/components/Login'
 import Tasks from '@/components/Tasks'
+import Counter from '@/components/CounterComponent'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/counter',
+      name: 'Counter',
+      component: Counter
+    },
+    {
+      path: '/tasks',
+      name: 'Tasks',
+      component: Tasks
+    },
     {
       path: '/',
       name: 'Landing',

@@ -1,0 +1,10 @@
+export const ADD_TASK = 'ADD_TASK'
+export const LIST_TASK = 'LIST_TASK'
+export const SHOW_TASK = 'SHOW_TASK'
+export const UPDATE_TASK = 'UPDATE_TASK'
+export const DELETE_TASK = 'DELETE_TASK'
+export const SET_TASKS = 'SET_TASKS'
+
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+export const COUNT = 'COUNT'
