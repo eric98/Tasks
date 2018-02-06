@@ -418,7 +418,7 @@
       showUserName(task){
         var username
         this.users.filter(function(user){
-          if (user.id == task.id){
+          if (user.id == task.user_id){
             username = user.name
           }
         })

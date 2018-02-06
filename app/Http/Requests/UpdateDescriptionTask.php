@@ -25,7 +25,9 @@ class UpdateDescriptionTask extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'                  => 'required',
+            'description'           => 'required',
+            'user_id'               => 'required',
         ];
     }
 }

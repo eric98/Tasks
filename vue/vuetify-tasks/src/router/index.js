@@ -4,7 +4,7 @@ import MainLayout from '@/components/layouts/MainLayout'
 import HelloWorld from '@/components/HelloWorld'
 import Landing from '@/components/Landing'
 import Login from '@/components/Login'
-import Tasks from '@/components/Tasks'
+import Tasks from '@/components/TaskComponent'
 import Counter from '@/components/CounterComponent'
 
 Vue.use(Router)
@@ -45,16 +45,16 @@ export default new Router({
             description: 'Vue hello World',
             requiresAuth: true
           }
-        },
-        {
-          path: 'tasks',
-          name: 'Tasks',
-          component: Tasks,
-          meta: {
-            description: 'Tasks',
-            requiresAuth: true
-          }
         }
+        // {
+        //   path: 'tasks',
+        //   name: 'Tasks',
+        //   component: Tasks,
+        //   meta: {
+        //     description: 'Tasks',
+        //     requiresAuth: true
+        //   }
+        // }
       ]
     }
   ]
