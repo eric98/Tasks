@@ -2,7 +2,7 @@
     <div>
         <widget :loading="loading">
             <button type="button" class="btn btn-success" @click="setEditorRadioButtonChecked()" data-backdrop="static" data-toggle="modal" data-target="#modal-options"><span class="glyphicon glyphicon-cog"></span></button>
-            <button type="button" class="btn btn-warning" id="reload" @click="reloadPage()">Reload page</button>
+            <button type="button" class="btn btn-warning" id="reload" @click="reload()">Reload tasks</button>
             <div class="modal fade" id="modal-options">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -90,7 +90,21 @@
                             <medium-editor v-bind:id="'description-'+task.id" v-else-if="editor == 'medium-editor'" class="description" :text='task.description' v-on:edit='updateDescriptionTask(task)'></medium-editor>
                         </td>
                         <td>
-                            {{ showUserName(task) }}
+                            <div v-if="editingUserId!=task.id">
+                                <button type="button" class="btn btn-warning" @click="editTaskUserId(task)"><span class="fa fa-pencil"></span></button>
+                                {{ showUserName(task) }}
+                            </div>
+                            <div v-else="editingUserId!=task.id">
+                                <button type="button" class="btn btn-success" @click="updateUserIdTask(task); cancelEdit();"><span class="fa fa-check"></span></button>
+                                <button type="button" class="btn btn-danger" @click="cancelEdit()"><span class="fa fa-times"></span></button>
+                                <users @select="userEditedSelected" v-model="task.user_id" :value="newUserId"></users>
+                            </div>
+
+                            <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
+                                   <!--@keyup.enter="updateUserIdTask(task)" @keyup.esc="cancelEdit(task)">-->
+                            <div v-else v-bind:id="'userName-'+task.id" @dblclick="editTaskName(task)">
+                                {{ showUserName(task) }}
+                            </div>
                         </td>
                         <td>
                             <a class="pull-right" data-toggle="tooltip" :title="task.created_at" v-text="human(task.created_at)"></a>
@@ -128,8 +142,8 @@
                                                 <button v-if="!isLastTaskFiltered(showedTask)"type="button" @click="showTask(afterBeforeTask(true))"><span>></span></button>
                                             </div>
                                             <div v-else="!deleting">
-                                            <button id="cancel-delete-task" @click="cancelShow()" type="button" class="btn btn-success pull-left" data-dismiss="modal">NO</button>
-                                            <button id="destroy-task" class="btn btn-danger" type="button" @click="deleteTask(showedTask);cancelShow()"><span>SI</span></button>
+                                                <button id="cancel-delete-task" @click="cancelShow()" type="button" class="btn btn-success pull-left" data-dismiss="modal">NO</button>
+                                                <button id="destroy-task" class="btn btn-danger" type="button" @click="deleteTask(showedTask);cancelShow()" data-dismiss="modal"><span>SI</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -241,11 +255,13 @@
 
   import createApiTask from './tasks/api/tasks';
   import createApiDescriptionTask from './tasks/api/descriptionTasks';
+  import createApiUserIdTask from './tasks/api/userIdTasks';
   import createApiCompleteTask from './tasks/api/completeTasks';
   import createApiUsers from './tasks/api/users';
 
   const crudTask = createApiTask(API_TASKS_URL);
   const crudTaskDescription = createApiDescriptionTask(API_URL+'description-task/');
+  const crudTaskUserId = createApiUserIdTask(API_URL+'user_id-task/');
   const crudTaskComplete = createApiCompleteTask(API_URL+'complete-task/');
   const crudUsers = createApiUsers(API_URL+'users/');
 
@@ -256,11 +272,13 @@
         showedTask:'',
         showedTaskUserName:'',
         quillText: '',
-        loading: false,
+        loading: true,
         editedTask: null,
+        editingUserId: false,
         filter: 'all',
         newName: '',
         newDescription: '',
+        newUserId: '',
         name: '',
         tasks: [],
         users: [],
@@ -294,6 +312,9 @@
       userSelected(user) {
         this.form.user_id = user.id
       },
+      userEditedSelected(user) {
+        this.newUserId = user.id
+      },
       show(filter) {
         this.filter = filter
       },
@@ -314,8 +335,9 @@
           }
         }
       },
-      reloadPage(){
-        window.location.reload()
+      reload(){
+        this.tasks = []
+        this.fetchTasks()
       },
       isLastTaskFiltered(task){
         var length = this.filteredTasks.length
@@ -358,6 +380,7 @@
       },
       cancelEdit(){
         this.editedTask = null
+        this.editingUserId = false
         this.newDescription = null
         this.newName = null
         this.quillText = null
@@ -445,7 +468,7 @@
         this.deleting = true
       },
       addTask () {
-        this.$emit('loading', true)
+        this.loading = true
         this.creating = true
         if (config.editor == 'medium-editor') {
           console.log(document.getElementById("description").innerHTML)
@@ -467,11 +490,11 @@
           flash(error.message)
         }).then(() => {
           this.creating = false
-          this.$emit('loading', false)
+          this.loading = false
         })
       },
       deleteTask (task) {
-        this.$emit('loading', true)
+        this.loading = true
         this.taskBeingDeleted = task.id
         crudTask.destroy(task.id).then(() => {
           this.tasks.splice(this.tasks.indexOf(task), 1)
@@ -479,7 +502,7 @@
           flash(error.message)
         }).then(() => {
           this.taskBeingDeleted = null
-          this.$emit('loading', false)
+          this.loading = false
         })
       },
       updateNewTextQuill(text,property) {
@@ -504,7 +527,7 @@
         return idTask
       },
       updateNameTask (task) {
-        this.$emit('loading', true)
+        this.loading = true
         crudTask.update(task.id, {name: this.newName}).then((response) =>  {
           this.tasks[this.tasks.indexOf(task)].name = this.newName;
           this.newName = ''
@@ -512,7 +535,17 @@
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
+        })
+      },
+      updateUserIdTask(task) {
+        this.loading = true
+        crudTaskUserId.update(task.id, {user_id: this.newUserId }).then((response) =>  {
+          this.tasks[this.tasks.indexOf(task)].user_id = this.newUserId;
+        }).catch((error) => {
+          flash(error.message)
+        }).then(() => {
+          this.loading = false
         })
       },
       updateDescriptionTask(task) {
@@ -520,16 +553,19 @@
         if (this.newDescription.startsWith('<p>') && this.newDescription.endsWith('</p>')){
           this.newDescription = this.newDescription.substring(3,this.newDescription.length-4)
         }
-        this.$emit('loading', true)
+        this.loading = true
         crudTaskDescription.update(idTask, {description: this.newDescription }).catch((error) => {
           flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
         })
       },
       editTaskName (task) {
         this.editedTask = task
         this.newName = task.name
+      },
+      editTaskUserId (task) {
+        this.editingUserId = task.id
       },
       editTaskDescription(task){
         this.editedTask = task.id
@@ -537,48 +573,50 @@
         this.quillText = task.description
       },
       completeTask(task){
-        this.$emit('loading', true)
+        this.loading = true
         crudTaskComplete.store(task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
         })
       },
       incompleteTask(task){
-        this.$emit('loading', true)
+        this.loading = true
         crudTaskComplete.destroy(task.id).then((response) => {
         }).catch((error) => {
           flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
         }).then(
           this.taskBeingDeleted = null
         )
       },
       fetchTasks(){
-        this.$emit('loading', true)
+        this.loading = true
         crudTask.getAll().then( response => {
           this.tasks = response.data
         }).catch( error => {
           console.log(error)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
         })
       },
       fetchUsers(){
-        this.$emit('loading', true)
+        this.loading = true
         crudUsers.getAll().then((response) => {
           this.users = response.data
         }).catch((error) => {
           console.log(error)
           flash(error.message)
         }).then(() => {
-          this.$emit('loading', false)
+          this.loading = false
         })
       }
     },
     mounted () {
+      this.loading = true
+      console.log('loading: '+this.loading)
       new MediumEditor('.editable');
       this.fetchTasks();
       this.fetchUsers();

@@ -19,6 +19,8 @@ if (!function_exists('initialize_task_permission')) {
 
         Permission::firstOrCreate(['name' => 'update-description-tasks']);
 
+        Permission::firstOrCreate(['name' => 'update-user_id-tasks']);
+
         $role = Role::firstOrCreate(['name' => 'task-manager']);
 
         $role->givePermissionTo('list-tasks');
@@ -32,6 +34,8 @@ if (!function_exists('initialize_task_permission')) {
         $role->givePermissionTo('destroy-completed-tasks');
 
         $role->givePermissionTo('update-description-tasks');
+
+        $role->givePermissionTo('update-user_id-tasks');
     }
 }
 

@@ -30,7 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1', 'middleware' => ['throttl
 
         Route::put('description-task/{task}', 'ApiDescriptionTaskController@update');
 
-//        Route::get('tasks/statuschance/{task}', 'ApiTaskController@complete');
+        Route::put('user_id-task/{task}', 'ApiUserIdTaskController@update');
 
         Route::get('users', 'ApiUserController@index');
         Route::get('users/{user}', 'ApiUserController@show');
