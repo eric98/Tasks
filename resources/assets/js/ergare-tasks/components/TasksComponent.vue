@@ -99,9 +99,6 @@
                                 <button type="button" class="btn btn-danger" @click="cancelEdit()"><span class="fa fa-times"></span></button>
                                 <users @select="userEditedSelected" v-model="task.user_id" :value="newUserId"></users>
                             </div>
-
-                            <!--<input type="text" v-model="newName" id="newName" v-if="task==editedTask"-->
-                                   <!--@keyup.enter="updateUserIdTask(task)" @keyup.esc="cancelEdit(task)">-->
                             <div v-else v-bind:id="'userName-'+task.id" @dblclick="editTaskName(task)">
                                 {{ showUserName(task) }}
                             </div>
@@ -616,7 +613,6 @@
     },
     mounted () {
       this.loading = true
-      console.log('loading: '+this.loading)
       new MediumEditor('.editable');
       this.fetchTasks();
       this.fetchUsers();

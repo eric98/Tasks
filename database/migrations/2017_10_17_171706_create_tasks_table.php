@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->boolean('completed')->nullable();
             $table->timestamps();
 
-            //TODO FOREIGN KEYS
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
         });
     }
 

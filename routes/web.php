@@ -24,6 +24,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     //adminlte_routes
+
+    // TIMELINE
+    Route::get('tasks/timeline','TasksTimelineControler@index');
+
+    // PURE PHP INTERFACE
     Route::get('tasks_php', 'TaskController@index');
     Route::get('tasks_php/create', 'TaskController@create');
     Route::get('tasks_php/edit/{task}', 'TaskController@edit');
