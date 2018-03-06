@@ -253,7 +253,7 @@ class PHPTasksTest extends DuskTestCase
     public function delete_task()
     {
         $this->browse(function (Browser $browser) {
-            $tasks = factory(Task::class, 3)->create();
+            $tasks = factory(Task::class, 1)->create();
 
             $browser->maximize();
             $user = factory(User::class)->create();

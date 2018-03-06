@@ -60,7 +60,6 @@ class EmailControllerTest extends TestCase
 
 //        Mail::assertSent(CustomEmail::class);
         Mail::assertSent(CustomEmail::class, function ($mail) use ($emailto, $subject) {
-//            dd($mail);
             return $mail->to[0]['address'] === $emailto && $mail->subject === $subject && $mail->subject === $subject;
         });
 

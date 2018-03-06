@@ -63,7 +63,6 @@ class TaskControllerTest extends TestCase
     {
         $task = factory(Task::class)->create();
         $this->loginAsTaskManager();
-        $user = factory(User::class)->create();
 
         $response = $this->get('/tasks_php/'.$task->id);
 
