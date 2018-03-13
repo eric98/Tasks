@@ -22,8 +22,6 @@ class EmailControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-//        initialize_email_permissions(); //TODO
-//        $this->withoutExceptionHandling();
     }
 
     /**
@@ -32,7 +30,6 @@ class EmailControllerTest extends TestCase
     protected function loginAsEmailManager()
     {
         $user = factory(User::class)->create();
-//        $user->assignRole('email-manager');
         $this->actingAs($user);
         View::share('user', $user);
     }
@@ -42,7 +39,7 @@ class EmailControllerTest extends TestCase
      *
      * @test
      */
-    public function send_and_email()
+    public function send_an_email()
     {
         $this->loginAsEmailManager();
 
@@ -58,12 +55,10 @@ class EmailControllerTest extends TestCase
             'body'        => $body,
         ]);
 
-//        Mail::assertSent(CustomEmail::class);
         Mail::assertSent(CustomEmail::class, function ($mail) use ($emailto, $subject) {
             return $mail->to[0]['address'] === $emailto && $mail->subject === $subject && $mail->subject === $subject;
         });
 
-//        $response->dump();
         $response->assertStatus(302);
     }
 }
