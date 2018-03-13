@@ -21,10 +21,6 @@ class SendEmailTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        // TODO: Control who can send emails
-//        initialize_email_permissions();
-//        Artisan::call('passport:install');
-//        $this->withoutExceptionHandling();
     }
 
     /**
@@ -35,7 +31,6 @@ class SendEmailTest extends DuskTestCase
     protected function loginAndAuthorize($browser)
     {
         $user = factory(User::class)->create();
-//        $user->assignRole('emails-manager');
         $browser->loginAs($user);
 
         return $user;

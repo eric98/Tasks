@@ -42,11 +42,10 @@ class SendEmail extends BasePage
     public function sendEmail(Browser $browser)
     {
         $browser
-            ->type('emailto', 'sergiturbadenas@gmail.com')
-            ->type('subject', 'Whatsapp bro!');
-//            ->type('body', 'How are you? bla bla bla bla') Does not works with wysihtml5 -> textarea is display:none so we cannot interact with
+            ->type('emailto', 'ericgarcia@iesebre.com')
+            ->type('subject', 'Email de prova');
         // Instead use Javascript to set value
-        $browser->script("$('textarea[name=\"body\"').html('How are you? bla bla bla bla');");
+        $browser->script("$('textarea[name=\"body\"').html('Contingut del correu...');");
         $browser->pause(500)->press('Send');
     }
 
