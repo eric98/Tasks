@@ -45,9 +45,9 @@ class EmailControllerTest extends TestCase
 
         Mail::fake();
 
-        $emailto = 'sergiturbadenas@gmail.com';
-        $subject = 'Prova que tal!!!';
-        $body = 'Contingut del email';
+        $emailto = 'ericgarcia@iesebre.com';
+        $subject = 'Correu de test';
+        $body = 'Contingut del correu';
 
         $response = $this->post('/email', [
             'emailto'     => $emailto,
