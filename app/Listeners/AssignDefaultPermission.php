@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\LogedUser;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
 class AssignDefaultPermission implements ShouldQueue
 {

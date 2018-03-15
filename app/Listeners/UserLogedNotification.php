@@ -30,6 +30,5 @@ class UserLogedNotification
     {
         $hello = new Hello($event->user);
         Mail::to($event->user)->send($hello);
-        Log::info('TODO user loged notification');
     }
 }
