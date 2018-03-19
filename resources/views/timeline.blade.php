@@ -21,7 +21,7 @@
 				<h3 class="timeline-header">Task name: <a href="/tasks_php/{{$event->id}}">{{ $event->task_name }}</a></h3>
 
 				<div class="timeline-body">
-					Task <b>{{ $event->task_name }}</b> was created at <b>{{ $event->created_at }}</b>, and is owned by <b>{{ $event->user_name }}</b></b>.
+					Task <b>{{ $event->task_name }}</b> was created <b>{{date('F j, Y, g:i a', strtotime($event->time))}}</b>, and is owned by <b>{{ $event->user_name }}</b></b>.
 				</div>
 
 				{{--<div class="timeline-footer">--}}
