@@ -5,10 +5,8 @@ namespace Tests\Feature;
 use App\Task;
 use App\TaskEvent;
 use App\User;
-use stdClass;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class TasksTimeLineTest extends TestCase
 {
@@ -32,9 +30,9 @@ class TasksTimeLineTest extends TestCase
 
         // CREATE TASK
         $task = Task::create([
-            'name' => 'Comprar pa',
+            'name'        => 'Comprar pa',
             'description' => 'Com sempre',
-            'user_id' => $user->id
+            'user_id'     => $user->id,
         ]);
 
         // RETRIEVE
@@ -42,7 +40,7 @@ class TasksTimeLineTest extends TestCase
 
         // UPDATE TASK
         $task->update([
-            'name' => 'Comprar oli'
+            'name' => 'Comprar oli',
         ]);
 
         // DELETE TASK
@@ -58,6 +56,6 @@ class TasksTimeLineTest extends TestCase
         $task_events = TaskEvent::all();
 
         $response->assertViewIs('timeline');
-        $response->assertViewHas('task_events',$task_events);
+        $response->assertViewHas('task_events', $task_events);
     }
 }

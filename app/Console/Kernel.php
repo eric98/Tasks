@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Mail\HelloUser;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Kernel extends ConsoleKernel
 {
-    private $date = "2018-03-20";
+    private $date = '2018-03-20';
 
     /**
      * The Artisan commands provided by your application.
@@ -34,7 +33,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        if (substr( Carbon::now(), 0, 10 ) === $this->date){
+        if (substr(Carbon::now(), 0, 10) === $this->date) {
             $schedule->call(function () {
                 Mail::to('sergiturbadenas@gmail.com')->send(new HelloUser());
             })->at('08:00');

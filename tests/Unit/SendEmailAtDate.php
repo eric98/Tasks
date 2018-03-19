@@ -3,8 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SendEmailAtDate extends TestCase
 {
@@ -13,6 +11,5 @@ class SendEmailAtDate extends TestCase
      */
     public function send_email_if_is_correct_date()
     {
-
     }
 }

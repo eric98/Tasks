@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     //adminlte_routes
 
     // TIMELINE
-    Route::get('tasks/timeline','TasksTimelineControler@index');
+    Route::get('tasks/timeline', 'TasksTimelineControler@index');
 
     // PURE PHP INTERFACE
     Route::get('tasks_php', 'TaskController@index');
