@@ -94,11 +94,6 @@ class RegisterController extends Controller
 
         event(new RegisteredUser($user));
 
-//        Log::info('register with events correct');
-
-
-//        $user->assignRole('task-manager');
-
         return $user;
     }
 }

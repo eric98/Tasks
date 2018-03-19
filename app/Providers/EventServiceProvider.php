@@ -6,6 +6,7 @@ use App\Events\LogedUser;
 use App\Events\RegisteredUser;
 use App\Listeners\AssignDefaultPermission;
 use App\Listeners\UserLogedNotification;
+use App\Listeners\UserRegisteredNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -23,6 +24,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         RegisteredUser::class => [
             AssignDefaultPermission::class,
+            UserRegisteredNotification::class,
         ],
     ];
 
