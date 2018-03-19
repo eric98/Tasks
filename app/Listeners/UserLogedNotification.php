@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\LogedUser;
 use App\Mail\Hello;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UserLogedNotification

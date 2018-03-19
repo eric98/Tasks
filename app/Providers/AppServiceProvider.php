@@ -20,12 +20,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-           if (Auth::user()){
-               $view->with('user',Auth::user());
-           } else {
-               // NullObject
-               $view->with('user', new GuestUser());
-           }
+            if (Auth::user()) {
+                $view->with('user', Auth::user());
+            } else {
+                // NullObject
+                $view->with('user', new GuestUser());
+            }
         });
 
         Task::observe(TaskObserver::class);

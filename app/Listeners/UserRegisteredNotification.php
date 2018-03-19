@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\RegisteredUser;
 use App\Mail\HelloUser;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class UserRegisteredNotification
@@ -23,7 +21,8 @@ class UserRegisteredNotification
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
+     *
      * @return void
      */
     public function handle(RegisteredUser $event)
