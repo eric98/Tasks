@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\RegisteredUser;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -91,7 +92,12 @@ class RegisterController extends Controller
 
         $user = User::create($fields);
 
-        $user->assignRole('task-manager');
+        event(new RegisteredUser($user));
+
+        Log::info('register with events correct');
+
+
+//        $user->assignRole('task-manager');
 
         return $user;
     }

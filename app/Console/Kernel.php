@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Kernel extends ConsoleKernel
 {
-    private $date = "2018-03-13";
+    private $date = "2018-03-19";
 
     /**
      * The Artisan commands provided by your application.
@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         if (substr( Carbon::now(), 0, 10 ) === $this->date){
             $schedule->call(function () {
                 Mail::to(User::find(1))->send(new HelloUser());
-            })->dailyAt('00:00');
+            })->dailyAt('07:00');
         }
     }
 
