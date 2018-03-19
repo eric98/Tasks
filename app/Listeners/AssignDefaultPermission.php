@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\LogedUser;
+use App\Events\RegisteredUser;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +25,7 @@ class AssignDefaultPermission implements ShouldQueue
      *
      * @return void
      */
-    public function handle(LogedUser $event)
+    public function handle(RegisteredUser $event)
     {
         $event->user->assignRole('task-manager');
     }

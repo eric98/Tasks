@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         LogedUser::class => [
-            AssignDefaultPermission::class,
+//            AssignDefaultPermission::class,
             UserLogedNotification::class,
         ],
         RegisteredUser::class => [
