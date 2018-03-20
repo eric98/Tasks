@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Acacha\User\GuestUser;
 use App\Observers\TaskObserver;
+use App\Observers\TasksObserver;
 use App\Task;
 use Auth;
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Task::observe(TaskObserver::class);
+        Task::observe(TasksObserver::class);
     }
 
     /**
