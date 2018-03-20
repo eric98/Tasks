@@ -19,7 +19,7 @@ class TasksObserver
      */
     public function created(Task $task)
     {
-        if (Auth::check()){
+        if (Auth::check()) {
             $username = Auth::user()->name;
         } else {
             $username = User::findOrFail($task->user_id)->name;
@@ -43,7 +43,7 @@ class TasksObserver
      */
     public function deleted(Task $task)
     {
-        if (Auth::check()){
+        if (Auth::check()) {
             $username = Auth::user()->name;
         } else {
             $username = User::findOrFail($task->user_id)->name;
@@ -70,7 +70,7 @@ class TasksObserver
 
     public function updated(Task $task)
     {
-        if (Auth::check()){
+        if (Auth::check()) {
             $username = Auth::user()->name;
         } else {
             $username = User::findOrFail($task->user_id)->name;
