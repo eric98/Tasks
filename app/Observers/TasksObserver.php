@@ -19,10 +19,16 @@ class TasksObserver
      */
     public function created(Task $task)
     {
+        if (Auth::check()){
+            $username = Auth::user()->name;
+        } else {
+            $username = User::findOrFail($task->user_id)->name;
+        }
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => $username,
+//            'user_name' => User::findOrFail($task->user_id)->name,
 //            'user_name' => Auth::user()->name,
             'type'      => 'created',
         ]);
@@ -37,10 +43,16 @@ class TasksObserver
      */
     public function deleted(Task $task)
     {
+        if (Auth::check()){
+            $username = Auth::user()->name;
+        } else {
+            $username = User::findOrFail($task->user_id)->name;
+        }
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => $username,
+//            'user_name' => User::findOrFail($task->user_id)->name,
 //            'user_name' => Auth::user()->name,
             'type'      => 'deleted',
         ]);
@@ -58,10 +70,16 @@ class TasksObserver
 
     public function updated(Task $task)
     {
+        if (Auth::check()){
+            $username = Auth::user()->name;
+        } else {
+            $username = User::findOrFail($task->user_id)->name;
+        }
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => $username,
+//            'user_name' => User::findOrFail($task->user_id)->name,
 //            'user_name' => Auth::user()->name,
             'type'      => 'updated',
         ]);
