@@ -298,7 +298,7 @@ class AcachaAdminLTELaravelTest extends TestCase
         ]);
     }
 
-    /**
+    /*
      * Test adminlte:admin command.
      *
      * @group
@@ -315,7 +315,7 @@ class AcachaAdminLTELaravelTest extends TestCase
 //        $this->assertFileExists($seed);
 //    }
 
-    /**
+    /*
      * Call adminlte:admin command.
      */
 //    protected function callAdminlteAdminCommand()
