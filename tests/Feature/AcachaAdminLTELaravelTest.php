@@ -28,10 +28,10 @@ class AcachaAdminLTELaravelTest extends TestCase
     /**
      * Set up before class.
      */
-    public static function setUpBeforeClass()
-    {
-        passthru('composer dumpautoload');
-    }
+//    public static function setUpBeforeClass()
+//    {
+//        passthru('composer dumpautoload');
+//    }
 
     /**
      * Test url returns 200.
@@ -303,29 +303,29 @@ class AcachaAdminLTELaravelTest extends TestCase
      *
      * @group
      */
-    public function testAdminlteAdminCommand()
-    {
-        $seed = database_path('seeds/AdminUserSeeder.php');
-
-        try {
-            unlink($seed);
-        } catch (\Exception $e) {
-        }
-        $this->callAdminlteAdminCommand();
-        $this->assertFileExists($seed);
-    }
+//    public function testAdminlteAdminCommand()
+//    {
+//        $seed = database_path('seeds/AdminUserSeeder.php');
+//
+//        try {
+//            unlink($seed);
+//        } catch (\Exception $e) {
+//        }
+//        $this->callAdminlteAdminCommand();
+//        $this->assertFileExists($seed);
+//    }
 
     /**
      * Call adminlte:admin command.
      */
-    protected function callAdminlteAdminCommand()
-    {
-        try {
-            Artisan::call('adminlte:admin');
-        } catch (ReflectionException $re) {
-            passthru('composer dumpautoload');
-            sleep(2);
-            $this->callAdminlteAdminCommand();
-        }
-    }
+//    protected function callAdminlteAdminCommand()
+//    {
+//        try {
+//            Artisan::call('adminlte:admin');
+//        } catch (ReflectionException $re) {
+//            passthru('composer dumpautoload');
+//            sleep(2);
+//            $this->callAdminlteAdminCommand();
+//        }
+//    }
 }
