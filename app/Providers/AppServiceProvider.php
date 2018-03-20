@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Acacha\User\GuestUser;
-use App\Observers\TaskObserver;
 use App\Observers\TasksObserver;
 use App\Task;
 use Auth;
