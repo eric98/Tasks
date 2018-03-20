@@ -57,5 +57,8 @@ class TasksTimeLineTest extends TestCase
 
         $response->assertViewIs('timeline');
         $response->assertViewHas('task_events', $task_events);
+        $response->assertSee("User <b>" . $user->name . "</b> created task <b>Comprar pa</b> at <b>" . date('F j, Y, g:i a', strtotime($task->created_at))."</b>");
+        $response->assertSee("User <b>" . $user->name . "</b> updated task <b>Comprar oli</b> at <b>" . date('F j, Y, g:i a', strtotime($task->created_at))."</b>");
+        $response->assertSee("User <b>" . $user->name . "</b> deleted task <b>Comprar oli</b> at <b>" . date('F j, Y, g:i a', strtotime($task->created_at))."</b>");
     }
 }
