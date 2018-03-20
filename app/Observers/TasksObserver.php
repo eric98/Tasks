@@ -45,12 +45,12 @@ class TasksObserver
 
     public function retrieved(Task $task)
     {
-        TaskEvent::create([
-            'time'      => Carbon::now(),
-            'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
-            'type'      => 'retrieved',
-        ]);
+//        TaskEvent::create([
+//            'time'      => Carbon::now(),
+//            'task_name' => $task->name,
+//            'user_name' => User::findOrFail($task->user_id)->name,
+//            'type'      => 'retrieved',
+//        ]);
     }
 
     public function updated(Task $task)
@@ -65,11 +65,11 @@ class TasksObserver
 
     public function saved(Task $task)
     {
-        TaskEvent::create([
-            'time'      => Carbon::now(),
-            'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
-            'type'      => 'saved',
-        ]);
+//        TaskEvent::create([
+//            'time'      => Carbon::now(),
+//            'task_name' => $task->name,
+//            'user_name' => User::findOrFail($task->user_id)->name,
+//            'type'      => 'saved',
+//        ]);
     }
 }
