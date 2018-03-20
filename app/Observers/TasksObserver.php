@@ -28,8 +28,6 @@ class TasksObserver
             'time'      => Carbon::now(),
             'task_name' => $task->name,
             'user_name' => $username,
-//            'user_name' => User::findOrFail($task->user_id)->name,
-//            'user_name' => Auth::user()->name,
             'type'      => 'created',
         ]);
     }
@@ -52,20 +50,12 @@ class TasksObserver
             'time'      => Carbon::now(),
             'task_name' => $task->name,
             'user_name' => $username,
-//            'user_name' => User::findOrFail($task->user_id)->name,
-//            'user_name' => Auth::user()->name,
             'type'      => 'deleted',
         ]);
     }
 
     public function retrieved(Task $task)
     {
-//        TaskEvent::create([
-//            'time'      => Carbon::now(),
-//            'task_name' => $task->name,
-//            'user_name' => User::findOrFail($task->user_id)->name,
-//            'type'      => 'retrieved',
-//        ]);
     }
 
     public function updated(Task $task)
@@ -79,19 +69,11 @@ class TasksObserver
             'time'      => Carbon::now(),
             'task_name' => $task->name,
             'user_name' => $username,
-//            'user_name' => User::findOrFail($task->user_id)->name,
-//            'user_name' => Auth::user()->name,
             'type'      => 'updated',
         ]);
     }
 
     public function saved(Task $task)
     {
-//        TaskEvent::create([
-//            'time'      => Carbon::now(),
-//            'task_name' => $task->name,
-//            'user_name' => User::findOrFail($task->user_id)->name,
-//            'type'      => 'saved',
-//        ]);
     }
 }
