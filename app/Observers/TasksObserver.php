@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Task;
 use App\TaskEvent;
 use App\User;
+use Auth;
 use Carbon\Carbon;
 
 class TasksObserver
@@ -21,7 +22,7 @@ class TasksObserver
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => Auth::user()->name,
             'type'      => 'created',
         ]);
     }
@@ -38,7 +39,7 @@ class TasksObserver
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => Auth::user()->name,
             'type'      => 'deleted',
         ]);
     }
@@ -58,7 +59,7 @@ class TasksObserver
         TaskEvent::create([
             'time'      => Carbon::now(),
             'task_name' => $task->name,
-            'user_name' => User::findOrFail($task->user_id)->name,
+            'user_name' => Auth::user()->name,
             'type'      => 'updated',
         ]);
     }
